@@ -1,0 +1,13 @@
+@forward "variables";
+
+
+html, body {
+    margin: 0;
+    font-family: "Inter", Sans-serif;
+}
+
+input, button {
+    &:focus, &:active {
+        outline: none;
+    }
+}

@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./pages/login/Login.index";
+import { Routes } from "./pages/routes/Routes.index";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <Routes />
   </React.StrictMode>
 );

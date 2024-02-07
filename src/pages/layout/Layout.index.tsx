@@ -1,6 +1,6 @@
-import "./rootPage.scss";
+import "./layout.scss";
 
-const RootPage = ({ children }: any) => {
+const Layout = ({ children }: any) => {
   return (
     <div className="app-layout">
       <header className="app-header">
@@ -17,4 +17,4 @@ const RootPage = ({ children }: any) => {
   );
 };
 
-export { RootPage };
+export { Layout };

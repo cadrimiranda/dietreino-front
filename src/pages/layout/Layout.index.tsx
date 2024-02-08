@@ -1,7 +1,8 @@
 import { Outlet } from "react-router-dom";
 import "./layout.scss";
+import { PropsWithChildren } from "react";
 
-const Layout = ({ children }: any) => {
+const Layout = ({ children }: PropsWithChildren) => {
   return (
     <div className="app-layout">
       <header className="app-header">

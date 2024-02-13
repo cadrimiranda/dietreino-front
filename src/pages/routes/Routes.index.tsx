@@ -3,6 +3,8 @@ import { LoginPage } from "../login/Login.index";
 import { Layout } from "../layout/Layout.index";
 import { NotFoundPage } from "../notFound/NotFound.index";
 import { DashboardPage } from "../dashboard/DashboardPage.index";
+import { UserListPage } from "../users/UserListPage";
+import { UserPage } from "../users/UserPage";
 
 const router = createBrowserRouter([
   {
@@ -14,8 +16,21 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <DashboardPage />
-      }
+        element: <DashboardPage />,
+      },
+      {
+        path: "profissional",
+        children: [
+          {
+            path: "users",
+            element: <UserListPage />,
+          },
+          {
+            path: "users/:userId",
+            element: <UserPage />,
+          },
+        ],
+      },
     ],
     element: <Layout />,
     errorElement: <NotFoundPage />,

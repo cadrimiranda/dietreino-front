@@ -11,10 +11,10 @@ const DashboardPage = () => {
   return (
     <nav>
       <ul className="dashboard-menu">
-        <MenuEntry icon={UserLage} title="Alunos" />
-        <MenuEntry icon={Comments} title="Conversas" />
-        <MenuEntry icon={CircleQuestion} title="FAQ" />
-        <MenuEntry icon={FolderOpen} title="Presets" />
+        <MenuEntry icon={UserLage} title="Alunos" to="profissional/users" />
+        <MenuEntry icon={Comments} title="Conversas" to="profissional/chat" />
+        <MenuEntry icon={CircleQuestion} title="FAQ" to="profissional/faq" />
+        <MenuEntry icon={FolderOpen} title="Presets" to="profissional/presets" />
       </ul>
     </nav>
   );

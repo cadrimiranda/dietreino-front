@@ -9,6 +9,9 @@ export * from "./FolderOpen";
 export * from "./UserLarge";
 export * from "./Utensils";
 export * from "./MagnifyingGlass";
+export * from "./Capsules";
+export * from "./Clipboard";
+export * from "./ClockRotateLeft";
 
 export const CustomIcon = ({
   icon: Icon,

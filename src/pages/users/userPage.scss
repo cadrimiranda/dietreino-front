@@ -1,0 +1,41 @@
+.user-managment-page {
+  display: flex;
+  flex-direction: column;
+
+  .user-details-section {
+    border: 1px solid $color-primary-medium;
+    margin-bottom: 25px;
+    padding: 16px 12px;
+    border-radius: 8px;
+    box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.2);
+
+    li {
+      padding: 6px 6px;
+      border-radius: 4px;
+
+      &:nth-child(2n) {
+        background-color: $color-primary-lighter;
+      }
+    }
+
+    b {
+      color: $color-primary-dark;
+    }
+
+    p {
+      padding: 0px 4px;
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .user-managment-page {
+    flex-direction: row;
+
+    .user-details-section {
+      min-width: 350px;
+      min-height: 400px;
+      margin-right: 25px;
+    }
+  }
+}

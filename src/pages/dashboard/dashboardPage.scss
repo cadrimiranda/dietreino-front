@@ -8,6 +8,7 @@
 
 .menu-item-card {
   min-width: 45%;
+  max-width: 45%;
   margin-bottom: 40px;
 
   a {
@@ -51,8 +52,9 @@
   }
 
   .menu-item-card {
-    min-width: 150px;
-    margin-bottom: 0;
-    margin-right: 1%;
+    min-width: 18%;
+    max-width: 18%;
+    margin-bottom: 15px;
+    margin-right: 2%;
   }
 }

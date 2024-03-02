@@ -12,14 +12,16 @@ export * from "./MagnifyingGlass";
 export * from "./Capsules";
 export * from "./Clipboard";
 export * from "./ClockRotateLeft";
+export * from "./Plus";
 
 export const CustomIcon = ({
   icon: Icon,
   color,
+  ...rest
 }: {
   color: keyof AliasToken;
   icon: (props: React.JSX.IntrinsicElements["svg"]) => React.JSX.Element;
-}) => {
+} & React.JSX.IntrinsicElements["svg"]) => {
   const { token } = theme.useToken();
   let fillColor = "black";
   const tokenColor = token[color];
@@ -27,5 +29,5 @@ export const CustomIcon = ({
     fillColor = tokenColor;
   }
 
-  return <Icon fill={fillColor} />;
+  return <Icon fill={fillColor} {...rest}/>;
 };

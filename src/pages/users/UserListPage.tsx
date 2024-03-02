@@ -1,10 +1,11 @@
 import Table from "antd/lib/table";
-import type { TableProps } from "antd";
+import { type TableProps } from "antd";
 import { Link } from "react-router-dom";
 
 import { MagnifyingGlass } from "../../components/icons/MagnifyingGlass";
 import "./userListPage.scss";
 import { CustomIcon } from "../../components/icons";
+import { UserForm } from "./components/UserForm";
 
 interface DataRaw {
   id: string;
@@ -95,7 +96,12 @@ const UserListPage = () => {
     diasProximaConsulta: 30,
   }));
 
-  return <Table columns={columns} dataSource={dataSource} />;
+  return (
+    <div className="user-page">
+      <UserForm />
+      <Table columns={columns} dataSource={dataSource} />
+    </div>
+  );
 };
 
 export { UserListPage };

@@ -8,7 +8,7 @@ const Layout = ({ children }: PropsWithChildren) => {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#52B788"
+          colorPrimary: "#52B788",
         },
         components: {
           Table: {
@@ -16,6 +16,16 @@ const Layout = ({ children }: PropsWithChildren) => {
             headerColor: "#fff",
             borderColor: "#52B788"
           },
+          Button: {
+            defaultBg: "#40916C",
+            defaultBorderColor: "#40916C",
+            defaultHoverBg: "#52B788",
+            defaultActiveBg: "#52B788",
+            defaultShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
+            defaultColor: "#fff",
+            defaultHoverColor: "#fff",
+            defaultActiveColor: "#fff"
+          }
         },
       }}
     >

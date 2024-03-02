@@ -13,6 +13,8 @@ export * from "./Capsules";
 export * from "./Clipboard";
 export * from "./ClockRotateLeft";
 export * from "./Plus";
+export * from "./Inbox";
+export * from "./ArrowBack";
 
 export const CustomIcon = ({
   icon: Icon,

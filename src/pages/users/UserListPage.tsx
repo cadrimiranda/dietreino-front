@@ -57,7 +57,7 @@ const columns: TableProps<DataType>["columns"] = [
     key: "",
     render: (_, record) => {
       return (
-        <Link to={`${record.id}`} className="user-list-item-visualize">
+        <Link to={`user?userId=${record.id}`} className="user-list-item-visualize">
           <CustomIcon icon={MagnifyingGlass} color="colorPrimary" />
         </Link>
       );

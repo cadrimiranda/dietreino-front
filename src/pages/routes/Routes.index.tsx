@@ -5,6 +5,7 @@ import { NotFoundPage } from "../notFound/NotFound.index";
 import { DashboardPage } from "../dashboard/DashboardPage.index";
 import { UserListPage } from "../users/UserListPage";
 import { UserPage } from "../users/UserPage";
+import { UserDiet } from "../users/components/UserDiet";
 
 const router = createBrowserRouter([
   {
@@ -23,11 +24,25 @@ const router = createBrowserRouter([
         children: [
           {
             path: "users",
-            element: <UserListPage />,
-          },
-          {
-            path: "users/:userId",
-            element: <UserPage />,
+            children: [
+              {
+                path: "",
+                element: <UserListPage />,
+              },
+              {
+                path: "user",
+                children: [
+                  {
+                    path: "",
+                    element: <UserPage />,
+                  },
+                  {
+                    path: "diet",
+                    element: <UserDiet />
+                  }
+                ],
+              },
+            ],
           },
         ],
       },

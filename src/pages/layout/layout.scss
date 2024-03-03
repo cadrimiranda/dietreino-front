@@ -4,7 +4,9 @@
 }
 
 .app-layout-body {
-    padding: 32px;;
+    padding: 32px;
+    box-sizing: border-box;
+    height: calc(100% - 60px);
 }
 
 .app-header {

@@ -2,8 +2,8 @@ import Upload from "antd/lib/upload";
 import message from "antd/lib/message";
 import { Flex } from "antd";
 import { UploadProps } from "antd";
-import { Inbox } from "../../../components/icons";
 import { UserEntryLayout } from "./UserEntryLayoutt";
+import { Inbox } from "../../../components/icons";
 
 const { Dragger } = Upload;
 
@@ -27,7 +27,12 @@ const props: UploadProps = {
   },
 };
 
-const UserDiet = () => {
+type UserDietProps = {
+  uploadText: string;
+  uploadHint: string;
+};
+
+const UserDiet = ({ uploadHint, uploadText }: UserDietProps) => {
   return (
     <div className="user-diets-page">
       <UserEntryLayout>
@@ -36,10 +41,8 @@ const UserDiet = () => {
             <p className="ant-upload-drag-icon">
               <Inbox width="6rem" height="6rem" />
             </p>
-            <p className="ant-upload-text">Clique ou arraste aqui a dieta</p>
-            <p className="ant-upload-hint">
-              É possível fazer o upload de uma ou mais dieta simultaneas
-            </p>
+            <p className="ant-upload-text">{uploadText}</p>
+            <p className="ant-upload-hint">{uploadHint}</p>
           </Dragger>
           <div style={{ marginLeft: "16px" }}>
             <Upload

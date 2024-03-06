@@ -29,7 +29,7 @@ export const UserPageContext = createContext<{
 });
 
 const UserPage = () => {
-  const [entry, setEntry] = useState<Entries | null>(null);
+  const [entry, setEntry] = useState<Entries | null>(Entries.gymPlan);
 
   const navPage = (
     <nav>

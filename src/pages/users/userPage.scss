@@ -30,6 +30,37 @@
   }
 }
 
+.user-gym-add-card {
+  border: dashed 2px #000;
+  height: 300px;
+  width: 250px;
+  border-radius: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+  margin-right: 16px;
+
+  .user-gym-add-inner-card {
+    background-color: turquoise;
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .user-gym-add-card-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    background-color: purple;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 .user-gym-plan-card {
   border: 1px solid black;
   height: 300px;
@@ -59,7 +90,8 @@
       td:first-child {
         color: white;
       }
-      td:not(:first-child), th {
+      td:not(:first-child),
+      th {
         background-color: #f4f1ef;
       }
     }

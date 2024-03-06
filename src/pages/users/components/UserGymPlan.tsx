@@ -16,40 +16,9 @@ const UserGymPlan = () => {
   return (
     <UserEntryLayout>
       <Flex>
-        <div
-          style={{
-            border: "dashed 2px #000",
-            height: "400px",
-            width: "250px",
-            borderRadius: "8px",
-            padding: "8px",
-            boxSizing: "border-box",
-            cursor: "pointer",
-            marginRight: "16px",
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "turquoise",
-              height: "100%",
-              width: "100%",
-              borderRadius: "8px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <div
-              style={{
-                width: "80px",
-                height: "80px",
-                borderRadius: "100%",
-                backgroundColor: "purple",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+        <div className="user-gym-add-card">
+          <div className="user-gym-add-inner-card">
+            <div className="user-gym-add-card-icon">
               <CustomIcon icon={Plus} width="50px" color="colorWhite" />
             </div>
           </div>

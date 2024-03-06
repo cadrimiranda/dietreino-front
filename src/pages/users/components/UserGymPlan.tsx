@@ -12,10 +12,44 @@ const pernas = [
   ["Panturrilha em pé maquina", "4", "10 a 12", "90s"],
 ];
 
+const GymCard = () => (
+  <div className="user-gym-plan-card">
+    <p className="user-gym-plan-card-title">Perna</p>
+    <div className="user-gym-plan-card-table-wrapp">
+      <table className="user-gym-plan-card-table">
+        <colgroup>
+          <col className="user-gym-colname" />
+          <col />
+          <col />
+          <col />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Series</th>
+            <th>Reps</th>
+            <th>Pausa</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pernas.map((ex) => (
+            <tr>
+              {ex.map((item) => (
+                <td>{item}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <textarea className="user-gym-plan-obs" />
+  </div>
+);
+
 const UserGymPlan = () => {
   return (
     <UserEntryLayout>
-      <Flex>
+      <Flex wrap="wrap">
         <div className="user-gym-add-card">
           <div className="user-gym-add-inner-card">
             <div className="user-gym-add-card-icon">
@@ -23,36 +57,11 @@ const UserGymPlan = () => {
             </div>
           </div>
         </div>
-        <div>
-          <div className="user-gym-plan-card">
-            <p className="user-gym-plan-card-title">Perna</p>
-            <table className="user-gym-plan-card-table">
-              <colgroup>
-                <col className="user-gym-colname" />
-                <col />
-                <col />
-                <col />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Series</th>
-                  <th>Reps</th>
-                  <th>Pausa</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pernas.map((ex) => (
-                  <tr>
-                    {ex.map((item) => (
-                      <td>{item}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <GymCard />
+        <GymCard />
+        <GymCard />
+        <GymCard />
+        <GymCard />
       </Flex>
     </UserEntryLayout>
   );

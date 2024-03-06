@@ -5,11 +5,10 @@
 
   .user-details-section {
     border: 1px solid $color-primary-medium;
-    margin-bottom: 25px;
     padding: 16px 12px;
-    border-radius: 8px;
     box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.2);
     height: 100%;
+    border-radius: 8px;
 
     li {
       padding: 6px 6px;
@@ -28,17 +27,21 @@
       padding: 0px 4px;
     }
   }
+
+  .user-entry-layout {
+    width: 100%;
+    margin-top: 16px;
+  }
 }
 
 .user-gym-add-card {
   border: dashed 2px #000;
   height: 300px;
-  width: 250px;
+  width: 100%;
   border-radius: 8px;
   padding: 8px;
   box-sizing: border-box;
   cursor: pointer;
-  margin-right: 16px;
 
   .user-gym-add-inner-card {
     background-color: turquoise;
@@ -64,10 +67,11 @@
 .user-gym-plan-card {
   border: 1px solid black;
   height: 300px;
-  width: 500px;
+  width: 100%;
   border-radius: 8px;
   padding: 8px;
   box-sizing: border-box;
+  margin-top: 16px;
 
   .user-gym-plan-card-title {
     text-align: center;
@@ -76,8 +80,15 @@
     font-size: 24px;
   }
 
-  .user-gym-plan-card-table {
+  .user-gym-plan-card-table-wrapp {
     width: 100%;
+    overflow: auto;
+    margin-bottom: 8px;
+    border-radius: 4px;
+  }
+
+  .user-gym-plan-card-table {
+    width: 600px;
     border-collapse: collapse;
 
     .user-gym-colname {
@@ -100,16 +111,45 @@
       text-align: center;
     }
   }
+
+  .user-gym-plan-obs {
+    width: 100%;
+    resize: none;
+    border-radius: 4px;
+    padding: 8px;
+  }
 }
 
 @media screen and (min-width: 992px) {
   .user-managment-page {
     flex-direction: row;
 
+    .user-entry-layout {
+      margin-top: 0px;
+    }
+
     .user-details-section {
       min-width: 350px;
       min-height: 400px;
-      margin-right: 25px;
+      position: relative;
+      left: -32px;
+      top: -32px;
+      border-radius: 0 8px 8px 0;
+      height: calc(100% + 64px);
+    }
+  }
+
+  .user-gym-add-card {
+    width: 250px;
+    margin-right: 16px;
+  }
+
+  .user-gym-plan-card { 
+    width: 500px;
+    margin-top: 0px;
+
+    .user-gym-plan-card-table {
+      width: 100%;
     }
   }
 }

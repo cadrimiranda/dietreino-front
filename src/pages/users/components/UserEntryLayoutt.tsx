@@ -7,7 +7,7 @@ const UserEntryLayout = ({ children }: PropsWithChildren) => {
   const { setEntry } = useContext(UserPageContext);
 
   return (
-    <div>
+    <div className="user-entry-layout">
       <Button
         style={{ marginBottom: "16px" }}
         icon={

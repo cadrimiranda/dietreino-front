@@ -15,6 +15,7 @@ export * from "./ClockRotateLeft";
 export * from "./Plus";
 export * from "./Inbox";
 export * from "./ArrowBack";
+export * from "./Pen";
 
 export const CustomIcon = ({
   icon: Icon,

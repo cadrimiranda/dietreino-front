@@ -1,8 +1,9 @@
 import { Flex } from "antd/lib";
 import { CustomIcon, Pen, Plus } from "../../../components/icons";
 import { UserEntryLayout } from "./UserEntryLayoutt";
-import { useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import Button from "antd/lib/button";
+import { AddGymPlan } from "./AddGymPlan";
 
 const data = [
   ["Agachamento Livre", "4", "10-8-6-6", "180-240s"],
@@ -13,6 +14,26 @@ const data = [
   ["Panturrilha sentado", "4", "6 a 8", "90-120s"],
   ["Panturrilha em pé maquina", "4", "10 a 12", "90s"],
 ];
+
+export const UserGymTable = ({ children }: PropsWithChildren) => {
+  return (
+    <div className="user-gym-plan-card-table-wrapp">
+      <table className="user-gym-plan-card-table">
+        <colgroup>
+          <col className="user-gym-colname" />
+        </colgroup>
+        <thead>
+          <tr>
+            {["Nome", "Series", "Reps", "Pausa"].map((x) => (
+              <th>{x}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>{children}</tbody>
+      </table>
+    </div>
+  );
+};
 
 const GymCard = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -26,42 +47,25 @@ const GymCard = () => {
             <CustomIcon width="20px" icon={Pen} color="colorWhite" />
           </Button>
         </Flex>
-        <div className="user-gym-plan-card-table-wrapp">
-          <table className="user-gym-plan-card-table">
-            <colgroup>
-              <col className="user-gym-colname" />
-              <col />
-              <col />
-              <col />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Series</th>
-                <th>Reps</th>
-                <th>Pausa</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((ex) => (
-                <tr>
-                  {ex.map((item, itemIndex) => (
-                    <td>
-                      {isEditing ? (
-                        <input
-                          style={{ width: itemIndex === 0 ? "100%" : "90px" }}
-                          value={item}
-                        />
-                      ) : (
-                        item
-                      )}
-                    </td>
-                  ))}
-                </tr>
+        <UserGymTable>
+          {data.map((ex) => (
+            <tr>
+              {ex.map((item, itemIndex) => (
+                <td>
+                  {isEditing ? (
+                    <input
+                      style={{ width: itemIndex === 0 ? "100%" : "90px" }}
+                      value={item}
+                    />
+                  ) : (
+                    item
+                  )}
+                </td>
               ))}
-            </tbody>
-          </table>
-        </div>
+            </tr>
+          ))}
+        </UserGymTable>
+
         <textarea
           disabled={!isEditing}
           className="user-gym-plan-obs"
@@ -73,18 +77,27 @@ const GymCard = () => {
 };
 
 const UserGymPlan = () => {
+  const [isAdding, setIsAdding] = useState(false);
+
   return (
     <UserEntryLayout>
       <Flex wrap="wrap" justify="space-around">
-        <div className="user-gym-card-wrapper">
-          <div className="user-gym-add-card">
-            <div className="user-gym-add-inner-card">
-              <div className="user-gym-add-card-icon">
-                <CustomIcon icon={Plus} width="50px" color="colorWhite" />
+        {isAdding ? (
+          <AddGymPlan onCancel={() => setIsAdding(false)} />
+        ) : (
+          <div className="user-gym-card-wrapper">
+            <div
+              className="user-gym-add-card"
+              onClick={() => setIsAdding(true)}
+            >
+              <div className="user-gym-add-inner-card">
+                <div className="user-gym-add-card-icon">
+                  <CustomIcon icon={Plus} width="50px" color="colorWhite" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
         <GymCard />
         <GymCard />
         <GymCard />

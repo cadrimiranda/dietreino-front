@@ -18,54 +18,56 @@ const GymCard = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <div className="user-gym-plan-card">
-      <Flex className="user-gym-plan-header" justify="space-between">
-        <p className="user-gym-plan-card-title">Perna</p>
-        <Button onClick={() => setIsEditing(!isEditing)}>
-          <CustomIcon width="20px" icon={Pen} color="colorWhite" />
-        </Button>
-      </Flex>
-      <div className="user-gym-plan-card-table-wrapp">
-        <table className="user-gym-plan-card-table">
-          <colgroup>
-            <col className="user-gym-colname" />
-            <col />
-            <col />
-            <col />
-          </colgroup>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Series</th>
-              <th>Reps</th>
-              <th>Pausa</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((ex) => (
+    <div className="user-gym-card-wrapper">
+      <div className="user-gym-plan-card">
+        <Flex className="user-gym-plan-header" justify="space-between">
+          <p className="user-gym-plan-card-title">Perna</p>
+          <Button onClick={() => setIsEditing(!isEditing)}>
+            <CustomIcon width="20px" icon={Pen} color="colorWhite" />
+          </Button>
+        </Flex>
+        <div className="user-gym-plan-card-table-wrapp">
+          <table className="user-gym-plan-card-table">
+            <colgroup>
+              <col className="user-gym-colname" />
+              <col />
+              <col />
+              <col />
+            </colgroup>
+            <thead>
               <tr>
-                {ex.map((item, itemIndex) => (
-                  <td>
-                    {isEditing ? (
-                      <input
-                        style={{ width: itemIndex === 0 ? "100%" : "90px" }}
-                        value={item}
-                      />
-                    ) : (
-                      item
-                    )}
-                  </td>
-                ))}
+                <th>Nome</th>
+                <th>Series</th>
+                <th>Reps</th>
+                <th>Pausa</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data.map((ex) => (
+                <tr>
+                  {ex.map((item, itemIndex) => (
+                    <td>
+                      {isEditing ? (
+                        <input
+                          style={{ width: itemIndex === 0 ? "100%" : "90px" }}
+                          value={item}
+                        />
+                      ) : (
+                        item
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <textarea
+          disabled={!isEditing}
+          className="user-gym-plan-obs"
+          placeholder="Observações"
+        />
       </div>
-      <textarea
-        disabled={!isEditing}
-        className="user-gym-plan-obs"
-        placeholder="Observações"
-      />
     </div>
   );
 };
@@ -74,10 +76,12 @@ const UserGymPlan = () => {
   return (
     <UserEntryLayout>
       <Flex wrap="wrap" justify="space-around">
-        <div className="user-gym-add-card">
-          <div className="user-gym-add-inner-card">
-            <div className="user-gym-add-card-icon">
-              <CustomIcon icon={Plus} width="50px" color="colorWhite" />
+        <div className="user-gym-card-wrapper">
+          <div className="user-gym-add-card">
+            <div className="user-gym-add-inner-card">
+              <div className="user-gym-add-card-icon">
+                <CustomIcon icon={Plus} width="50px" color="colorWhite" />
+              </div>
             </div>
           </div>
         </div>

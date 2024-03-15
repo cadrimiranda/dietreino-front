@@ -37,11 +37,11 @@
 
 .user-gym-add-card {
   border: dashed 2px #695f5a;
-  height: 300px;
+  height: 100%;
   width: 100%;
+  max-width: 250px;
   border-radius: 8px;
   padding: 8px;
-  box-sizing: border-box;
   cursor: pointer;
   transition: ease 1s;
 
@@ -79,22 +79,28 @@
   }
 }
 
-.user-gym-plan-card,
-.user-gym-add-card {
+.user-gym-card-wrapper {
   margin-top: 8px;
   margin-bottom: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-gym-card-wrapper{
+  width: 100%;
+  height: 300px;
 }
 
 .user-gym-plan-card {
   border: 1px solid #695f5a;
-  height: 300px;
-  width: 100%;
   border-radius: 8px;
   padding: 8px;
-  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
 
   .user-gym-plan-header {
-
     .user-gym-plan-card-title {
       text-align: center;
       font-weight: bolder;
@@ -103,7 +109,6 @@
       color: #695f5a;
     }
   }
-
 
   .user-gym-plan-card-table-wrapp {
     width: 100%;
@@ -152,29 +157,37 @@
 
     .user-entry-layout {
       margin-top: 0px;
+      margin-left: 16px;
     }
 
     .user-details-section {
       min-width: 350px;
       min-height: 400px;
       position: relative;
-      left: -32px;
-      top: -32px;
+      left: -4px;
+      top: -16px;
       border-radius: 0 8px 8px 0;
-      height: calc(100% + 64px);
+      height: calc(100% + 16px);
     }
   }
 
-  .user-gym-add-card {
-    width: 250px;
-    margin-right: 16px;
+  .user-gym-card-wrapper {
+    width: 49%;
+    min-width: 400px;
   }
 
   .user-gym-plan-card {
-    width: 49%;
-
     .user-gym-plan-card-table {
       width: 100%;
     }
+  }
+}
+
+
+@media screen and (min-width: 1920px) {
+
+  .user-gym-card-wrapper {
+    width: 30%;
+    min-width: 400px;
   }
 }

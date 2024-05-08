@@ -6,9 +6,16 @@
   .user-details-section {
     border: 1px solid $color-primary-medium;
     padding: 16px 12px;
-    box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.2);
     height: 100%;
     border-radius: 8px;
+    transition: min-width 1s ease-in-out;
+
+    .section-title {
+      font-size: 1.1rem;
+      text-align: center;
+      letter-spacing: 0.05rem;
+      font-weight: bolder;
+    }
 
     li {
       padding: 6px 6px;
@@ -86,11 +93,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-.user-gym-card-wrapper {
   width: 100%;
-  height: 300px;
+  min-height: 300px;
+  height: auto;
 }
 
 .user-gym-plan-card {
@@ -172,13 +178,60 @@
     }
 
     .user-details-section {
-      min-width: 350px;
       min-height: 400px;
       position: relative;
-      left: -4px;
+      right: -4px;
       top: -16px;
-      border-radius: 0 8px 8px 0;
+      border-radius: 8px 0px 0px 8px;
       height: calc(100% + 16px);
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      z-index: 2;
+
+      width: 0;
+      padding: 0;
+      transition: min-width 0.5s ease-in-out, padding 0.4s ease-in-out;
+    }
+
+    .user-details-btn-hide, .user-details-btn-unhide {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+    }
+
+    .user-details-btn-hide {
+      width: 70px;
+    }
+
+    .user-details-btn-unhide {
+      position: absolute;
+      right: 0;
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+      svg {
+        margin-right: 10px;
+      }
+    }
+
+    .user-details-btn-unhide--invisible {
+      opacity: 0;
+    }
+
+    .user-details-section--visible {
+      min-width: 350px;
+      padding: 10px;
+      box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .user-details-section--hidden {
+      min-width: 0;
+      padding: 0;
+    }
+
+    .user-anthropometric-results {
+      width: 100%;
     }
   }
 

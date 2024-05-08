@@ -10,7 +10,7 @@ import {
 import { CommentDots } from "../../components/icons/CommentsDot";
 import { MenuEntry } from "../dashboard/components/MenuEntry";
 import "../dashboard/dashboardPage.scss";
-import { UserDetails } from "./components/UserDetails";
+import { UserAnthropometricResults } from "./components/UserAnthropometricResults";
 
 import "./userPage.scss";
 import { UserDiet } from "./components/UserDiet";
@@ -92,8 +92,8 @@ const UserPage = () => {
   return (
     <UserPageContext.Provider value={{ setEntry }}>
       <div className="user-managment-page">
-        <UserDetails />
         {getEntryPage()}
+        <UserAnthropometricResults />
       </div>
     </UserPageContext.Provider>
   );

@@ -18,6 +18,7 @@ const UserEntryLayout = ({ children }: PropsWithChildren) => {
             height="1rem"
           />
         }
+        size="large"
         onClick={() => setEntry(null)}
       >
         Voltar

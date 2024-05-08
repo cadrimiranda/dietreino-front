@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { theme } from "antd/lib";
 import { AliasToken } from "antd/lib/theme/internal";
 import React from "react";
@@ -16,17 +17,19 @@ export * from "./Plus";
 export * from "./Inbox";
 export * from "./ArrowBack";
 export * from "./Pen";
+export * from "./AngleRight";
 
 export const CustomIcon = ({
   icon: Icon,
   color,
   ...rest
 }: {
-  color: keyof AliasToken;
+  color?: keyof AliasToken;
   icon: (props: React.JSX.IntrinsicElements["svg"]) => React.JSX.Element;
 } & React.JSX.IntrinsicElements["svg"]) => {
   const { token } = theme.useToken();
   let fillColor = "black";
+  // @ts-expect-error
   const tokenColor = token[color];
   if (typeof tokenColor === "string") {
     fillColor = tokenColor;

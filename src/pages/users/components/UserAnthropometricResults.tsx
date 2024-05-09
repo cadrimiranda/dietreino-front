@@ -33,7 +33,7 @@ const UserDetail = ({
 };
 
 const UserAnthropometricResults = () => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const { data, get, loading } = useFetch(
     "/anthropometricreport/user/11111111-1111-1111-1111-111111111111"
   );
@@ -46,23 +46,19 @@ const UserAnthropometricResults = () => {
     get();
   });
 
-  console.log(data);
-
   return (
     <>
-      {
-        <Button
-          size="large"
-          className={classNames({
-            "user-details-btn-unhide": true,
-            "user-details-btn-unhide--invisible": isVisible,
-          })}
-          onClick={toggleVisibility}
-        >
-          <CustomIcon width="20px" icon={AngleLeft} color="colorWhite" />
-          Resultados antropometricos
-        </Button>
-      }
+      <Button
+        size="large"
+        className={classNames({
+          "user-details-btn-unhide": true,
+          "user-details-btn-unhide--invisible": isVisible,
+        })}
+        onClick={toggleVisibility}
+      >
+        <CustomIcon width="20px" icon={AngleLeft} color="colorWhite" />
+        Resultados antropometricos
+      </Button>
       <section
         className={classNames({
           "user-details-section": true,

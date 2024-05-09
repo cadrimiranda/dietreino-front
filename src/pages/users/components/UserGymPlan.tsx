@@ -1,19 +1,10 @@
 import { Flex } from "antd/lib";
 import { CustomIcon, Pen, Plus } from "../../../components/icons";
 import { UserEntryLayout } from "./UserEntryLayoutt";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import Button from "antd/lib/button";
 import { AddGymPlan } from "./AddGymPlan";
-
-const data = [
-  ["Agachamento Livre", "4", "10-8-6-6", "180-240s"],
-  ["Leg press 45", "4", "6 a 8", "120-150s"],
-  ["Extensora", "4", "8 - 10", "90-120s"],
-  ["Mesa flexora", "4", "6 a 8", "180s"],
-  ["Cadeira flexora", "4", "8 - 10", "120s"],
-  ["Panturrilha sentado", "4", "6 a 8", "90-120s"],
-  ["Panturrilha em pé maquina", "4", "10 a 12", "90s"],
-];
+import { CachePolicies, useFetch } from "use-http";
 
 export const UserGymTable = ({ children }: PropsWithChildren) => {
   return (
@@ -35,41 +26,81 @@ export const UserGymTable = ({ children }: PropsWithChildren) => {
   );
 };
 
-const GymCard = () => {
+type Exercise = {
+  id: string;
+  name: string;
+  description: string;
+};
+
+type ExerciseSetup = {
+  id: string;
+  observation: string;
+  repetitions: string;
+  rest: string;
+  series: string;
+  exercise: Exercise;
+};
+
+type ExerciseSet = {
+  id: string;
+  name: string;
+  description: string;
+  exerciseSetupList: ExerciseSetup[];
+};
+
+type Workout = {
+  id: string;
+  name: string;
+  description: string;
+  exerciseSets: ExerciseSet[];
+};
+
+const GymCard = ({ exerciseSet }: { exerciseSet: ExerciseSet }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const { description, name, exerciseSetupList } = exerciseSet;
 
   return (
     <div className="user-gym-card-wrapper">
       <div className="user-gym-plan-card">
         <Flex className="user-gym-plan-header" justify="space-between">
-          <p className="user-gym-plan-card-title">Perna</p>
+          <p className="user-gym-plan-card-title">{name}</p>
           <Button onClick={() => setIsEditing(!isEditing)}>
             <CustomIcon width="20px" icon={Pen} color="colorWhite" />
           </Button>
         </Flex>
         <UserGymTable>
-          {data.map((ex) => (
-            <tr>
-              {ex.map((item, itemIndex) => (
+          {exerciseSetupList.map((setup, index) => {
+            const {
+              exercise: { name },
+              series,
+              repetitions,
+              rest,
+            } = setup;
+            return (
+              <tr>
                 <td>
                   {isEditing ? (
                     <input
-                      style={{ width: itemIndex === 0 ? "100%" : "90px" }}
-                      value={item}
+                      style={{ width: index === 0 ? "100%" : "90px" }}
+                      value={name}
                     />
                   ) : (
-                    item
+                    name
                   )}
                 </td>
-              ))}
-            </tr>
-          ))}
+                <td>{series}</td>
+                <td>{repetitions}</td>
+                <td>{rest}</td>
+              </tr>
+            );
+          })}
         </UserGymTable>
 
         <textarea
           disabled={!isEditing}
           className="user-gym-plan-obs"
           placeholder="Observações"
+          value={description}
         />
       </div>
     </div>
@@ -78,31 +109,40 @@ const GymCard = () => {
 
 const UserGymPlan = () => {
   const [isAdding, setIsAdding] = useState(false);
+  const [activeWorkout, setActiveWorkout] = useState<Workout | null>(null);
+
+  const { get } = useFetch(
+    "/user/11111111-1111-1111-1111-111111111111/active-workout",
+    { cachePolicy: CachePolicies.NO_CACHE }
+  );
+
+  useEffect(() => {
+    get().then(res => setActiveWorkout(res));
+  }, [get]);
 
   return (
     <UserEntryLayout>
+      <Button
+        style={{ marginLeft: "16px" }}
+        onClick={() => setIsAdding(true)}
+        icon={
+          <CustomIcon
+            icon={Plus}
+            color="colorWhite"
+            width="1rem"
+            height="1rem"
+          />
+        }
+        size="large"
+      >
+        Adicionar
+      </Button>
       <Flex wrap="wrap" justify="space-around">
-        {isAdding ? (
-          <AddGymPlan onCancel={() => setIsAdding(false)} />
-        ) : (
-          <div className="user-gym-card-wrapper">
-            <div
-              className="user-gym-add-card"
-              onClick={() => setIsAdding(true)}
-            >
-              <div className="user-gym-add-inner-card">
-                <div className="user-gym-add-card-icon">
-                  <CustomIcon icon={Plus} width="50px" color="colorWhite" />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        <GymCard />
-        <GymCard />
-        <GymCard />
-        <GymCard />
-        <GymCard />
+        {isAdding && <AddGymPlan onCancel={() => setIsAdding(false)} />}
+        {activeWorkout &&
+          activeWorkout.exerciseSets.map((exerciseSet) => (
+            <GymCard exerciseSet={exerciseSet} />
+          ))}
       </Flex>
     </UserEntryLayout>
   );

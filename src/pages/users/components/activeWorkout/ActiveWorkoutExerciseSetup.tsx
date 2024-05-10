@@ -1,9 +1,13 @@
 import { useContext } from "react";
 import { ExerciseSetup } from "./workoutTypes";
-import { ActiveWorkoutContext } from "./ActiveWorkoutContext";
+import {
+  ActiveWorkoutContext,
+  ActiveWorkoutSetContext,
+} from "./ActiveWorkoutContext";
 
 const SetupItem = ({ value, name }: { value: string; name: string }) => {
-  const { isEditing, handleChange } = useContext(ActiveWorkoutContext);
+  const { handleChange } = useContext(ActiveWorkoutContext);
+  const { isEditing } = useContext(ActiveWorkoutSetContext);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(name, e.target.value);

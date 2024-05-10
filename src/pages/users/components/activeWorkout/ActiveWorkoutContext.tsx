@@ -2,9 +2,12 @@ import { createContext } from "react";
 
 type handleActiveWorkout = (path: string, value: string) => void;
 const ActiveWorkoutContext = createContext<{
-  isEditing: boolean;
   handleChange: handleActiveWorkout;
-  setIsEditing: (value: boolean) => void;
-}>({ isEditing: false, handleChange: () => {}, setIsEditing: () => {} });
+}>({ handleChange: () => {} });
 
-export { ActiveWorkoutContext };
+const ActiveWorkoutSetContext = createContext<{
+  isEditing: boolean;
+  setIsEditing: (value: boolean) => void;
+}>({ isEditing: false, setIsEditing: () => {} });
+
+export { ActiveWorkoutContext, ActiveWorkoutSetContext };

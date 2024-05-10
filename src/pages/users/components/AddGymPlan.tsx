@@ -1,8 +1,8 @@
 import { Flex } from "antd";
-import { UserGymTable } from "./UserGymPlan";
 import { useState } from "react";
 import { Button, Form } from "antd/lib";
 import Input from "antd/lib/input/Input";
+import { ExerciseSetTable } from "./activeWorkout/ActiveWorkoutExerciseSet";
 
 type DataType = {
   name: string;
@@ -53,7 +53,7 @@ const AddGymPlan = ({ onCancel }: { onCancel: () => void }) => {
         </Form.Item>
         <Button htmlType="submit">Salvar</Button>
       </Form>
-      <UserGymTable>
+      <ExerciseSetTable>
         {data.map((x) => (
           <tr>
             <td>{x.name}</td>
@@ -67,7 +67,7 @@ const AddGymPlan = ({ onCancel }: { onCancel: () => void }) => {
             <td></td>
           ))}
         </tr>
-      </UserGymTable>
+      </ExerciseSetTable>
       <Flex>
         <button onClick={onCancel}>Cancel</button>
       </Flex>

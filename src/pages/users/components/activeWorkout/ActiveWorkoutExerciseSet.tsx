@@ -8,6 +8,7 @@ import {
   ActiveWorkoutContext,
   ActiveWorkoutSetContext,
 } from "./ActiveWorkoutContext";
+import { useUpdateExerciseSet } from "../../hooks/useUpdateExerciseSet";
 
 export const ExerciseSetTable = ({ children }: PropsWithChildren) => {
   return (
@@ -39,6 +40,16 @@ const ActiveWorkoutExerciseSet = ({
   const [isEditing, setIsEditing] = useState(false);
   const { handleChange } = useContext(ActiveWorkoutContext);
   const { description, name } = exerciseSet;
+  const { updateExerciseSet } = useUpdateExerciseSet(exerciseSet);
+
+  const handleEditing = () => {
+    if (!isEditing) {
+      setIsEditing(true);
+      return;
+    }
+
+    updateExerciseSet(exerciseSet).finally(() => setIsEditing(false));
+  };
 
   return (
     <ActiveWorkoutSetContext.Provider value={{ isEditing, setIsEditing }}>
@@ -46,7 +57,7 @@ const ActiveWorkoutExerciseSet = ({
         <div className="user-gym-plan-card">
           <Flex className="user-gym-plan-header" justify="space-between">
             <p className="user-gym-plan-card-title">{name}</p>
-            <Button onClick={() => setIsEditing(!isEditing)}>
+            <Button onClick={handleEditing}>
               <CustomIcon width="20px" icon={Pen} color="colorWhite" />
             </Button>
           </Flex>

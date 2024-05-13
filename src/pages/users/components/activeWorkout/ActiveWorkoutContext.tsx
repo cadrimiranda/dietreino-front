@@ -1,15 +1,18 @@
 import { createContext } from "react";
-import { UpdateExerciseParams } from "./ActiveWorkoutPage.logic";
-
-type handleActiveWorkout = (path: string, value: string) => void;
-const ActiveWorkoutContext = createContext<{
-  handleChange: handleActiveWorkout;
-  handleUpdateExercise: (a: UpdateExerciseParams) => void;
-}>({ handleChange: () => {}, handleUpdateExercise: () => {} });
 
 const ActiveWorkoutSetContext = createContext<{
   isEditing: boolean;
   setIsEditing: (value: boolean) => void;
-}>({ isEditing: false, setIsEditing: () => {} });
+  handleUpdateSet: (name: string, value: string, setupIndex: number) => void;
+  handleUpdateExercise: (
+    option: { value: string; label: string },
+    setupIndex: number
+  ) => void;
+}>({
+  isEditing: false,
+  setIsEditing: () => {},
+  handleUpdateSet: () => {},
+  handleUpdateExercise: () => {},
+});
 
-export { ActiveWorkoutContext, ActiveWorkoutSetContext };
+export { ActiveWorkoutSetContext };

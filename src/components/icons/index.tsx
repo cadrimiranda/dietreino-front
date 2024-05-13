@@ -18,6 +18,7 @@ export * from "./Inbox";
 export * from "./ArrowBack";
 export * from "./Pen";
 export * from "./AngleRight";
+export * from "./Save";
 
 export const CustomIcon = ({
   icon: Icon,
@@ -35,5 +36,5 @@ export const CustomIcon = ({
     fillColor = tokenColor;
   }
 
-  return <Icon fill={fillColor} {...rest}/>;
+  return <Icon fill={fillColor} {...rest} />;
 };

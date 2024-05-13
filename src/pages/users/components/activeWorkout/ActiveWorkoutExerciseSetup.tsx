@@ -1,39 +1,37 @@
 import { useContext, useState } from "react";
 import AutoComplete from "antd/lib/auto-complete";
 import { ExerciseSetup } from "./workoutTypes";
-import {
-  ActiveWorkoutContext,
-  ActiveWorkoutSetContext,
-} from "./ActiveWorkoutContext";
+import { ActiveWorkoutSetContext } from "./ActiveWorkoutContext";
 import useExerciseAutocomplete from "../../hooks/useExerciseAutocomplete";
 
 const SetupItem = ({
   value,
-  path,
   autocomplete,
-  setIndex = 0,
-  setupIndex = 0,
+  name,
+  setupIndex,
 }: {
+  name: string;
   value: string;
-  path: string;
+  setupIndex: number;
   autocomplete?: boolean;
-  setIndex?: number;
-  setupIndex?: number;
 }) => {
-  const { handleChange, handleUpdateExercise } =
-    useContext(ActiveWorkoutContext);
-  const { isEditing } = useContext(ActiveWorkoutSetContext);
-  const [name, setName] = useState(value);
+  const { isEditing, handleUpdateExercise, handleUpdateSet } = useContext(
+    ActiveWorkoutSetContext
+  );
+  const [exerciseName, setExerciseName] = useState(value);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleChange(path, e.target.value);
+    handleUpdateSet(e.target.name, e.target.value, setupIndex);
   };
 
   const { fetchAutocomplete, results } = useExerciseAutocomplete();
 
   const getEditCell = () => {
+    const id = `exercise-setup-${name}`;
     if (!autocomplete) {
-      return <input value={value} onChange={handleOnChange} />;
+      return (
+        <input value={value} name={name} id={id} onChange={handleOnChange} />
+      );
     }
 
     return (
@@ -43,20 +41,15 @@ const SetupItem = ({
         backfill
         allowClear
         options={results}
-        value={name}
+        value={exerciseName}
         onSelect={(_, option: { label: string; value: string }) => {
-          setName(option.label);
-          handleUpdateExercise({
-            setIndex,
-            setupIndex,
-            exerciseId: option.value,
-            exerciseName: option.label,
-          });
+          setExerciseName(option.label);
+          handleUpdateExercise(option, setupIndex);
         }}
         onChange={(value: string, option) => {
           fetchAutocomplete(value);
           if (!Array.isArray(option)) {
-            setName(option.label);
+            setExerciseName(option.label);
           }
         }}
       />
@@ -68,12 +61,10 @@ const SetupItem = ({
 
 const ActiveWorkoutExerciseSetup = ({
   setup,
-  index,
-  setIndex,
+  setupIndex,
 }: {
   setup: ExerciseSetup;
-  index: number;
-  setIndex: number;
+  setupIndex: number;
 }) => {
   const {
     exercise: { name },
@@ -81,20 +72,22 @@ const ActiveWorkoutExerciseSetup = ({
     repetitions,
     rest,
   } = setup;
-  const basePath = `exerciseSets.${setIndex}.exerciseSetupList.${index}`;
 
   return (
     <tr>
       <SetupItem
-        path={`${basePath}.exercise.name`}
         value={name}
+        name="exercise"
         autocomplete
-        setIndex={setIndex}
-        setupIndex={index}
+        setupIndex={setupIndex}
       />
-      <SetupItem path={`${basePath}.series`} value={series} />
-      <SetupItem path={`${basePath}.repetitions`} value={repetitions} />
-      <SetupItem path={`${basePath}.rest`} value={rest} />
+      <SetupItem name="series" value={series} setupIndex={setupIndex} />
+      <SetupItem
+        name="repetitions"
+        value={repetitions}
+        setupIndex={setupIndex}
+      />
+      <SetupItem name="rest" value={rest} setupIndex={setupIndex} />
     </tr>
   );
 };

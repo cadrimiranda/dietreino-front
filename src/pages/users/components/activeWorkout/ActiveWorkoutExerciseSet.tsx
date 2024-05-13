@@ -1,14 +1,15 @@
-import { PropsWithChildren, useContext, useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import { Flex } from "antd/lib";
 import Button from "antd/lib/button";
 import { ExerciseSet } from "./workoutTypes";
-import { CustomIcon, Pen } from "../../../../components/icons";
+import { CustomIcon, Pen, Save } from "../../../../components/icons";
 import { ActiveWorkoutExerciseSetup } from "./ActiveWorkoutExerciseSetup";
-import {
-  ActiveWorkoutContext,
-  ActiveWorkoutSetContext,
-} from "./ActiveWorkoutContext";
+import { ActiveWorkoutSetContext } from "./ActiveWorkoutContext";
 import { useUpdateExerciseSet } from "../../hooks/useUpdateExerciseSet";
+import {
+  updateExerciseSetExercise,
+  updateExerciseSetObject,
+} from "./ativeWorkout.logic";
 
 export const ExerciseSetTable = ({ children }: PropsWithChildren) => {
   return (
@@ -31,14 +32,15 @@ export const ExerciseSetTable = ({ children }: PropsWithChildren) => {
 };
 
 const ActiveWorkoutExerciseSet = ({
-  exerciseSet,
-  setIndex,
+  exerciseSet: originalExerciseSet,
+  handleUpdateActiveWorkout,
 }: {
+  handleUpdateActiveWorkout: () => void;
   exerciseSet: ExerciseSet;
-  setIndex: number;
 }) => {
+  const [exerciseSet, setExerciseSet] =
+    useState<ExerciseSet>(originalExerciseSet);
   const [isEditing, setIsEditing] = useState(false);
-  const { handleChange } = useContext(ActiveWorkoutContext);
   const { description, name } = exerciseSet;
   const { updateExerciseSet } = useUpdateExerciseSet(exerciseSet);
 
@@ -48,41 +50,76 @@ const ActiveWorkoutExerciseSet = ({
       return;
     }
 
-    updateExerciseSet(exerciseSet).finally(() => setIsEditing(false));
+    updateExerciseSet(exerciseSet)
+      .then(() => handleUpdateActiveWorkout())
+      .finally(() => setIsEditing(false));
+  };
+
+  const handleUpdateSet = (
+    name: string,
+    value: string,
+    setupIndex?: number
+  ) => {
+    setExerciseSet(
+      updateExerciseSetObject({ exerciseSet, name, value, setupIndex })
+    );
+  };
+
+  const handleUpdateExercise = (
+    option: { value: string; label: string },
+    setupIndex: number
+  ) => {
+    setExerciseSet(
+      updateExerciseSetExercise({ exerciseSet, option, setupIndex })
+    );
   };
 
   return (
-    <ActiveWorkoutSetContext.Provider value={{ isEditing, setIsEditing }}>
+    <ActiveWorkoutSetContext.Provider
+      value={{
+        isEditing,
+        setIsEditing,
+        handleUpdateSet,
+        handleUpdateExercise,
+      }}
+    >
       <div className="user-gym-card-wrapper">
         <div className="user-gym-plan-card">
           <Flex className="user-gym-plan-header" justify="space-between">
-            <p className="user-gym-plan-card-title">{name}</p>
+            {isEditing ? (
+              <input
+                name="name"
+                value={name}
+                onChange={(e) => handleUpdateSet(e.target.name, e.target.value)}
+              />
+            ) : (
+              <p className="user-gym-plan-card-title">{name}</p>
+            )}
             <Button onClick={handleEditing}>
-              <CustomIcon width="20px" icon={Pen} color="colorWhite" />
+              <CustomIcon
+                width="20px"
+                icon={isEditing ? Save : Pen}
+                color="colorWhite"
+              />
             </Button>
           </Flex>
           <ExerciseSetTable>
             {exerciseSet.exerciseSetupList.map((setup, index) => (
               <ActiveWorkoutExerciseSetup
-                key={setup.id}
+                key={`${setup.id}-${setup.exercise.id}`}
                 setup={setup}
-                index={index}
-                setIndex={setIndex}
+                setupIndex={index}
               />
             ))}
           </ExerciseSetTable>
 
           <textarea
+            name="description"
             disabled={!isEditing}
             className="user-gym-plan-obs"
             placeholder="Observações"
             value={description}
-            onChange={(e) =>
-              handleChange(
-                `exerciseSets.${setIndex}.description`,
-                e.target.value
-              )
-            }
+            onChange={(e) => handleUpdateSet(e.target.name, e.target.value)}
           />
         </div>
       </div>

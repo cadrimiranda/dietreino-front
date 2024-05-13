@@ -1,7 +1,12 @@
 import { ActiveWorkoutExerciseSet } from "./ActiveWorkoutExerciseSet";
 import { ActiveWorkoutContext } from "./ActiveWorkoutContext";
 import { useGetUserActiveWorkout } from "../../hooks/useGetUserActiveWorkout";
-import { handleChangeActiveWorkout } from "./ActiveWorkoutPage.logic";
+import {
+  UpdateExerciseParams,
+  handleChangeActiveWorkout,
+  handleUpdateExerciseOnActiveWorkout,
+} from "./ActiveWorkoutPage.logic";
+import { Workout } from "./workoutTypes";
 
 export type ObjKeyString = { [key: string]: string };
 
@@ -18,10 +23,17 @@ const ActiveWorkoutPage = () => {
     setActiveWorkout(handleChangeActiveWorkout(activeWorkout, path, value));
   };
 
+  const handleUpdateExercise = (props: UpdateExerciseParams) => {
+    setActiveWorkout(
+      handleUpdateExerciseOnActiveWorkout(activeWorkout as Workout, props)
+    );
+  };
+
   return (
     <ActiveWorkoutContext.Provider
       value={{
         handleChange,
+        handleUpdateExercise,
       }}
     >
       {activeWorkout &&

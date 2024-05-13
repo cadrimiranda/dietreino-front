@@ -31,3 +31,23 @@ export const handleChangeActiveWorkout = (
 
   return obj as unknown as Workout;
 };
+
+export type UpdateExerciseParams = {
+  setIndex: number;
+  setupIndex: number;
+  exerciseId: string;
+  exerciseName: string;
+};
+export const handleUpdateExerciseOnActiveWorkout = (
+  activeWorkout: Workout,
+  { setIndex, setupIndex, exerciseId, exerciseName }: UpdateExerciseParams
+) => {
+  activeWorkout.exerciseSets[setIndex].exerciseSetupList[
+    setupIndex
+  ].exercise.id = exerciseId;
+  activeWorkout.exerciseSets[setIndex].exerciseSetupList[
+    setupIndex
+  ].exercise.name = exerciseName;
+
+  return activeWorkout;
+};

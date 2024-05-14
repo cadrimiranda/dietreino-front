@@ -1,6 +1,9 @@
 import { PropsWithChildren } from "react";
 
-export const ExerciseSetTable = ({ children }: PropsWithChildren) => (
+export const ExerciseSetTable = ({
+  children,
+  actionButtons,
+}: PropsWithChildren<{ actionButtons?: boolean }>) => (
   <div className="user-gym-plan-card-table-wrapp">
     <table className="user-gym-plan-card-table">
       <colgroup>
@@ -11,6 +14,7 @@ export const ExerciseSetTable = ({ children }: PropsWithChildren) => (
           {["Nome", "Series", "Reps", "Pausa"].map((x) => (
             <th key={x}>{x}</th>
           ))}
+          {actionButtons && <th></th>}
         </tr>
       </thead>
       <tbody>{children}</tbody>

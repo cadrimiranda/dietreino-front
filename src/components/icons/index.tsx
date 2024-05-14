@@ -19,6 +19,9 @@ export * from "./ArrowBack";
 export * from "./Pen";
 export * from "./AngleRight";
 export * from "./Save";
+export * from "./Ban";
+export * from "./Check";
+export * from "./Xmark";
 
 export const CustomIcon = ({
   icon: Icon,

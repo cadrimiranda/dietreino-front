@@ -26,3 +26,12 @@ export type Workout = {
   description: string;
   exerciseSets: ExerciseSet[];
 };
+
+export type setupDTO = Omit<ExerciseSetup, "id" | "exercise"> & {
+  exerciseId: string;
+  exerciseName: string;
+};
+
+export type ExerciseSetDTO = Omit<ExerciseSet, "id" | "exerciseSetupList"> & {
+  exerciseSetupList: setupDTO[];
+};

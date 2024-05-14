@@ -1,27 +1,26 @@
 import { Flex } from "antd";
 import { useState } from "react";
 import { ExerciseSetTable } from "../utils/ExerciseSetTable";
-import { ExerciseSet, ExerciseSetup } from "../workoutTypes";
 import { ExerciseSetWrapper } from "../utils/ExerciseSetWrapper";
 import Button from "antd/lib/button";
-import AutoComplete from "antd/lib/auto-complete";
-import {
-  Ban,
-  Check,
-  CustomIcon,
-  Save,
-  Xmark,
-} from "../../../../../components/icons";
-import useExerciseAutocomplete from "../../../hooks/useExerciseAutocomplete";
-import { useFetch } from "use-http";
+import { Ban, CustomIcon, Save } from "../../../../../components/icons";
+import { ExerciseSetDTO, setupDTO } from "../workoutTypes";
+import { SetupsAdded } from "./SetupsAdded";
+import { AddSetupInputs, handleChangeProps } from "./AddSetupInputs";
+import { useAddSetupToSet } from "../../../hooks/useAddSetupToSet";
 
-type setupDTO = Omit<ExerciseSetup, "id" | "exercise"> & {
-  exerciseId: string;
-  exerciseName: string;
+const DEFAULT_SETUP: setupDTO = {
+  exerciseId: "",
+  exerciseName: "",
+  series: "",
+  repetitions: "",
+  observation: "",
+  rest: "",
 };
 
-type ExerciseSetDTO = Omit<ExerciseSet, "id" | "exerciseSetupList"> & {
-  exerciseSetupList: setupDTO[];
+const DEFAULT_SET = {
+  description: "",
+  name: "",
 };
 
 const ActiveWorkoutSetAdd = ({
@@ -33,35 +32,28 @@ const ActiveWorkoutSetAdd = ({
   workoutId: string;
   refetchWorkout: () => void;
 }) => {
-  const { post } = useFetch(`/workout/${workoutId}/exercise-set`, {
-    method: "POST",
-  });
-  const [exerciseSet, setExerciseSet] = useState<{
-    name: string;
-    description: string;
-  }>({
-    description: "",
-    name: "",
-  });
+  const { addSetupsToSet } = useAddSetupToSet(workoutId);
+  const [exerciseSet, setExerciseSet] = useState({ ...DEFAULT_SET });
 
   const [setups, setSetups] = useState<setupDTO[]>([]);
-  const [exerciseSetup, setExerciseSetup] = useState<setupDTO>({
-    exerciseId: "",
-    exerciseName: "",
-    series: "",
-    repetitions: "",
-    observation: "",
-    rest: "",
+  const [exerciseSetup, setExerciseSetup] = useState({
+    ...DEFAULT_SETUP,
   });
   const { description, name } = exerciseSet;
 
-  const { fetchAutocomplete, results } = useExerciseAutocomplete();
-
-  const handleUpdateSetup = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setExerciseSetup({
-      ...exerciseSetup,
-      [e.target.name]: e.target.value,
-    });
+  const handleUpdateSetup = (props: handleChangeProps) => {
+    if (props.option) {
+      setExerciseSetup({
+        ...exerciseSetup,
+        exerciseId: props.option.value,
+        exerciseName: props.option.label,
+      });
+    } else if (props.name && props.value) {
+      setExerciseSetup({
+        ...exerciseSetup,
+        [props.name]: props.value,
+      });
+    }
   };
 
   const handleUpdateSet = (
@@ -78,19 +70,12 @@ const ActiveWorkoutSetAdd = ({
       ...exerciseSet,
       exerciseSetupList: setups,
     };
-    post(newExerciseSet).then(refetchWorkout).finally(onCancel);
+    addSetupsToSet(newExerciseSet).then(refetchWorkout).finally(onCancel);
   };
 
   const handleAddSetup = () => {
     setSetups([...setups, exerciseSetup]);
-    setExerciseSetup({
-      exerciseId: "",
-      exerciseName: "",
-      series: "",
-      repetitions: "",
-      observation: "",
-      rest: "",
-    });
+    setExerciseSetup({ ...DEFAULT_SETUP });
   };
 
   const handleRemoveSetup = (exerciseId: string) => {
@@ -122,84 +107,12 @@ const ActiveWorkoutSetAdd = ({
         </div>
       </Flex>
       <ExerciseSetTable actionButtons>
-        <tr>
-          <td>
-            <AutoComplete
-              size="small"
-              style={{ width: "200px" }}
-              backfill
-              allowClear
-              options={results}
-              value={exerciseSetup.exerciseName}
-              onSelect={(_, option: { label: string; value: string }) => {
-                setExerciseSetup({
-                  ...exerciseSetup,
-                  exerciseId: option.value,
-                  exerciseName: option.label,
-                });
-              }}
-              onChange={(value: string, option) => {
-                fetchAutocomplete(value);
-                if (!Array.isArray(option)) {
-                  setExerciseSetup({
-                    ...exerciseSetup,
-                    exerciseId: option.value,
-                    exerciseName: option.label,
-                  });
-                }
-              }}
-            />
-          </td>
-          <td>
-            <input
-              name="series"
-              value={exerciseSetup.series}
-              onChange={handleUpdateSetup}
-              style={{ width: "60%" }}
-              placeholder="Series"
-            />
-          </td>
-          <td>
-            <input
-              name="repetitions"
-              value={exerciseSetup.repetitions}
-              onChange={handleUpdateSetup}
-              style={{ width: "60%" }}
-              placeholder="Reps"
-            />
-          </td>
-          <td>
-            <input
-              name="rest"
-              value={exerciseSetup.rest}
-              onChange={handleUpdateSetup}
-              style={{ width: "60%" }}
-              placeholder="Rest"
-            />
-          </td>
-          <td>
-            <Button onClick={handleAddSetup}>
-              <CustomIcon width="10px" icon={Check} color="colorWhite" />
-            </Button>
-          </td>
-        </tr>
-        {setups.map((setup) => (
-          <tr>
-            <td>{setup.exerciseName}</td>
-            <td>{setup.series}</td>
-            <td>{setup.repetitions}</td>
-            <td>{setup.rest}</td>
-            <td>
-              <Button
-                type="primary"
-                danger
-                onClick={() => handleRemoveSetup(setup.exerciseId)}
-              >
-                <CustomIcon width="10px" icon={Xmark} color="colorWhite" />
-              </Button>
-            </td>
-          </tr>
-        ))}
+        <AddSetupInputs
+          handleAddSetup={handleAddSetup}
+          values={exerciseSetup}
+          handleChange={handleUpdateSetup}
+        />
+        <SetupsAdded setups={setups} handleRemoveSetup={handleRemoveSetup} />
       </ExerciseSetTable>
 
       <textarea

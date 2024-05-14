@@ -1,8 +1,7 @@
-import { useContext, useState } from "react";
-import AutoComplete from "antd/lib/auto-complete";
+import { useContext } from "react";
 import { ExerciseSetup } from "../workoutTypes";
 import { ActiveWorkoutSetContext } from "../ActiveWorkoutContext";
-import useExerciseAutocomplete from "../../../hooks/useExerciseAutocomplete";
+import { ExerciseAutocomplete } from "../../exerciseAutocomplete/ExerciseAutocomplete";
 
 const SetupItem = ({
   value,
@@ -18,13 +17,10 @@ const SetupItem = ({
   const { isEditing, handleUpdateExercise, handleUpdateSet } = useContext(
     ActiveWorkoutSetContext
   );
-  const [exerciseName, setExerciseName] = useState(value);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleUpdateSet(e.target.name, e.target.value, setupId);
   };
-
-  const { fetchAutocomplete, results } = useExerciseAutocomplete();
 
   const getEditCell = () => {
     const id = `exercise-setup-${name}`;
@@ -35,22 +31,9 @@ const SetupItem = ({
     }
 
     return (
-      <AutoComplete
-        size="small"
-        style={{ width: "200px" }}
-        backfill
-        allowClear
-        options={results}
-        value={exerciseName}
-        onSelect={(_, option: { label: string; value: string }) => {
-          setExerciseName(option.label);
+      <ExerciseAutocomplete
+        onSelect={(_, option) => {
           handleUpdateExercise(option, setupId);
-        }}
-        onChange={(value: string, option) => {
-          fetchAutocomplete(value);
-          if (!Array.isArray(option)) {
-            setExerciseName(option.label);
-          }
         }}
       />
     );

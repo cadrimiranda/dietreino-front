@@ -11,6 +11,7 @@ import {
   updateExerciseSetObject,
 } from "../ativeWorkout.logic";
 import { ExerciseSetTable } from "../utils/ExerciseSetTable";
+import { ExerciseSetWrapper } from "../utils/ExerciseSetWrapper";
 
 const ActiveWorkoutExerciseSet = ({
   exerciseSet: originalExerciseSet,
@@ -36,23 +37,17 @@ const ActiveWorkoutExerciseSet = ({
       .finally(() => setIsEditing(false));
   };
 
-  const handleUpdateSet = (
-    name: string,
-    value: string,
-    setupIndex?: number
-  ) => {
+  const handleUpdateSet = (name: string, value: string, setupId?: string) => {
     setExerciseSet(
-      updateExerciseSetObject({ exerciseSet, name, value, setupIndex })
+      updateExerciseSetObject({ exerciseSet, name, value, setupId })
     );
   };
 
   const handleUpdateExercise = (
     option: { value: string; label: string },
-    setupIndex: number
+    setupId: string
   ) => {
-    setExerciseSet(
-      updateExerciseSetExercise({ exerciseSet, option, setupIndex })
-    );
+    setExerciseSet(updateExerciseSetExercise({ exerciseSet, option, setupId }));
   };
 
   return (
@@ -64,46 +59,43 @@ const ActiveWorkoutExerciseSet = ({
         handleUpdateExercise,
       }}
     >
-      <div className="user-gym-card-wrapper">
-        <div className="user-gym-plan-card">
-          <Flex className="user-gym-plan-header" justify="space-between">
-            {isEditing ? (
-              <input
-                name="name"
-                value={name}
-                onChange={(e) => handleUpdateSet(e.target.name, e.target.value)}
-              />
-            ) : (
-              <p className="user-gym-plan-card-title">{name}</p>
-            )}
-            <Button onClick={handleEditing}>
-              <CustomIcon
-                width="20px"
-                icon={isEditing ? Save : Pen}
-                color="colorWhite"
-              />
-            </Button>
-          </Flex>
-          <ExerciseSetTable>
-            {exerciseSet.exerciseSetupList.map((setup, index) => (
-              <ActiveWorkoutExerciseSetup
-                key={`${setup.id}-${setup.exercise.id}`}
-                setup={setup}
-                setupIndex={index}
-              />
-            ))}
-          </ExerciseSetTable>
+      <ExerciseSetWrapper>
+        <Flex className="user-gym-plan-header" justify="space-between">
+          {isEditing ? (
+            <input
+              name="name"
+              value={name}
+              onChange={(e) => handleUpdateSet(e.target.name, e.target.value)}
+            />
+          ) : (
+            <p className="user-gym-plan-card-title">{name}</p>
+          )}
+          <Button onClick={handleEditing}>
+            <CustomIcon
+              width="20px"
+              icon={isEditing ? Save : Pen}
+              color="colorWhite"
+            />
+          </Button>
+        </Flex>
+        <ExerciseSetTable>
+          {exerciseSet.exerciseSetupList.map((setup) => (
+            <ActiveWorkoutExerciseSetup
+              key={`${setup.id}-${setup.exercise.id}`}
+              setup={setup}
+            />
+          ))}
+        </ExerciseSetTable>
 
-          <textarea
-            name="description"
-            disabled={!isEditing}
-            className="user-gym-plan-obs"
-            placeholder="Observações"
-            value={description}
-            onChange={(e) => handleUpdateSet(e.target.name, e.target.value)}
-          />
-        </div>
-      </div>
+        <textarea
+          name="description"
+          disabled={!isEditing}
+          className="user-gym-plan-obs"
+          placeholder="Observações"
+          value={description}
+          onChange={(e) => handleUpdateSet(e.target.name, e.target.value)}
+        />
+      </ExerciseSetWrapper>
     </ActiveWorkoutSetContext.Provider>
   );
 };

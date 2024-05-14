@@ -8,11 +8,11 @@ const SetupItem = ({
   value,
   autocomplete,
   name,
-  setupIndex,
+  setupId,
 }: {
   name: string;
   value: string;
-  setupIndex: number;
+  setupId: string;
   autocomplete?: boolean;
 }) => {
   const { isEditing, handleUpdateExercise, handleUpdateSet } = useContext(
@@ -21,7 +21,7 @@ const SetupItem = ({
   const [exerciseName, setExerciseName] = useState(value);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleUpdateSet(e.target.name, e.target.value, setupIndex);
+    handleUpdateSet(e.target.name, e.target.value, setupId);
   };
 
   const { fetchAutocomplete, results } = useExerciseAutocomplete();
@@ -44,7 +44,7 @@ const SetupItem = ({
         value={exerciseName}
         onSelect={(_, option: { label: string; value: string }) => {
           setExerciseName(option.label);
-          handleUpdateExercise(option, setupIndex);
+          handleUpdateExercise(option, setupId);
         }}
         onChange={(value: string, option) => {
           fetchAutocomplete(value);
@@ -59,35 +59,21 @@ const SetupItem = ({
   return <td>{isEditing ? getEditCell() : <span>{value}</span>}</td>;
 };
 
-const ActiveWorkoutExerciseSetup = ({
-  setup,
-  setupIndex,
-}: {
-  setup: ExerciseSetup;
-  setupIndex: number;
-}) => {
+const ActiveWorkoutExerciseSetup = ({ setup }: { setup: ExerciseSetup }) => {
   const {
     exercise: { name },
     series,
     repetitions,
     rest,
+    id: setupId,
   } = setup;
 
   return (
     <tr>
-      <SetupItem
-        value={name}
-        name="exercise"
-        autocomplete
-        setupIndex={setupIndex}
-      />
-      <SetupItem name="series" value={series} setupIndex={setupIndex} />
-      <SetupItem
-        name="repetitions"
-        value={repetitions}
-        setupIndex={setupIndex}
-      />
-      <SetupItem name="rest" value={rest} setupIndex={setupIndex} />
+      <SetupItem value={name} name="exercise" autocomplete setupId={setupId} />
+      <SetupItem name="series" value={series} setupId={setupId} />
+      <SetupItem name="repetitions" value={repetitions} setupId={setupId} />
+      <SetupItem name="rest" value={rest} setupId={setupId} />
     </tr>
   );
 };

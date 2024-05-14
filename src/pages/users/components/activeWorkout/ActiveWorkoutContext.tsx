@@ -3,10 +3,10 @@ import { createContext } from "react";
 const ActiveWorkoutSetContext = createContext<{
   isEditing: boolean;
   setIsEditing: (value: boolean) => void;
-  handleUpdateSet: (name: string, value: string, setupIndex: number) => void;
+  handleUpdateSet: (name: string, value: string, setupIndex: string) => void;
   handleUpdateExercise: (
     option: { value: string; label: string },
-    setupIndex: number
+    setupIndex: string
   ) => void;
 }>({
   isEditing: false,

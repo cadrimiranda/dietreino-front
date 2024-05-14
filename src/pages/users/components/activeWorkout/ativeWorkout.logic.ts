@@ -4,14 +4,14 @@ export const updateExerciseSetObject = ({
   exerciseSet,
   name,
   value,
-  setupIndex,
+  setupId,
 }: {
   exerciseSet: ExerciseSet;
   name: string;
   value: string;
-  setupIndex?: number;
+  setupId?: string;
 }) => {
-  if (setupIndex === undefined) {
+  if (setupId === undefined) {
     return {
       ...exerciseSet,
       [name]: value,
@@ -20,8 +20,8 @@ export const updateExerciseSetObject = ({
 
   return {
     ...exerciseSet,
-    exerciseSetupList: exerciseSet.exerciseSetupList.map((setup, index) => {
-      if (index === setupIndex) {
+    exerciseSetupList: exerciseSet.exerciseSetupList.map((setup) => {
+      if (setup.id === setupId) {
         return {
           ...setup,
           [name]: value,
@@ -36,16 +36,16 @@ export const updateExerciseSetObject = ({
 export const updateExerciseSetExercise = ({
   exerciseSet,
   option,
-  setupIndex,
+  setupId,
 }: {
   exerciseSet: ExerciseSet;
   option: { value: string; label: string };
-  setupIndex: number;
+  setupId?: string;
 }) => {
   return {
     ...exerciseSet,
-    exerciseSetupList: exerciseSet.exerciseSetupList.map((setup, index) => {
-      if (index === setupIndex) {
+    exerciseSetupList: exerciseSet.exerciseSetupList.map((setup) => {
+      if (setup.id === setupId) {
         return {
           ...setup,
           exercise: {

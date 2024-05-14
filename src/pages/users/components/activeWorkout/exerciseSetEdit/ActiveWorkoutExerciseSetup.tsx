@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import AutoComplete from "antd/lib/auto-complete";
-import { ExerciseSetup } from "./workoutTypes";
-import { ActiveWorkoutSetContext } from "./ActiveWorkoutContext";
-import useExerciseAutocomplete from "../../hooks/useExerciseAutocomplete";
+import { ExerciseSetup } from "../workoutTypes";
+import { ActiveWorkoutSetContext } from "../ActiveWorkoutContext";
+import useExerciseAutocomplete from "../../../hooks/useExerciseAutocomplete";
 
 const SetupItem = ({
   value,

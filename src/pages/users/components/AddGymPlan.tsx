@@ -2,7 +2,7 @@ import { Flex } from "antd";
 import { useState } from "react";
 import { Button, Form } from "antd/lib";
 import Input from "antd/lib/input/Input";
-import { ExerciseSetTable } from "./activeWorkout/ActiveWorkoutExerciseSet";
+import { ExerciseSetTable } from "./activeWorkout/utils/ExerciseSetTable";
 
 type DataType = {
   name: string;

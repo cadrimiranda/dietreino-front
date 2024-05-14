@@ -1,4 +1,4 @@
-import { ActiveWorkoutExerciseSet } from "./ActiveWorkoutExerciseSet";
+import { ActiveWorkoutExerciseSet } from "./exerciseSetEdit/ActiveWorkoutExerciseSet";
 import { useGetUserActiveWorkout } from "../../hooks/useGetUserActiveWorkout";
 
 export type ObjKeyString = { [key: string]: string };

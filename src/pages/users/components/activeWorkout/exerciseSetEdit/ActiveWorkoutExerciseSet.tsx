@@ -1,35 +1,16 @@
-import { PropsWithChildren, useState } from "react";
+import { useState } from "react";
 import { Flex } from "antd/lib";
 import Button from "antd/lib/button";
-import { ExerciseSet } from "./workoutTypes";
-import { CustomIcon, Pen, Save } from "../../../../components/icons";
+import { ExerciseSet } from "../workoutTypes";
+import { CustomIcon, Pen, Save } from "../../../../../components/icons";
 import { ActiveWorkoutExerciseSetup } from "./ActiveWorkoutExerciseSetup";
-import { ActiveWorkoutSetContext } from "./ActiveWorkoutContext";
-import { useUpdateExerciseSet } from "../../hooks/useUpdateExerciseSet";
+import { ActiveWorkoutSetContext } from "../ActiveWorkoutContext";
+import { useUpdateExerciseSet } from "../../../hooks/useUpdateExerciseSet";
 import {
   updateExerciseSetExercise,
   updateExerciseSetObject,
-} from "./ativeWorkout.logic";
-
-export const ExerciseSetTable = ({ children }: PropsWithChildren) => {
-  return (
-    <div className="user-gym-plan-card-table-wrapp">
-      <table className="user-gym-plan-card-table">
-        <colgroup>
-          <col className="user-gym-colname" />
-        </colgroup>
-        <thead>
-          <tr>
-            {["Nome", "Series", "Reps", "Pausa"].map((x) => (
-              <th key={x}>{x}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>{children}</tbody>
-      </table>
-    </div>
-  );
-};
+} from "../ativeWorkout.logic";
+import { ExerciseSetTable } from "../utils/ExerciseSetTable";
 
 const ActiveWorkoutExerciseSet = ({
   exerciseSet: originalExerciseSet,

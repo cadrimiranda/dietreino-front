@@ -13,7 +13,7 @@ import {
 } from "../ativeWorkout.logic";
 import { ExerciseSetTable } from "../utils/ExerciseSetTable";
 import { ExerciseSetWrapper } from "../utils/ExerciseSetWrapper";
-import { useRemoveSetFromSetup } from "../../../hooks/useRemoveSetFromSetup";
+import { useRemoveSetupFromSet } from "../../../hooks/useRemoveSetupFromSet";
 
 const ActiveWorkoutExerciseSet = ({
   exerciseSet: originalExerciseSet,
@@ -27,7 +27,7 @@ const ActiveWorkoutExerciseSet = ({
   const [isEditing, setIsEditing] = useState(false);
   const { description, name } = exerciseSet;
   const { updateExerciseSet } = useUpdateExerciseSet(exerciseSet);
-  const { removeSetFromSetup } = useRemoveSetFromSetup();
+  const { removeSetupFromSet } = useRemoveSetupFromSet();
 
   const handleEditing = () => {
     if (!isEditing) {
@@ -54,7 +54,7 @@ const ActiveWorkoutExerciseSet = ({
   };
 
   const handleRemoveSetup = (setupId: string) => {
-    removeSetFromSetup(exerciseSet.id, setupId)
+    removeSetupFromSet(exerciseSet.id, setupId)
       .then(() => {
         setExerciseSet({
           ...exerciseSet,

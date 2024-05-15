@@ -1,13 +1,13 @@
 import { useFetch } from "use-http";
 
-export const useRemoveSetFromSetup = () => {
+export const useRemoveSetupFromSet = () => {
   const { del } = useFetch({
     method: "DELETE",
   });
 
-  const removeSetFromSetup = (setId: string, setupId: string) => {
+  const removeSetupFromSet = (setId: string, setupId: string) => {
     return del(`/exercise-set/${setId}/exercise-setup/${setupId}`);
   };
 
-  return { removeSetFromSetup };
+  return { removeSetupFromSet };
 };

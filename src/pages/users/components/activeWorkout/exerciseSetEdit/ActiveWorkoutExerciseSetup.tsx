@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ExerciseSetup } from "../workoutTypes";
 import { ActiveWorkoutSetContext } from "../ActiveWorkoutContext";
 import { ExerciseAutocomplete } from "../../exerciseAutocomplete/ExerciseAutocomplete";
+import { RemoveRowDeleteIcon } from "../utils/RemoveRowDeleteIcon";
 
 const SetupItem = ({
   value,
@@ -42,7 +43,13 @@ const SetupItem = ({
   return <td>{isEditing ? getEditCell() : <span>{value}</span>}</td>;
 };
 
-const ActiveWorkoutExerciseSetup = ({ setup }: { setup: ExerciseSetup }) => {
+const ActiveWorkoutExerciseSetup = ({
+  setup,
+  handleRemove,
+}: {
+  setup: ExerciseSetup;
+  handleRemove: (setuptId: string) => void;
+}) => {
   const {
     exercise: { name },
     series,
@@ -57,6 +64,12 @@ const ActiveWorkoutExerciseSetup = ({ setup }: { setup: ExerciseSetup }) => {
       <SetupItem name="series" value={series} setupId={setupId} />
       <SetupItem name="repetitions" value={repetitions} setupId={setupId} />
       <SetupItem name="rest" value={rest} setupId={setupId} />
+      <td>
+        <RemoveRowDeleteIcon
+          hasConfirmDialog
+          onConfirm={() => handleRemove(setupId)}
+        />
+      </td>
     </tr>
   );
 };

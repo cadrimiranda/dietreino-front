@@ -1,6 +1,5 @@
-import Button from "antd/lib/button";
-import { CustomIcon, Xmark } from "../../../../../components/icons";
 import { setupDTO } from "../workoutTypes";
+import { RemoveRowDeleteIcon } from "../utils/RemoveRowDeleteIcon";
 
 export const SetupsAdded = ({
   setups,
@@ -16,13 +15,9 @@ export const SetupsAdded = ({
       <td>{setup.repetitions}</td>
       <td>{setup.rest}</td>
       <td>
-        <Button
-          type="primary"
-          danger
-          onClick={() => handleRemoveSetup(setup.exerciseId)}
-        >
-          <CustomIcon width="10px" icon={Xmark} color="colorWhite" />
-        </Button>
+        <RemoveRowDeleteIcon
+          handleClick={() => handleRemoveSetup(setup.exerciseId)}
+        />
       </td>
     </tr>
   ));

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Flex } from "antd/lib";
 import Button from "antd/lib/button";
+import message from "antd/lib/message";
 import { ExerciseSet } from "../workoutTypes";
 import { CustomIcon, Pen, Save } from "../../../../../components/icons";
 import { ActiveWorkoutExerciseSetup } from "./ActiveWorkoutExerciseSetup";
@@ -12,6 +13,7 @@ import {
 } from "../ativeWorkout.logic";
 import { ExerciseSetTable } from "../utils/ExerciseSetTable";
 import { ExerciseSetWrapper } from "../utils/ExerciseSetWrapper";
+import { useRemoveSetFromSetup } from "../../../hooks/useRemoveSetFromSetup";
 
 const ActiveWorkoutExerciseSet = ({
   exerciseSet: originalExerciseSet,
@@ -25,6 +27,7 @@ const ActiveWorkoutExerciseSet = ({
   const [isEditing, setIsEditing] = useState(false);
   const { description, name } = exerciseSet;
   const { updateExerciseSet } = useUpdateExerciseSet(exerciseSet);
+  const { removeSetFromSetup } = useRemoveSetFromSetup();
 
   const handleEditing = () => {
     if (!isEditing) {
@@ -48,6 +51,20 @@ const ActiveWorkoutExerciseSet = ({
     setupId: string
   ) => {
     setExerciseSet(updateExerciseSetExercise({ exerciseSet, option, setupId }));
+  };
+
+  const handleRemoveSetup = (setupId: string) => {
+    removeSetFromSetup(exerciseSet.id, setupId)
+      .then(() => {
+        setExerciseSet({
+          ...exerciseSet,
+          exerciseSetupList: exerciseSet.exerciseSetupList.filter(
+            (setup) => setup.id !== setupId
+          ),
+        });
+        message.success("Setup removido com sucesso");
+      })
+      .catch(() => message.error("Erro ao remover setup"));
   };
 
   return (
@@ -78,11 +95,12 @@ const ActiveWorkoutExerciseSet = ({
             />
           </Button>
         </Flex>
-        <ExerciseSetTable>
+        <ExerciseSetTable actionButtons>
           {exerciseSet.exerciseSetupList.map((setup) => (
             <ActiveWorkoutExerciseSetup
               key={`${setup.id}-${setup.exercise.id}`}
               setup={setup}
+              handleRemove={handleRemoveSetup}
             />
           ))}
         </ExerciseSetTable>

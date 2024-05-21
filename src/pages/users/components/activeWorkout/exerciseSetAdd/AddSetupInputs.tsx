@@ -26,6 +26,7 @@ export const AddSetupInputs = ({
     <tr>
       <td>
         <ExerciseAutocomplete
+          value={values.exerciseName}
           onSelect={(_, option) => handleChange({ option })}
         />
       </td>

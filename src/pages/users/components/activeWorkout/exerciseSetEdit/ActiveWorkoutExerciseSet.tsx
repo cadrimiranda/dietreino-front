@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Flex } from "antd/lib";
 import Button from "antd/lib/button";
 import message from "antd/lib/message";
-import { ExerciseSet } from "../workoutTypes";
+import { Exercise, ExerciseSet, ExerciseSetup } from "../workoutTypes";
 import { CustomIcon, Pen, Save } from "../../../../../components/icons";
 import { ActiveWorkoutExerciseSetup } from "./ActiveWorkoutExerciseSetup";
 import { ActiveWorkoutSetContext } from "../ActiveWorkoutContext";
@@ -14,6 +14,8 @@ import {
 import { ExerciseSetTable } from "../utils/ExerciseSetTable";
 import { ExerciseSetWrapper } from "../utils/ExerciseSetWrapper";
 import { useRemoveSetupFromSet } from "../../../hooks/useRemoveSetupFromSet";
+import { AddSetupInputs } from "../exerciseSetAdd/AddSetupInputs";
+import { useSetupState } from "../../../hooks/useSetupState";
 
 const ActiveWorkoutExerciseSet = ({
   exerciseSet: originalExerciseSet,
@@ -28,6 +30,7 @@ const ActiveWorkoutExerciseSet = ({
   const { description, name } = exerciseSet;
   const { updateExerciseSet } = useUpdateExerciseSet(exerciseSet);
   const { removeSetupFromSet } = useRemoveSetupFromSet();
+  const { exerciseSetup, handleUpdateSetup, clearSetup } = useSetupState();
 
   const handleEditing = () => {
     if (!isEditing) {
@@ -36,8 +39,15 @@ const ActiveWorkoutExerciseSet = ({
     }
 
     updateExerciseSet(exerciseSet)
-      .then(() => handleUpdateActiveWorkout())
-      .finally(() => setIsEditing(false));
+      .then((res) => {
+        if (res.httpStatus) {
+          message.error("Erro ao atualizar exercício");
+        } else {
+          handleUpdateActiveWorkout();
+          setIsEditing(false);
+        }
+      })
+      .catch();
   };
 
   const handleUpdateSet = (name: string, value: string, setupId?: string) => {
@@ -65,6 +75,27 @@ const ActiveWorkoutExerciseSet = ({
         message.success("Setup removido com sucesso");
       })
       .catch(() => message.error("Erro ao remover setup"));
+  };
+
+  const handleAddNewSetup = () => {
+    const exercise = {
+      id: exerciseSetup.exerciseId,
+      name: exerciseSetup.exerciseName,
+    } as Exercise;
+    const newSetup = {
+      id: "",
+      observation: "",
+      rest: exerciseSetup.rest || "0",
+      repetitions: exerciseSetup.repetitions || "0",
+      series: exerciseSetup.series || "0",
+      exercise,
+    } as ExerciseSetup;
+
+    setExerciseSet({
+      ...exerciseSet,
+      exerciseSetupList: [...exerciseSet.exerciseSetupList, newSetup],
+    });
+    clearSetup();
   };
 
   return (
@@ -95,7 +126,7 @@ const ActiveWorkoutExerciseSet = ({
             />
           </Button>
         </Flex>
-        <ExerciseSetTable actionButtons>
+        <ExerciseSetTable actionButtons={isEditing}>
           {exerciseSet.exerciseSetupList.map((setup) => (
             <ActiveWorkoutExerciseSetup
               key={`${setup.id}-${setup.exercise.id}`}
@@ -103,6 +134,13 @@ const ActiveWorkoutExerciseSet = ({
               handleRemove={handleRemoveSetup}
             />
           ))}
+          {isEditing && (
+            <AddSetupInputs
+              handleAddSetup={handleAddNewSetup}
+              values={exerciseSetup}
+              handleChange={handleUpdateSetup}
+            />
+          )}
         </ExerciseSetTable>
 
         <textarea

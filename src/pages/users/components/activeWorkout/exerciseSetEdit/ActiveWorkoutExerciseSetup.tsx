@@ -58,6 +58,7 @@ const ActiveWorkoutExerciseSetup = ({
     rest,
     id: setupId,
   } = setup;
+  const { isEditing } = useContext(ActiveWorkoutSetContext);
 
   return (
     <tr>
@@ -65,12 +66,14 @@ const ActiveWorkoutExerciseSetup = ({
       <SetupItem name="series" value={series} setupId={setupId} />
       <SetupItem name="repetitions" value={repetitions} setupId={setupId} />
       <SetupItem name="rest" value={rest} setupId={setupId} />
-      <td>
-        <RemoveRowDeleteIcon
-          hasConfirmDialog
-          onConfirm={() => handleRemove(setupId)}
-        />
-      </td>
+      {isEditing && (
+        <td>
+          <RemoveRowDeleteIcon
+            hasConfirmDialog
+            onConfirm={() => handleRemove(setupId)}
+          />
+        </td>
+      )}
     </tr>
   );
 };

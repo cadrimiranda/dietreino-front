@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AutoComplete, { AutoCompleteProps } from "antd/lib/auto-complete";
 import useExerciseAutocomplete from "../../hooks/useExerciseAutocomplete";
 
@@ -12,6 +12,10 @@ export const ExerciseAutocomplete = ({
 >) => {
   const { fetchAutocomplete, results } = useExerciseAutocomplete();
   const [exerciseName, setExerciseName] = useState(value);
+
+  useEffect(() => {
+    setExerciseName(value);
+  }, [value]);
 
   return (
     <AutoComplete

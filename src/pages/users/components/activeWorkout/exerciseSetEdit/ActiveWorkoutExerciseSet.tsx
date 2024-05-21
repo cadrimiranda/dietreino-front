@@ -63,7 +63,18 @@ const ActiveWorkoutExerciseSet = ({
     setExerciseSet(updateExerciseSetExercise({ exerciseSet, option, setupId }));
   };
 
-  const handleRemoveSetup = (setupId: string) => {
+  const handleRemoveSetup = (setupIndex: number, setupId?: string) => {
+    if (!setupId) {
+      const newSetups = exerciseSet.exerciseSetupList.filter(
+        (_, idx) => idx !== setupIndex
+      );
+      setExerciseSet({
+        ...exerciseSet,
+        exerciseSetupList: newSetups,
+      });
+      return;
+    }
+
     removeSetupFromSet(exerciseSet.id, setupId)
       .then(() => {
         setExerciseSet({
@@ -127,11 +138,11 @@ const ActiveWorkoutExerciseSet = ({
           </Button>
         </Flex>
         <ExerciseSetTable actionButtons={isEditing}>
-          {exerciseSet.exerciseSetupList.map((setup) => (
+          {exerciseSet.exerciseSetupList.map((setup, setupIndex) => (
             <ActiveWorkoutExerciseSetup
               key={`${setup.id}-${setup.exercise.id}`}
               setup={setup}
-              handleRemove={handleRemoveSetup}
+              handleRemove={(setupId) => handleRemoveSetup(setupIndex, setupId)}
             />
           ))}
           {isEditing && (

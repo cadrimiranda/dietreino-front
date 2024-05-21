@@ -49,7 +49,7 @@ const ActiveWorkoutExerciseSetup = ({
   handleRemove,
 }: {
   setup: ExerciseSetup;
-  handleRemove: (setuptId: string) => void;
+  handleRemove: (setuptId?: string) => void;
 }) => {
   const {
     exercise: { name },

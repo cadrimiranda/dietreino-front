@@ -5,12 +5,13 @@ import useExerciseAutocomplete from "../../hooks/useExerciseAutocomplete";
 export const ExerciseAutocomplete = ({
   onChange,
   onSelect,
+  value = "",
 }: Pick<
   AutoCompleteProps<string, { label: string; value: string }>,
-  "onChange" | "onSelect"
+  "onChange" | "onSelect" | "value"
 >) => {
   const { fetchAutocomplete, results } = useExerciseAutocomplete();
-  const [exerciseName, setExerciseName] = useState("");
+  const [exerciseName, setExerciseName] = useState(value);
 
   return (
     <AutoComplete

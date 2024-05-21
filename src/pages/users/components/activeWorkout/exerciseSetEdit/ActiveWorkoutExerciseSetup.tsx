@@ -33,6 +33,7 @@ const SetupItem = ({
 
     return (
       <ExerciseAutocomplete
+        value={value}
         onSelect={(_, option) => {
           handleUpdateExercise(option, setupId);
         }}

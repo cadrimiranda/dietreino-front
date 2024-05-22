@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import {
   Capsules,
   Clipboard,
@@ -15,21 +15,12 @@ import { UserAnthropometricResults } from "./components/UserAnthropometricResult
 import "./userPage.scss";
 import { UserDiet } from "./components/UserDiet";
 import { UserGymPlan } from "./components/UserGymPlan";
-
-enum Entries {
-  diet = "diet",
-  pills = "pills",
-  gymPlan = "gymplan",
-}
-
-export const UserPageContext = createContext<{
-  setEntry: (_entry: Entries | null) => void;
-}>({
-  setEntry: () => {},
-});
+import useGetUserByQueryParameter from "./hooks/useGetUserByQueryParameter";
+import { Entries, UserPageContext } from "./components/UserPageContext";
 
 const UserPage = () => {
-  const [entry, setEntry] = useState<Entries | null>(Entries.gymPlan);
+  const [entry, setEntry] = useState<Entries | null>(null);
+  const { user, loading } = useGetUserByQueryParameter();
 
   const navPage = (
     <nav>
@@ -90,11 +81,17 @@ const UserPage = () => {
   };
 
   return (
-    <UserPageContext.Provider value={{ setEntry }}>
-      <div className="user-managment-page">
-        {getEntryPage()}
-        <UserAnthropometricResults />
-      </div>
+    <UserPageContext.Provider value={{ setEntry, user }}>
+      {loading ? (
+        <div className="loading">
+          <p>Loading ...</p>
+        </div>
+      ) : (
+        <div className="user-managment-page">
+          {getEntryPage()}
+          <UserAnthropometricResults />
+        </div>
+      )}
     </UserPageContext.Provider>
   );
 };

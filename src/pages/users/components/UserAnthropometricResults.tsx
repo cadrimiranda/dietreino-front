@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useFetch } from "use-http";
 import classNames from "classnames";
 import Button from "antd/lib/button";
 import { AngleRight, CustomIcon } from "../../../components/icons";
 import { AngleLeft } from "../../../components/icons/AngleLeft";
+import { UserPageContext } from "./UserPageContext";
 
 const UserDetail = ({
   name,
@@ -33,9 +34,10 @@ const UserDetail = ({
 };
 
 const UserAnthropometricResults = () => {
+  const { user } = useContext(UserPageContext);
   const [isVisible, setIsVisible] = useState(false);
   const { data, get, loading } = useFetch(
-    "/anthropometricreport/user/11111111-1111-1111-1111-111111111111"
+    `/anthropometricreport/user/${user?.id}`
   );
 
   const toggleVisibility = () => {
@@ -43,8 +45,10 @@ const UserAnthropometricResults = () => {
   };
 
   useEffect(() => {
-    get();
-  });
+    if (user) {
+      get();
+    }
+  }, [user]);
 
   return (
     <>
@@ -74,7 +78,7 @@ const UserAnthropometricResults = () => {
           <CustomIcon width="20px" icon={AngleRight} color="colorWhite" />
         </Button>
         {loading && <p>loading ....</p>}
-        {data && !loading && (
+        {data && !loading && user && (
           <ul
             className={classNames({
               "user-anthropometric-results": true,
@@ -82,8 +86,11 @@ const UserAnthropometricResults = () => {
               "user-anthropometric-results--hidden": !isVisible,
             })}
           >
-            {/* <UserDetail name="Nome" value={data[0].name} />
-          <UserDetail name="Idade" value={`${data[0].age} anos`} /> */}
+            <UserDetail
+              name="Nome"
+              value={user?.name + (user?.lastName || "")}
+            />
+            {/* <UserDetail name="Idade" value={`${data[0].age} anos`} /> */}
             <UserDetail name="Altura" value={`${data[0].height} metros`} />
             <UserDetail name="Peso" value={`${data[0].weight} kg`} />
             <UserDetail name="Peso Ideal" value={`${data[0].idealWeight} kg`} />

@@ -1,7 +1,7 @@
 import { PropsWithChildren, useContext } from "react";
 import Button from "antd/lib/button";
-import { UserPageContext } from "../UserPage";
 import { ArrowBack, CustomIcon } from "../../../components/icons";
+import { UserPageContext } from "./UserPageContext";
 
 const UserEntryLayout = ({ children }: PropsWithChildren) => {
   const { setEntry } = useContext(UserPageContext);

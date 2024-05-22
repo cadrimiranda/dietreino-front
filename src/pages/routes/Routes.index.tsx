@@ -5,7 +5,6 @@ import { NotFoundPage } from "../notFound/NotFound.index";
 import { DashboardPage } from "../dashboard/DashboardPage.index";
 import { UserListPage } from "../users/UserListPage";
 import { UserPage } from "../users/UserPage";
-import { UserDiet } from "../users/components/UserDiet";
 
 const router = createBrowserRouter([
   {
@@ -36,10 +35,6 @@ const router = createBrowserRouter([
                     path: "",
                     element: <UserPage />,
                   },
-                  {
-                    path: "diet",
-                    element: <UserDiet />
-                  }
                 ],
               },
             ],

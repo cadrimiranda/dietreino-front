@@ -17,42 +17,47 @@ import { UserDiet } from "./components/UserDiet";
 import { UserGymPlan } from "./components/UserGymPlan";
 import useGetUserByQueryParameter from "./hooks/useGetUserByQueryParameter";
 import { Entries, UserPageContext } from "./components/UserPageContext";
+import { UserLayout } from "./components/UserEntryLayoutt";
+import { useNavigate } from "react-router-dom";
 
 const UserPage = () => {
+  const navigate = useNavigate();
   const [entry, setEntry] = useState<Entries | null>(null);
   const { user, loading } = useGetUserByQueryParameter();
 
   const navPage = (
-    <nav>
-      <ul className="dashboard-menu">
-        <MenuEntry
-          handleClick={() => setEntry(Entries.diet)}
-          noNavigation
-          icon={Utensils}
-          title="Dieta"
-        />
-        <MenuEntry
-          handleClick={() => setEntry(Entries.gymPlan)}
-          noNavigation
-          icon={Dumbbell}
-          title="Treino"
-        />
-        <MenuEntry
-          handleClick={() => setEntry(Entries.pills)}
-          noNavigation
-          icon={Capsules}
-          title="Manipulados"
-        />
-        <MenuEntry noNavigation icon={Clipboard} title="Anamnese" />
-        <MenuEntry
-          noNavigation
-          icon={ClockRotateLeft}
-          title="Histórico/Fotos"
-        />
-        <MenuEntry noNavigation icon={Comments} title="Chat" />
-        <MenuEntry noNavigation icon={CommentDots} title="Treinador" />
-      </ul>
-    </nav>
+    <UserLayout onGoBack={() => navigate("/users")}>
+      <nav>
+        <ul className="dashboard-menu">
+          <MenuEntry
+            handleClick={() => setEntry(Entries.diet)}
+            noNavigation
+            icon={Utensils}
+            title="Dieta"
+          />
+          <MenuEntry
+            handleClick={() => setEntry(Entries.gymPlan)}
+            noNavigation
+            icon={Dumbbell}
+            title="Treino"
+          />
+          <MenuEntry
+            handleClick={() => setEntry(Entries.pills)}
+            noNavigation
+            icon={Capsules}
+            title="Manipulados"
+          />
+          <MenuEntry noNavigation icon={Clipboard} title="Anamnese" />
+          <MenuEntry
+            noNavigation
+            icon={ClockRotateLeft}
+            title="Histórico/Fotos"
+          />
+          <MenuEntry noNavigation icon={Comments} title="Chat" />
+          <MenuEntry noNavigation icon={CommentDots} title="Treinador" />
+        </ul>
+      </nav>
+    </UserLayout>
   );
 
   const getEntryPage = () => {

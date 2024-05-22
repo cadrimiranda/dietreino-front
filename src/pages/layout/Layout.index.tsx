@@ -14,7 +14,7 @@ const Layout = ({ children }: PropsWithChildren) => {
           Table: {
             headerBg: "#40916C",
             headerColor: "#fff",
-            borderColor: "#52B788"
+            borderColor: "#52B788",
           },
           Button: {
             defaultBg: "#40916C",
@@ -24,8 +24,8 @@ const Layout = ({ children }: PropsWithChildren) => {
             defaultShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
             defaultColor: "#fff",
             defaultHoverColor: "#fff",
-            defaultActiveColor: "#fff"
-          }
+            defaultActiveColor: "#fff",
+          },
         },
       }}
     >

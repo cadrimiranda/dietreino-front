@@ -3,9 +3,10 @@ import Button from "antd/lib/button";
 import { ArrowBack, CustomIcon } from "../../../components/icons";
 import { UserPageContext } from "./UserPageContext";
 
-const UserEntryLayout = ({ children }: PropsWithChildren) => {
-  const { setEntry } = useContext(UserPageContext);
-
+const UserLayout = ({
+  children,
+  onGoBack,
+}: PropsWithChildren<{ onGoBack: () => void }>) => {
   return (
     <div className="user-entry-layout">
       <Button
@@ -19,7 +20,7 @@ const UserEntryLayout = ({ children }: PropsWithChildren) => {
           />
         }
         size="large"
-        onClick={() => setEntry(null)}
+        onClick={onGoBack}
       >
         Voltar
       </Button>
@@ -28,4 +29,10 @@ const UserEntryLayout = ({ children }: PropsWithChildren) => {
   );
 };
 
-export { UserEntryLayout };
+const UserEntryLayout = ({ children }: PropsWithChildren) => {
+  const { setEntry } = useContext(UserPageContext);
+
+  return <UserLayout onGoBack={() => setEntry(null)}>{children}</UserLayout>;
+};
+
+export { UserEntryLayout, UserLayout };

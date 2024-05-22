@@ -3,7 +3,7 @@ import { LoginPage } from "../login/Login.index";
 import { Layout } from "../layout/Layout.index";
 import { NotFoundPage } from "../notFound/NotFound.index";
 import { DashboardPage } from "../dashboard/DashboardPage.index";
-import { UserListPage } from "../users/UserListPage";
+import { UserListPage } from "../users/components/UserListPage";
 import { UserPage } from "../users/UserPage";
 
 const router = createBrowserRouter([
@@ -19,23 +19,18 @@ const router = createBrowserRouter([
         element: <DashboardPage />,
       },
       {
-        path: "profissional",
+        path: "users",
         children: [
           {
-            path: "users",
+            path: "",
+            element: <UserListPage />,
+          },
+          {
+            path: "user",
             children: [
               {
                 path: "",
-                element: <UserListPage />,
-              },
-              {
-                path: "user",
-                children: [
-                  {
-                    path: "",
-                    element: <UserPage />,
-                  },
-                ],
+                element: <UserPage />,
               },
             ],
           },

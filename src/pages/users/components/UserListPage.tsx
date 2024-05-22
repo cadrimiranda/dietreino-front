@@ -2,14 +2,14 @@ import Table from "antd/lib/table";
 import { type TableProps } from "antd";
 import { Link } from "react-router-dom";
 
-import { MagnifyingGlass } from "../../components/icons/MagnifyingGlass";
+import { MagnifyingGlass } from "../../../components/icons/MagnifyingGlass";
 import "./userListPage.scss";
-import { CustomIcon } from "../../components/icons";
-import { UserForm } from "./components/UserForm";
+import { CustomIcon } from "../../../components/icons";
+import { UserForm } from "./UserForm";
 import {
   UserList,
   useGetUsersByActivePlanAndWorkout,
-} from "./hooks/useUserList";
+} from "../hooks/useUserList";
 import { useEffect } from "react";
 
 const columns: TableProps<UserList>["columns"] = [

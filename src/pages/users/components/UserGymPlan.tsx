@@ -66,7 +66,10 @@ const UserGymPlan = () => {
                 onCancel={() => setIsAdding(false)}
               />
             )}
-            <ActiveWorkoutPage activeWorkout={activeWorkout} />
+            <ActiveWorkoutPage
+              activeWorkout={activeWorkout}
+              isAddingSets={isAdding}
+            />
           </Flex>
         </>
       )}

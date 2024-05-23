@@ -14,7 +14,7 @@ export const useGetUserActiveWorkout = (userId?: string) => {
     if (data) return;
 
     doFetch();
-  }, [doFetch, userId, data]);
+  }, [userId, data]);
 
   return {
     activeWorkout: data,

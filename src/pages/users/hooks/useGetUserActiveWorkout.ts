@@ -1,30 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDoFetch } from "../../../utils/useDoFetch";
 import { Workout } from "../components/activeWorkout/workoutTypes";
-import { CachePolicies, useFetch } from "use-http";
 
 export const useGetUserActiveWorkout = (userId?: string) => {
-  const [activeWorkout, setActiveWorkout] = useState<Workout | null>(null);
-
-  const { get } = useFetch(`/user/${userId}/active-workout`, {
-    cachePolicy: CachePolicies.NO_CACHE,
+  const { data, setData, doFetch, loading } = useDoFetch<Workout>({
+    url: `/user/${userId}/active-workout`,
+    method: "get",
   });
-
-  const fetchActiveWorkout = () =>
-    get().then((res) => {
-      if (res.workout !== null) {
-        setActiveWorkout(res.workout);
-      }
-    });
 
   useEffect(() => {
     if (!userId) return;
 
-    get().then((res) => {
-      if (res.workout !== null) {
-        setActiveWorkout(res.workout);
-      }
-    });
-  }, [get, userId]);
+    if (data) return;
 
-  return { activeWorkout, setActiveWorkout, fetchActiveWorkout };
+    doFetch();
+  }, [doFetch, userId, data]);
+
+  return {
+    activeWorkout: data,
+    setActiveWorkout: setData,
+    fetchActiveWorkout: doFetch,
+    loading,
+  };
 };

@@ -1,11 +1,13 @@
-import { useRef, useState } from "react";
-import useFetch from "use-http";
+import { useRef } from "react";
+import { useDoFetch } from "../../../utils/useDoFetch";
+
+type OptionLabel = { label: string; value: string };
 
 const useExerciseAutocomplete = () => {
-  const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState([]);
-
-  const { get, loading: fetchLoading } = useFetch();
+  const { doFetch, loading, data } = useDoFetch<OptionLabel[]>({
+    url: "/exercise/autocomplete",
+    method: "get",
+  });
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
   const clearDebounce = () => {
@@ -23,19 +25,11 @@ const useExerciseAutocomplete = () => {
         return;
       }
 
-      try {
-        setLoading(true);
-        const data = await get(`/exercise/autocomplete/${name}`);
-        setResults(data);
-      } catch (error) {
-        console.error("Error fetching autocomplete results:", error);
-      } finally {
-        setLoading(false);
-      }
+      await doFetch(name);
     }, 2000);
   };
 
-  return { loading: loading || fetchLoading, results, fetchAutocomplete };
+  return { loading, results: data, fetchAutocomplete };
 };
 
 export default useExerciseAutocomplete;

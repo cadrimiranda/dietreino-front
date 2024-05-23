@@ -7,19 +7,35 @@ import { ActiveWorkoutPage } from "./activeWorkout/ActiveWorkoutPage";
 import { ActiveWorkoutSetAdd } from "./activeWorkout/exerciseSetAdd/ActiveWorkoutSetAdd";
 import { useGetUserActiveWorkout } from "../hooks/useGetUserActiveWorkout";
 import { UserPageContext } from "./UserPageContext";
+import { NewWorkoutModal } from "./NewWorkoutModal";
+import { Workout } from "./activeWorkout/workoutTypes";
 
 const UserGymPlan = () => {
   const { user } = useContext(UserPageContext);
   const [isAdding, setIsAdding] = useState(false);
-  const { activeWorkout, fetchActiveWorkout } = useGetUserActiveWorkout(
-    user?.id
-  );
+  const [isCreating, setIsCreating] = useState(false);
+  const { activeWorkout, setActiveWorkout, fetchActiveWorkout } =
+    useGetUserActiveWorkout(user?.id);
+
+  const handleAdd = () => {
+    if (activeWorkout) {
+      setIsAdding(true);
+      return;
+    }
+
+    setIsCreating(true);
+  };
+
+  const handleOkModal = (workout: Workout) => {
+    setActiveWorkout(workout);
+    setIsCreating(false);
+  };
 
   return (
     <UserEntryLayout>
       <Button
         style={{ marginLeft: "16px" }}
-        onClick={() => setIsAdding(true)}
+        onClick={handleAdd}
         icon={
           <CustomIcon
             icon={Plus}
@@ -30,19 +46,29 @@ const UserGymPlan = () => {
         }
         size="large"
       >
-        Adicionar
+        Adicionar {activeWorkout ? "exercícios" : "treino"}
       </Button>
+      {isCreating && (
+        <NewWorkoutModal
+          onCancel={() => setIsCreating(false)}
+          onOk={handleOkModal}
+          userId={user?.id}
+        />
+      )}
       {activeWorkout && (
-        <Flex wrap="wrap" justify="space-around">
-          {isAdding && (
-            <ActiveWorkoutSetAdd
-              workoutId={activeWorkout.id}
-              refetchWorkout={fetchActiveWorkout}
-              onCancel={() => setIsAdding(false)}
-            />
-          )}
-          <ActiveWorkoutPage activeWorkout={activeWorkout} />
-        </Flex>
+        <>
+          <h1>{activeWorkout?.name}</h1>
+          <Flex wrap="wrap" justify="space-around">
+            {isAdding && (
+              <ActiveWorkoutSetAdd
+                workoutId={activeWorkout.id}
+                refetchWorkout={fetchActiveWorkout}
+                onCancel={() => setIsAdding(false)}
+              />
+            )}
+            <ActiveWorkoutPage activeWorkout={activeWorkout} />
+          </Flex>
+        </>
       )}
       {!activeWorkout && (
         <div className="no-active-workout-wrapper">

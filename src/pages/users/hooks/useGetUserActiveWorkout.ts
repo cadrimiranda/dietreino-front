@@ -9,12 +9,21 @@ export const useGetUserActiveWorkout = (userId?: string) => {
     cachePolicy: CachePolicies.NO_CACHE,
   });
 
-  const fetchActiveWorkout = () => get().then(setActiveWorkout);
+  const fetchActiveWorkout = () =>
+    get().then((res) => {
+      if (res.workout !== null) {
+        setActiveWorkout(res.workout);
+      }
+    });
 
   useEffect(() => {
     if (!userId) return;
 
-    get().then((res) => setActiveWorkout(res));
+    get().then((res) => {
+      if (res.workout !== null) {
+        setActiveWorkout(res.workout);
+      }
+    });
   }, [get, userId]);
 
   return { activeWorkout, setActiveWorkout, fetchActiveWorkout };

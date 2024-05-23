@@ -16,6 +16,7 @@ export interface User extends UserList {
   lastName: string;
   dateOfBirth: string;
   activeWorkoutId?: string;
+  fullName: string;
 }
 
 export const useGetUsersByActivePlanAndWorkout = () => {

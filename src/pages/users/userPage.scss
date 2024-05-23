@@ -172,6 +172,40 @@
   border: 1px solid red;
 }
 
+.no-active-workout-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+
+  h1 {
+    font-size: 2rem;
+    color: #695f5a;
+    margin-top: 16px;
+    margin-bottom: 0;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: #695f5a;
+    margin-top: 8px;
+    width: 45%;
+    text-align: center;
+    margin-top: 0;
+  }
+
+  .no-active-workout-bg {
+    background-image: url("../../assets/noactiveworkout_warm.webp");
+    width: 100%;
+    height: 60%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
+}
+
 @media screen and (min-width: 992px) {
   .user-managment-page {
     flex-direction: row;

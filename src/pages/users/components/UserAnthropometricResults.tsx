@@ -50,6 +50,8 @@ const UserAnthropometricResults = () => {
     }
   }, [user]);
 
+  const hasData = data && data.length > 0 && !loading;
+
   return (
     <>
       <Button
@@ -78,7 +80,7 @@ const UserAnthropometricResults = () => {
           <CustomIcon width="20px" icon={AngleRight} color="colorWhite" />
         </Button>
         {loading && <p>loading ....</p>}
-        {data && !loading && user && (
+        {hasData && user && (
           <ul
             className={classNames({
               "user-anthropometric-results": true,

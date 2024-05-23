@@ -41,8 +41,19 @@ const UserGymPlan = () => {
               onCancel={() => setIsAdding(false)}
             />
           )}
-          {<ActiveWorkoutPage activeWorkout={activeWorkout} />}
+          <ActiveWorkoutPage activeWorkout={activeWorkout} />
         </Flex>
+      )}
+      {!activeWorkout && (
+        <div className="no-active-workout-wrapper">
+          <h1>Oops! Nenhum treino ativo encontrado</h1>
+          <div className="no-active-workout-bg" />
+          <p>
+            Parece que {user?.fullName} não tem nenhum treino ativo no momento,
+            mas fique tranquilo você pode criar um clicando no botão adicionar
+            no topo da página.
+          </p>
+        </div>
       )}
     </UserEntryLayout>
   );

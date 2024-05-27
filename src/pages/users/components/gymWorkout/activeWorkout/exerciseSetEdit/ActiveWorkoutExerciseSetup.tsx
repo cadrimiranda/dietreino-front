@@ -27,7 +27,13 @@ const SetupItem = ({
     const id = `exercise-setup-${name}`;
     if (!autocomplete) {
       return (
-        <input value={value} name={name} id={id} onChange={handleOnChange} />
+        <input
+          value={value}
+          name={name}
+          id={id}
+          aria-label={`input of ${name}`}
+          onChange={handleOnChange}
+        />
       );
     }
 

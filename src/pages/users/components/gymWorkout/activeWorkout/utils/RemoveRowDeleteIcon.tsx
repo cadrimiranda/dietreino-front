@@ -12,7 +12,12 @@ export const RemoveRowDeleteIcon = ({
   hasConfirmDialog?: boolean;
 } & Pick<PopconfirmProps, "onConfirm" | "onCancel">) => {
   const DeleteButton = (
-    <Button type="primary" danger onClick={handleClick}>
+    <Button
+      data-testid="remove-row-delete-icon"
+      type="primary"
+      danger
+      onClick={handleClick}
+    >
       <CustomIcon width="10px" icon={Xmark} color="colorWhite" />
     </Button>
   );

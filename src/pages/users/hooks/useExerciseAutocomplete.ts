@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useDoFetch } from "../../../utils/useDoFetch";
 
-type OptionLabel = { label: string; value: string };
+export type OptionLabel = { label: string; value: string };
 
 const useExerciseAutocomplete = () => {
   const { doFetch, loading, data } = useDoFetch<OptionLabel[]>({
@@ -26,7 +26,7 @@ const useExerciseAutocomplete = () => {
       }
 
       await doFetch(name);
-    }, 2000);
+    }, 1000);
   };
 
   return { loading, results: data, fetchAutocomplete };

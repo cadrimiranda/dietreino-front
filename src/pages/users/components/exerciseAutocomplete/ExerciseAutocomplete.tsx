@@ -25,6 +25,7 @@ export const ExerciseAutocomplete = ({
       allowClear
       options={results}
       value={exerciseName}
+      placeholder="Digite ao menos 3 caracteres"
       onSelect={(_, option: { label: string; value: string }) => {
         onSelect?.(option.value, option);
         setExerciseName(option.label);

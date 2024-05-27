@@ -55,7 +55,11 @@ export const AddSetupInputs = ({
         />
       </td>
       <td>
-        <Button size="small" onClick={handleAddSetup}>
+        <Button
+          data-testid="save-setup-button"
+          size="small"
+          onClick={handleAddSetup}
+        >
           <CustomIcon width="10px" icon={Check} color="colorWhite" />
         </Button>
       </td>

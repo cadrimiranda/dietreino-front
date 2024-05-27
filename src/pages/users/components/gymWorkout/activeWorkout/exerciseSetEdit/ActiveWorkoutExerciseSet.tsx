@@ -123,16 +123,21 @@ const ActiveWorkoutExerciseSet = ({
           {isEditing ? (
             <input
               name="name"
+              placeholder="Nome do exercício"
               value={name}
               onChange={(e) => handleUpdateSet(e.target.name, e.target.value)}
             />
           ) : (
             <p className="user-gym-plan-card-title">{name}</p>
           )}
-          <Button onClick={handleEditing}>
+          <Button
+            data-testid={`edit-set-${exerciseSet.name}`}
+            onClick={handleEditing}
+          >
             <CustomIcon
               width="20px"
               icon={isEditing ? Save : Pen}
+              data-testid={isEditing ? "save-icon" : "edit-icon"}
               color="colorWhite"
             />
           </Button>

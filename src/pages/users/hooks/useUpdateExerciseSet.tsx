@@ -1,4 +1,4 @@
-import { ExerciseSet } from "../components/activeWorkout/workoutTypes";
+import { ExerciseSet } from "../components/gymWorkout/activeWorkout/workoutTypes";
 import { CachePolicies, useFetch } from "use-http";
 
 export const useUpdateExerciseSet = (exerciseSet: ExerciseSet) => {

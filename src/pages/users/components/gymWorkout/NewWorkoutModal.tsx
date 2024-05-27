@@ -7,7 +7,7 @@ import DatePicker from "antd/lib/date-picker";
 import locale from "antd/es/date-picker/locale/pt_BR";
 import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
-import useCreateNewWorkout from "../hooks/useCreateNewWorkout";
+import useCreateNewWorkout from "../../hooks/useCreateNewWorkout";
 import { Workout } from "./activeWorkout/workoutTypes";
 
 type FieldType = {

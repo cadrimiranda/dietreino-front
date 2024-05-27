@@ -1,12 +1,12 @@
 import { Flex } from "antd/lib";
-import { CustomIcon, Plus } from "../../../components/icons";
-import { UserEntryLayout } from "./UserEntryLayoutt";
+import { CustomIcon, Plus } from "../../../../components/icons";
+import { UserEntryLayout } from "../UserEntryLayoutt";
 import { useContext, useState } from "react";
 import Button from "antd/lib/button";
 import { ActiveWorkoutPage } from "./activeWorkout/ActiveWorkoutPage";
 import { ActiveWorkoutSetAdd } from "./activeWorkout/exerciseSetAdd/ActiveWorkoutSetAdd";
-import { useGetUserActiveWorkout } from "../hooks/useGetUserActiveWorkout";
-import { UserPageContext } from "./UserPageContext";
+import { useGetUserActiveWorkout } from "../../hooks/useGetUserActiveWorkout";
+import { UserPageContext } from "../UserPageContext";
 import { NewWorkoutModal } from "./NewWorkoutModal";
 import { Workout } from "./activeWorkout/workoutTypes";
 

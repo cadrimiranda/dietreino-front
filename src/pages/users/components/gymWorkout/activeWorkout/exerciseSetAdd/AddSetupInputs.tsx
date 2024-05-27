@@ -1,6 +1,6 @@
 import Button from "antd/lib/button";
-import { Check, CustomIcon } from "../../../../../components/icons";
-import { ExerciseAutocomplete } from "../../exerciseAutocomplete/ExerciseAutocomplete";
+import { Check, CustomIcon } from "../../../../../../components/icons";
+import { ExerciseAutocomplete } from "../../../exerciseAutocomplete/ExerciseAutocomplete";
 import { setupDTO } from "../workoutTypes";
 
 export type handleChangeProps = {

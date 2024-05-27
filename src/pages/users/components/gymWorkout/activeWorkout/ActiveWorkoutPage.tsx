@@ -9,7 +9,7 @@ const ActiveWorkoutPage = ({
   activeWorkout,
   isAddingSets,
 }: {
-  activeWorkout: Workout;
+  activeWorkout?: Workout;
   isAddingSets?: boolean;
 }) => {
   const handleUpdateActiveWorkout = () => {};

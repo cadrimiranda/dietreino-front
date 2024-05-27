@@ -45,6 +45,7 @@ const columns: TableProps<UserList>["columns"] = [
     render: (_, record) => {
       return (
         <Link
+          key={record.id}
           to={`user?userId=${record.id}`}
           className="user-list-item-visualize"
         >

@@ -3,12 +3,12 @@ import { useState } from "react";
 import { ExerciseSetTable } from "../utils/ExerciseSetTable";
 import { ExerciseSetWrapper } from "../utils/ExerciseSetWrapper";
 import Button from "antd/lib/button";
-import { Ban, CustomIcon, Save } from "../../../../../components/icons";
+import { Ban, CustomIcon, Save } from "../../../../../../components/icons";
 import { ExerciseSetDTO } from "../workoutTypes";
 import { SetupsAdded } from "./SetupsAdded";
 import { AddSetupInputs } from "./AddSetupInputs";
-import { useAddSetupToSet } from "../../../hooks/useAddSetupToSet";
-import { useSetupState } from "../../../hooks/useSetupState";
+import { useAddSetupToSet } from "../../../../hooks/useAddSetupToSet";
+import { useSetupState } from "../../../../hooks/useSetupState";
 
 const DEFAULT_SET = {
   description: "",

@@ -4,7 +4,7 @@ import { Routes } from "./pages/routes/Routes.index";
 import { Provider } from "use-http";
 
 const mockToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWV0cmVpbm8iLCJzdWIiOiJleGFtcGxlQGRvbWFpbi5jb20iLCJ1c2VyX2lkIjoiMTExMTExMTEtMTExMS0xMTExLTExMTEtMTExMTExMTExMTExIiwiZXhwIjoxNzE2NTEzNTY0fQ.CIOSAl4LMl69u69jE9scE5uV8vexrpTR0a3YMPAxNL4";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWV0cmVpbm8iLCJzdWIiOiJleGFtcGxlQGRvbWFpbi5jb20iLCJ1c2VyX2lkIjoiMTExMTExMTEtMTExMS0xMTExLTExMTEtMTExMTExMTExMTExIiwiZXhwIjoxNzE2ODIwNDIxfQ.NoZVAMdniedodtm0G8wZOSGIuMeZJTs550qebyHBxL4";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

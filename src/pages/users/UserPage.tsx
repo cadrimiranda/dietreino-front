@@ -14,7 +14,7 @@ import { UserAnthropometricResults } from "./components/UserAnthropometricResult
 
 import "./userPage.scss";
 import { UserDiet } from "./components/UserDiet";
-import { UserGymPlan } from "./components/UserGymPlan";
+import { UserGymPlan } from "./components/gymWorkout/UserGymPlan";
 import useGetUserByQueryParameter from "./hooks/useGetUserByQueryParameter";
 import { Entries, UserPageContext } from "./components/UserPageContext";
 import { UserLayout } from "./components/UserEntryLayoutt";

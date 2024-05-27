@@ -1,6 +1,6 @@
 import Button from "antd/lib/button";
 import Popconfirm, { PopconfirmProps } from "antd/lib/popconfirm";
-import { CustomIcon, Xmark } from "../../../../../components/icons";
+import { CustomIcon, Xmark } from "../../../../../../components/icons";
 
 export const RemoveRowDeleteIcon = ({
   handleClick,

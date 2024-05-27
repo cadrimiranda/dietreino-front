@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { ExerciseSetup } from "../workoutTypes";
 import { ActiveWorkoutSetContext } from "../ActiveWorkoutContext";
-import { ExerciseAutocomplete } from "../../exerciseAutocomplete/ExerciseAutocomplete";
+import { ExerciseAutocomplete } from "../../../exerciseAutocomplete/ExerciseAutocomplete";
 import { RemoveRowDeleteIcon } from "../utils/RemoveRowDeleteIcon";
 
 const SetupItem = ({

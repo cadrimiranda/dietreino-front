@@ -60,6 +60,7 @@ const ActiveWorkoutExerciseSet = ({
     option: { value: string; label: string },
     setupId: string
   ) => {
+    console.log("handleUpdateExercise");
     setExerciseSet(updateExerciseSetExercise({ exerciseSet, option, setupId }));
   };
 
@@ -123,8 +124,9 @@ const ActiveWorkoutExerciseSet = ({
           {isEditing ? (
             <input
               name="name"
-              placeholder="Nome do exercício"
+              placeholder="Nome do set"
               value={name}
+              aria-label="Nome do set"
               onChange={(e) => handleUpdateSet(e.target.name, e.target.value)}
             />
           ) : (

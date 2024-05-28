@@ -1,6 +1,8 @@
-import { fireEvent, screen, within } from "@testing-library/dom";
-import { setupDTO } from "../workoutTypes";
+import { screen, within } from "@testing-library/dom";
+import { Workout, setupDTO } from "../workoutTypes";
 import { TestUtils } from "../../../../../../utils/testUtils";
+import { ActiveWorkoutPage } from "../ActiveWorkoutPage";
+import { render } from "@testing-library/react";
 
 export const fillNewSetup = async (setup: setupDTO, mockGet: jest.Mock) => {
   mockGet.mockResolvedValue([
@@ -13,7 +15,7 @@ export const fillNewSetup = async (setup: setupDTO, mockGet: jest.Mock) => {
   await TestUtils.changeAutocompleteValue(1, setup.exerciseName, mockGet);
 
   const saveButton = screen.getByTestId("save-setup-button");
-  fireEvent.click(saveButton);
+  TestUtils.clickEvent(saveButton);
 };
 
 export const verifySetupInputs = async (
@@ -32,4 +34,30 @@ export const verifySetupInputs = async (
     setup.rest
   );
   expect(setupRow.getByRole("combobox")).toHaveValue(setup.exerciseName);
+};
+
+export const verifyEmptyInputs = async () => {
+  TestUtils.checkTextByPlaceholder("Series", "");
+  TestUtils.checkTextByPlaceholder("Reps", "");
+  TestUtils.checkTextByPlaceholder("Rest", "");
+
+  const autocomplete = screen.getAllByRole("combobox");
+  expect(autocomplete[autocomplete.length - 1]).toHaveValue("");
+};
+
+export const editExerciseSet = (activeWorkout: Workout) => {
+  render(<ActiveWorkoutPage activeWorkout={activeWorkout} />);
+  const button = screen.getByTestId(
+    `edit-set-${activeWorkout.exerciseSets[0].name}`
+  );
+  TestUtils.clickEvent(button);
+  return button;
+};
+
+export const clickToRemoveSetup = (setupIndex: number) => {
+  const removeButton = screen.getAllByTestId("remove-row-delete-icon")[
+    setupIndex
+  ];
+  TestUtils.clickEvent(removeButton);
+  TestUtils.clickEvent(screen.getByText("Sim"));
 };

@@ -1,12 +1,6 @@
 import "@testing-library/jest-dom";
 
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 
 const mockGet = jest.fn();
 const mockPost = jest.fn();
@@ -27,7 +21,13 @@ jest.mock("use-http", () => ({
 import { ActiveWorkoutPage } from "./ActiveWorkoutPage";
 import { ExerciseSet, ExerciseSetup, Workout, setupDTO } from "./workoutTypes";
 import { TestUtils } from "../../../../../utils/testUtils";
-import { fillNewSetup, verifySetupInputs } from "./utils/tests";
+import {
+  clickToRemoveSetup,
+  editExerciseSet,
+  fillNewSetup,
+  verifyEmptyInputs,
+  verifySetupInputs,
+} from "./utils/tests";
 
 const newSetup: setupDTO = {
   exerciseId: "2",
@@ -121,7 +121,7 @@ describe("Active Workout", () => {
       expect(icon).toBeInTheDocument();
       expect(deleteIcon).toBeNull();
 
-      fireEvent.click(button);
+      TestUtils.clickEvent(button);
 
       icon = screen.getByTestId("save-icon");
       expect(icon).toBeInTheDocument();
@@ -131,29 +131,13 @@ describe("Active Workout", () => {
     });
 
     it("should be able to edit and table row has inputs", () => {
-      render(<ActiveWorkoutPage activeWorkout={activeWorkout} />);
-      const button = screen.getByTestId(`edit-set-${exerciseSet.name}`);
-
-      fireEvent.click(button);
+      editExerciseSet(activeWorkout);
       verifySetupInputs(existingSetupDTO, 1);
     });
 
     it("should edit and show inputs for new setup", () => {
-      render(<ActiveWorkoutPage activeWorkout={activeWorkout} />);
-      const button = screen.getByTestId(`edit-set-${exerciseSet.name}`);
-      fireEvent.click(button);
-
-      let input = screen.getByPlaceholderText("Series");
-      expect(input).toHaveValue("");
-
-      input = screen.getByPlaceholderText("Reps");
-      expect(input).toHaveValue("");
-
-      input = screen.getByPlaceholderText("Rest");
-      expect(input).toHaveValue("");
-
-      const autocomplete = screen.getAllByRole("combobox");
-      expect(autocomplete[1]).toHaveValue("");
+      editExerciseSet(activeWorkout);
+      verifyEmptyInputs();
 
       const saveButton = screen.getByTestId("save-setup-button");
       expect(saveButton).toBeInTheDocument();
@@ -161,23 +145,20 @@ describe("Active Workout", () => {
     });
 
     it("should add new setup", async () => {
-      render(<ActiveWorkoutPage activeWorkout={activeWorkout} />);
-      const button = screen.getByTestId(`edit-set-${exerciseSet.name}`);
-      fireEvent.click(button);
+      editExerciseSet(activeWorkout);
 
       await fillNewSetup(newSetup, mockGet);
       await verifySetupInputs(newSetup);
+      verifyEmptyInputs();
     });
 
     it("should save new setup", async () => {
       mockPut.mockResolvedValue({});
-      render(<ActiveWorkoutPage activeWorkout={activeWorkout} />);
-      const button = screen.getByTestId(`edit-set-${exerciseSet.name}`);
-      fireEvent.click(button);
+      const editButton = editExerciseSet(activeWorkout);
 
       await fillNewSetup(newSetup, mockGet);
 
-      fireEvent.click(button);
+      TestUtils.clickEvent(editButton);
 
       await waitFor(() => {
         expect(mockPut).toHaveBeenCalled();
@@ -207,34 +188,25 @@ describe("Active Workout", () => {
     });
 
     it("should remove unsaved setup", async () => {
-      render(<ActiveWorkoutPage activeWorkout={activeWorkout} />);
-      const button = screen.getByTestId(`edit-set-${exerciseSet.name}`);
-      fireEvent.click(button);
+      mockDel.mockResolvedValue({});
+      editExerciseSet(activeWorkout);
 
       await fillNewSetup(newSetup, mockGet);
       let rows = await screen.findAllByRole("row");
       expect(rows).toHaveLength(4); // 0 - header, 1 - existing setup, 2 - new setup, 3 - inputs row
 
-      const removeButton = screen.getAllByTestId("remove-row-delete-icon")[1];
-      fireEvent.click(removeButton);
-      await screen.findByText(
-        "Ao remover o exercicio, ele será excluído desse treino. Deseja continuar?"
-      );
-      fireEvent.click(screen.getByText("Sim"));
+      clickToRemoveSetup(1);
 
       rows = await screen.findAllByRole("row");
       expect(rows).toHaveLength(3);
+      expect(mockDel).not.toHaveBeenCalled();
     });
 
     it("should remove saved setup", async () => {
       mockDel.mockResolvedValue({});
-      render(<ActiveWorkoutPage activeWorkout={activeWorkout} />);
-      const button = screen.getByTestId(`edit-set-${exerciseSet.name}`);
-      fireEvent.click(button);
+      editExerciseSet(activeWorkout);
 
-      const removeButton = screen.getAllByTestId("remove-row-delete-icon")[0];
-      fireEvent.click(removeButton);
-      fireEvent.click(screen.getByText("Sim"));
+      clickToRemoveSetup(0);
 
       await waitFor(() => {
         expect(mockDel).toHaveBeenCalled();
@@ -245,6 +217,35 @@ describe("Active Workout", () => {
 
       const rows = await screen.findAllByRole("row");
       expect(rows).toHaveLength(2);
+    });
+  });
+
+  it("should edit exercise set", async () => {
+    mockPut.mockResolvedValue({});
+    const editButton = editExerciseSet(activeWorkout);
+    TestUtils.changeByRole("textbox", "Treino de costas", "Nome do set");
+    TestUtils.changeByPlaceholder("Observações", "Cuidado com a postura");
+
+    TestUtils.clickEvent(editButton);
+
+    await waitFor(() => {
+      expect(mockPut).toHaveBeenCalled();
+    });
+
+    expect(mockPut).toHaveBeenCalledWith({
+      ...exerciseSet,
+      name: "Treino de costas",
+      description: "Cuidado com a postura",
+      exerciseSetupList: [
+        {
+          id: exerciseSetup.id,
+          observation: exerciseSetup.observation,
+          exerciseId: exerciseSetup.exercise.id,
+          rest: exerciseSetup.rest,
+          repetitions: exerciseSetup.repetitions,
+          series: exerciseSetup.series,
+        },
+      ],
     });
   });
 });

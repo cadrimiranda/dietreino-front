@@ -4,17 +4,16 @@ import Input from "antd/lib/input";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
 import DatePicker from "antd/lib/date-picker";
-import locale from "antd/es/date-picker/locale/pt_BR";
 import { RangePickerProps } from "antd/es/date-picker";
-import dayjs from "dayjs";
+import * as dayjs from "dayjs";
 import useCreateNewWorkout from "../../hooks/useCreateNewWorkout";
 import { Workout } from "./activeWorkout/workoutTypes";
 
 type FieldType = {
   name?: string;
   description?: string;
-  startDate?: string;
-  endDate?: string;
+  startDate?: dayjs.Dayjs;
+  endDate?: dayjs.Dayjs;
 };
 
 const disabledDate: RangePickerProps["disabledDate"] = (current) => {
@@ -32,11 +31,14 @@ export const NewWorkoutModal = (
   const [form] = AntdForm.useForm<FieldType>();
   const { doFetch, loading } = useCreateNewWorkout();
 
-  const handleCreateNewWorkout = async () => {
-    const values = form.getFieldsValue();
-    const data = await doFetch({ ...values, userToAssign: props.userId }).then(
-      (res) => res
-    );
+  const handleCreateNewWorkout = async (values: FieldType) => {
+    const newWorkout = {
+      ...values,
+      userToAssign: props.userId,
+      startDate: values.startDate?.toISOString(),
+      endDate: values.endDate?.toISOString(),
+    };
+    const data = await doFetch(newWorkout).then((res) => res);
     onOk(data);
   };
 
@@ -44,10 +46,16 @@ export const NewWorkoutModal = (
     <Modal
       open
       confirmLoading={loading}
-      onOk={handleCreateNewWorkout}
+      okButtonProps={{ htmlType: "submit", form: "userform" }}
       {...rest}
     >
-      <AntdForm autoComplete="off" id="userform" layout="vertical" form={form}>
+      <AntdForm
+        onFinish={handleCreateNewWorkout}
+        autoComplete="off"
+        id="userform"
+        layout="vertical"
+        form={form}
+      >
         <Row gutter={8}>
           <Col md={12}>
             <AntdForm.Item<FieldType>
@@ -55,7 +63,11 @@ export const NewWorkoutModal = (
               name="name"
               rules={[{ required: true, message: "Insira um nome!" }]}
             >
-              <Input disabled={loading} />
+              <Input
+                aria-label="Nome do treino"
+                placeholder="Nome do treino"
+                disabled={loading}
+              />
             </AntdForm.Item>
           </Col>
           <Col md={6}>
@@ -71,10 +83,11 @@ export const NewWorkoutModal = (
               ]}
             >
               <DatePicker
-                locale={locale}
                 format="DD/MM/YYYY"
                 disabledDate={disabledDate}
                 disabled={loading}
+                aria-label="Data inicial do treino"
+                placeholder="Inicio"
               />
             </AntdForm.Item>
           </Col>
@@ -91,10 +104,11 @@ export const NewWorkoutModal = (
               ]}
             >
               <DatePicker
-                locale={locale}
                 format="DD/MM/YYYY"
                 disabledDate={disabledDate}
                 disabled={loading}
+                aria-label="Data final do treino"
+                placeholder="Fim"
               />
             </AntdForm.Item>
           </Col>
@@ -104,7 +118,11 @@ export const NewWorkoutModal = (
           name="description"
           rules={[{ required: true, message: "Insira uma descrição!" }]}
         >
-          <Input disabled={loading} />
+          <Input
+            disabled={loading}
+            aria-label="descrição do treino"
+            placeholder="Descrição"
+          />
         </AntdForm.Item>
       </AntdForm>
     </Modal>

@@ -1,7 +1,7 @@
 import { ActiveWorkoutExerciseSet } from "./exerciseSetEdit/ActiveWorkoutExerciseSet";
 import { Workout } from "./workoutTypes";
 
-import WorkoutWithoutExerciseSets from "../../../../assets/empty_exercises-2.png";
+import WorkoutWithoutExerciseSets from "../../../../../assets/empty_exercises-2.png";
 
 export type ObjKeyString = { [key: string]: string };
 

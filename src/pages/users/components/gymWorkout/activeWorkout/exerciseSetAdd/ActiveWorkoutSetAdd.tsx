@@ -4,7 +4,7 @@ import { ExerciseSetTable } from "../utils/ExerciseSetTable";
 import { ExerciseSetWrapper } from "../utils/ExerciseSetWrapper";
 import Button from "antd/lib/button";
 import { Ban, CustomIcon, Save } from "../../../../../../components/icons";
-import { ExerciseSetDTO } from "../workoutTypes";
+import { ExerciseSetDTO, Workout } from "../workoutTypes";
 import { SetupsAdded } from "./SetupsAdded";
 import { AddSetupInputs } from "./AddSetupInputs";
 import { useAddSetupToSet } from "../../../../hooks/useAddSetupToSet";
@@ -22,7 +22,7 @@ const ActiveWorkoutSetAdd = ({
 }: {
   onCancel: () => void;
   workoutId: string;
-  refetchWorkout: () => void;
+  refetchWorkout: () => Promise<Workout>;
 }) => {
   const { addSetupsToSet } = useAddSetupToSet(workoutId);
   const [exerciseSet, setExerciseSet] = useState({ ...DEFAULT_SET });
@@ -45,12 +45,17 @@ const ActiveWorkoutSetAdd = ({
     });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const newExerciseSet: ExerciseSetDTO = {
       ...exerciseSet,
       exerciseSetupList: setups,
     };
-    addSetupsToSet(newExerciseSet).then(refetchWorkout).finally(onCancel);
+    addSetupsToSet(newExerciseSet)
+      .then(() => {
+        refetchWorkout();
+      })
+      .catch(console.log)
+      .finally(onCancel);
   };
 
   return (
@@ -72,7 +77,7 @@ const ActiveWorkoutSetAdd = ({
               color="colorWhite"
             />
           </Button>
-          <Button onClick={handleSave}>
+          <Button data-testid="btn-save-set" onClick={handleSave}>
             <CustomIcon width="20px" icon={Save} color="colorWhite" />
           </Button>
         </div>

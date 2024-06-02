@@ -1,18 +1,64 @@
 import { screen, within } from "@testing-library/dom";
-import { Workout, setupDTO } from "../workoutTypes";
+import { ExerciseSet, ExerciseSetup, Workout, setupDTO } from "../workoutTypes";
 import { TestUtils } from "../../../../../../utils/testUtils";
 import { ActiveWorkoutPage } from "../ActiveWorkoutPage";
 import { render } from "@testing-library/react";
 
-export const fillNewSetup = async (setup: setupDTO, mockGet: jest.Mock) => {
-  mockGet.mockResolvedValue([
+export const newSetup: setupDTO = {
+  exerciseId: "2",
+  exerciseName: "Supino inclinado",
+  repetitions: "12",
+  series: "3",
+  rest: "45seg",
+  observation: "be careful",
+};
+
+export const exerciseSetup: ExerciseSetup = {
+  id: "1",
+  exercise: {
+    id: "1",
+    name: "Supino",
+    description: "Supino reto",
+  },
+  repetitions: "10",
+  series: "4",
+  rest: "60seg",
+  observation: "be careful",
+};
+
+export const exerciseSet: ExerciseSet = {
+  description: "Treino de peito",
+  id: "1",
+  name: "Peito",
+  exerciseSetupList: [exerciseSetup],
+};
+
+export const activeWorkout: Workout = {
+  id: "1",
+  name: "Treino A",
+  exerciseSets: [exerciseSet],
+  description: "Treino de peito",
+  endDate: "2021-01-02",
+  startDate: "2021-01-01",
+};
+
+export const fillNewSetup = async (
+  setup: setupDTO,
+  mockGet: jest.Mock,
+  autoComplete = 1
+) => {
+  mockGet.mockResolvedValueOnce([
     { value: setup.exerciseId, label: setup.exerciseName },
   ]);
   TestUtils.changeByPlaceholder("Series", setup.series);
   TestUtils.changeByPlaceholder("Reps", setup.repetitions);
   TestUtils.changeByPlaceholder("Rest", setup.rest);
 
-  await TestUtils.changeAutocompleteValue(1, setup.exerciseName, mockGet);
+  await TestUtils.changeAutocompleteValue(
+    autoComplete,
+    setup.exerciseName,
+    mockGet
+  );
 
   const saveButton = screen.getByTestId("save-setup-button");
   TestUtils.clickEvent(saveButton);

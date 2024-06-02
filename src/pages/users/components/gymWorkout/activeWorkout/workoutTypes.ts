@@ -25,6 +25,8 @@ export type Workout = {
   name: string;
   description: string;
   exerciseSets: ExerciseSet[];
+  startDate: string;
+  endDate: string;
 };
 
 export type setupDTO = Omit<ExerciseSetup, "id" | "exercise"> & {

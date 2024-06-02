@@ -19,7 +19,7 @@ jest.mock("use-http", () => ({
 }));
 
 import { ActiveWorkoutPage } from "./ActiveWorkoutPage";
-import { ExerciseSet, ExerciseSetup, Workout, setupDTO } from "./workoutTypes";
+import { setupDTO } from "./workoutTypes";
 import { TestUtils } from "../../../../../utils/testUtils";
 import {
   clickToRemoveSetup,
@@ -27,29 +27,12 @@ import {
   fillNewSetup,
   verifyEmptyInputs,
   verifySetupInputs,
+  activeWorkout,
+  exerciseSetup,
+  exerciseSet,
+  newSetup,
 } from "./utils/tests";
 
-const newSetup: setupDTO = {
-  exerciseId: "2",
-  exerciseName: "Supino inclinado",
-  repetitions: "12",
-  series: "3",
-  rest: "45seg",
-  observation: "be careful",
-};
-
-const exerciseSetup: ExerciseSetup = {
-  id: "1",
-  exercise: {
-    id: "1",
-    name: "Supino",
-    description: "Supino reto",
-  },
-  repetitions: "10",
-  series: "4",
-  rest: "60seg",
-  observation: "be careful",
-};
 const existingSetupDTO: setupDTO = {
   exerciseId: exerciseSetup.exercise.id,
   exerciseName: exerciseSetup.exercise.name,
@@ -57,18 +40,6 @@ const existingSetupDTO: setupDTO = {
   rest: exerciseSetup.rest,
   series: exerciseSetup.series,
   observation: exerciseSetup.observation,
-};
-const exerciseSet: ExerciseSet = {
-  description: "Treino de peito",
-  id: "1",
-  name: "Peito",
-  exerciseSetupList: [exerciseSetup],
-};
-const activeWorkout: Workout = {
-  id: "1",
-  name: "Treino A",
-  exerciseSets: [exerciseSet],
-  description: "Treino de peito",
 };
 
 describe("Active Workout", () => {

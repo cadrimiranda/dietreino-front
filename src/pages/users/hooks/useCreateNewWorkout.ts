@@ -1,5 +1,5 @@
 import { useDoFetch } from "../../../utils/useDoFetch";
-import { Workout } from "../components/activeWorkout/workoutTypes";
+import { Workout } from "../components/gymWorkout/activeWorkout/workoutTypes";
 
 const useCreateNewWorkout = () => {
   const { data, loading, error, doFetch } = useDoFetch<Workout>({

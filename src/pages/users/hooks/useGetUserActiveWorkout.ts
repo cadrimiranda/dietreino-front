@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDoFetch } from "../../../utils/useDoFetch";
-import { Workout } from "../components/activeWorkout/workoutTypes";
+import { Workout } from "../components/gymWorkout/activeWorkout/workoutTypes";
 
 export const useGetUserActiveWorkout = (userId?: string) => {
   const { data, setData, doFetch, loading } = useDoFetch<Workout>({

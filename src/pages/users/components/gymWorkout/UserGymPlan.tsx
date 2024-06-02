@@ -52,7 +52,7 @@ const UserGymPlan = () => {
         <NewWorkoutModal
           onCancel={() => setIsCreating(false)}
           onOk={handleOkModal}
-          userId={user?.id}
+          userId={user?.id || ""}
         />
       )}
       {activeWorkout && (

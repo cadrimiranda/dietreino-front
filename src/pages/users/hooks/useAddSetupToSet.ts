@@ -1,13 +1,16 @@
 import { useDoFetch } from "../../../utils/useDoFetch";
 
-export const useAddSetupToSet = (workoutId: string) => {
-  const { doFetch } = useDoFetch({
-    url: `/workout/${workoutId}/exercise-set`,
+export const useAddSetupToSet = <T extends object>(workoutId: string) => {
+  const { post } = useDoFetch({
     method: "post",
     fetchOptions: {
       method: "POST",
     },
   });
 
-  return { addSetupsToSet: doFetch };
+  const addSetupsToSet = (body: T) => {
+    return post(`/workout/${workoutId}/exercise-set`, body);
+  };
+
+  return { addSetupsToSet };
 };

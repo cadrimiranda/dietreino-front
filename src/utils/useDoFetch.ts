@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { ReqMethods, useFetch, UseFetchArgs } from "use-http";
+import { FetchData, ReqMethods, useFetch, UseFetchArgs } from "use-http";
 
-const useDoFetch = <T>(props: {
-  url: UseFetchArgs[0];
+const useDoFetch = <T extends object>(props: {
+  url?: UseFetchArgs[0];
   fetchOptions?: UseFetchArgs[1];
   method: keyof ReqMethods<object>;
 }) => {
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [catchError, setCatcherror] = useState<unknown | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<T | undefined>(undefined);
   const [loading, setLoading] = useState(false);
 
-  const fetcher = useFetch<T>(props.url, props.fetchOptions);
+  const fetcher = useFetch<T>(props.url || "", props.fetchOptions);
 
   const doFetch = (...fetchProps: unknown[]) => {
     setLoading(true);
@@ -35,7 +36,48 @@ const useDoFetch = <T>(props: {
     });
   };
 
-  return { data, loading, error, doFetch, setData };
+  const handleFetch = (fn: () => Promise<T>) => {
+    setData(undefined);
+    setError(null);
+    setCatcherror(null);
+
+    return new Promise<T>((resolve, reject) => {
+      setLoading(true);
+      fn()
+        .then((response) => {
+          if ("errorMessage" in response) {
+            reject(response);
+            setError(response.errorMessage as string);
+          } else {
+            resolve(response);
+            setData(response);
+          }
+        })
+        .catch(setCatcherror)
+        .finally(() => setLoading(false));
+    });
+  };
+
+  const getWrapper = async (url: string) => {
+    const { get } = fetcher;
+    return handleFetch(() => get(url));
+  };
+
+  const postWrapper: FetchData<T> = async (a, b) => {
+    const { post } = fetcher;
+    return handleFetch(() => post(a, b));
+  };
+
+  return {
+    data,
+    loading,
+    error,
+    doFetch,
+    setData,
+    get: getWrapper,
+    post: postWrapper,
+    catchError,
+  };
 };
 
 export { useDoFetch };

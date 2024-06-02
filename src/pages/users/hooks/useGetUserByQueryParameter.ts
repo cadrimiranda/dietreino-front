@@ -8,8 +8,7 @@ const useGetUserByQueryParameter = () => {
   const searchParams = new URLSearchParams(location.search);
   const userId = searchParams.get("userId");
 
-  const { data, doFetch, error, loading } = useDoFetch<User>({
-    url: `/user/${userId}`,
+  const { data, get, error, loading } = useDoFetch<User>({
     method: "get",
     fetchOptions: {
       method: "GET",
@@ -18,7 +17,7 @@ const useGetUserByQueryParameter = () => {
 
   useEffect(() => {
     if (userId) {
-      doFetch();
+      get(`/user/${userId}`);
     }
   }, [userId]);
 

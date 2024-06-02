@@ -1,13 +1,25 @@
 import { useDoFetch } from "../../../utils/useDoFetch";
 import { Workout } from "../components/gymWorkout/activeWorkout/workoutTypes";
 
+type createWorkoutDTO = {
+  userToAssign: string;
+  name: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+};
+
 const useCreateNewWorkout = () => {
-  const { data, loading, error, doFetch } = useDoFetch<Workout>({
+  const { data, loading, error, post } = useDoFetch<Workout>({
     url: "/workout",
     method: "post",
   });
 
-  return { data, loading, error, doFetch };
+  const createWorkout = (dto: createWorkoutDTO) => {
+    return post("/workout", dto);
+  };
+
+  return { data, loading, error, createWorkout };
 };
 
 export default useCreateNewWorkout;

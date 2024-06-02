@@ -45,6 +45,7 @@ describe("Component: UserGymPlan", () => {
       screen.getByText("Oops! Nenhum treino ativo encontrado")
     ).toBeInTheDocument();
     expect(screen.getByText(/\Parece que Foo bar não tem/)).toBeInTheDocument();
+    expect(mockGet).toHaveBeenCalledWith("/user/1/active-workout");
   });
 
   it("should open the modal to create a new workout", () => {
@@ -74,7 +75,7 @@ describe("Component: UserGymPlan", () => {
   it("should create a new workout", async () => {
     await createNewWorkout({ mockGet, mockPost });
     expect(mockPost).toHaveBeenCalledTimes(1);
-    expect(mockPost).toHaveBeenCalledWith({
+    expect(mockPost).toHaveBeenCalledWith("/workout", {
       name: "Foo",
       startDate: "2030-01-01T03:00:00.000Z",
       endDate: "2030-02-01T03:00:00.000Z",
@@ -98,7 +99,6 @@ describe("Component: UserGymPlan", () => {
     verifyEmptyInputs();
 
     // check values in table
-
     const rows = await screen.findAllByRole("row");
     TestUtils.textInsideElement(rows[2], newSetup.exerciseName);
     TestUtils.textInsideElement(rows[2], newSetup.series);
@@ -109,10 +109,11 @@ describe("Component: UserGymPlan", () => {
     mockPost.mockResolvedValueOnce("");
     mockGet.mockResolvedValueOnce(fullWorkout);
     TestUtils.clickEvent(screen.getByTestId("btn-save-set"));
-    expect(mockPost).toHaveBeenCalledWith({
+    expect(mockPost).toHaveBeenCalledWith("/workout/1/exercise-set", {
       description: "Triceps",
       name: "Arms",
       exerciseSetupList: [{ ...newSetup, observation: "" }],
     });
+    expect(mockGet).toHaveBeenCalledWith("/user/1/active-workout");
   });
 });

@@ -10,10 +10,10 @@ import useCreateNewWorkout from "../../hooks/useCreateNewWorkout";
 import { Workout } from "./activeWorkout/workoutTypes";
 
 type FieldType = {
-  name?: string;
-  description?: string;
-  startDate?: dayjs.Dayjs;
-  endDate?: dayjs.Dayjs;
+  name: string;
+  description: string;
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
 };
 
 const disabledDate: RangePickerProps["disabledDate"] = (current) => {
@@ -24,22 +24,21 @@ const disabledDate: RangePickerProps["disabledDate"] = (current) => {
 export const NewWorkoutModal = (
   props: Pick<ModalProps, "onCancel"> & {
     onOk: (workout: Workout) => void;
-    userId?: string;
+    userId: string;
   }
 ) => {
   const { onOk, ...rest } = props;
   const [form] = AntdForm.useForm<FieldType>();
-  const { doFetch, loading } = useCreateNewWorkout();
+  const { createWorkout, loading } = useCreateNewWorkout();
 
-  const handleCreateNewWorkout = async (values: FieldType) => {
+  const handleCreateNewWorkout = (values: FieldType) => {
     const newWorkout = {
       ...values,
       userToAssign: props.userId,
       startDate: values.startDate?.toISOString(),
       endDate: values.endDate?.toISOString(),
     };
-    const data = await doFetch(newWorkout).then((res) => res);
-    onOk(data);
+    createWorkout(newWorkout).then(onOk);
   };
 
   return (

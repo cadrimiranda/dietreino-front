@@ -45,12 +45,16 @@ const useDoFetch = <T extends object>(props: {
       setLoading(true);
       fn()
         .then((response) => {
-          if ("errorMessage" in response) {
-            reject(response);
-            setError(response.errorMessage as string);
+          if (typeof response === "object") {
+            if ("errorMessage" in response) {
+              reject(response);
+              setError(response.errorMessage as string);
+            } else {
+              resolve(response);
+              setData(response);
+            }
           } else {
             resolve(response);
-            setData(response);
           }
         })
         .catch(setCatcherror)

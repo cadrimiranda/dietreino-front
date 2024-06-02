@@ -29,6 +29,8 @@ const ActiveWorkoutSetAdd = ({
 
   const {
     exerciseSetup,
+    clearSetup,
+    clearSetups,
     handleUpdateSetup,
     handleAddSetup,
     setups,
@@ -52,6 +54,8 @@ const ActiveWorkoutSetAdd = ({
     };
     addSetupsToSet(newExerciseSet)
       .then(() => {
+        clearSetup();
+        clearSetups();
         refetchWorkout();
       })
       .catch(console.log)

@@ -1,15 +1,19 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useDoFetch } from "../../../utils/useDoFetch";
 import { Workout } from "../components/gymWorkout/activeWorkout/workoutTypes";
+import { CachePolicies } from "use-http";
 
 export const useGetUserActiveWorkout = (userId?: string) => {
   const { data, setData, get, loading } = useDoFetch<Workout>({
     method: "get",
+    fetchOptions: {
+      cachePolicy: CachePolicies.NO_CACHE,
+    },
   });
 
-  const fetchActiveWorkout = useCallback(() => {
+  const fetchActiveWorkout = () => {
     return get(`/user/${userId}/active-workout`);
-  }, [userId, get]);
+  };
 
   useEffect(() => {
     if (!userId) return;
@@ -17,7 +21,7 @@ export const useGetUserActiveWorkout = (userId?: string) => {
     if (data) return;
 
     fetchActiveWorkout();
-  }, [userId, data, fetchActiveWorkout]);
+  }, [userId, data]);
 
   return {
     activeWorkout: data,

@@ -11,7 +11,6 @@ type createWorkoutDTO = {
 
 const useCreateNewWorkout = () => {
   const { data, loading, error, post } = useDoFetch<Workout>({
-    url: "/workout",
     method: "post",
   });
 

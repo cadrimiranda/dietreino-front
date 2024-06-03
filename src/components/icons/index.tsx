@@ -22,6 +22,7 @@ export * from "./Save";
 export * from "./Ban";
 export * from "./Check";
 export * from "./Xmark";
+export * from "./Trash";
 
 export const CustomIcon = ({
   icon: Icon,

@@ -34,7 +34,7 @@ export const ExerciseAutocomplete = ({
         onChange?.(value, option);
         fetchAutocomplete(value);
         if (!Array.isArray(option)) {
-          setExerciseName(option.label);
+          setExerciseName(value);
         }
       }}
     />

@@ -219,4 +219,35 @@ describe("Active Workout", () => {
       ],
     });
   });
+
+  const deleteTestId = `delete-set-${exerciseSet.name}`;
+  it("should not render delete set button when no editing", () => {
+    render(<ActiveWorkoutPage activeWorkout={activeWorkout} />);
+    const deleteButton = screen.queryByTestId(deleteTestId);
+    expect(deleteButton).toBeNull();
+  });
+
+  it("should render delete set button when editing", () => {
+    editExerciseSet(activeWorkout);
+
+    const deleteButton = screen.queryByTestId(deleteTestId);
+    expect(deleteButton).not.toBeNull();
+  });
+
+  it("should delete set", async () => {
+    mockDel.mockResolvedValue("");
+    editExerciseSet(activeWorkout);
+
+    const deleteButton = screen.getByTestId(deleteTestId);
+    TestUtils.clickEvent(deleteButton);
+
+    await waitFor(() => {
+      expect(mockDel).toHaveBeenCalled();
+    });
+
+    expect(mockDel).toHaveBeenCalledWith(
+      `/exercise-set/${exerciseSet.id}`,
+      undefined
+    );
+  });
 });

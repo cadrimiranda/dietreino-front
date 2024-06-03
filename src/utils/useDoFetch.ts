@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { FetchData, ReqMethods, useFetch, UseFetchArgs } from "use-http";
+import {
+  CachePolicies,
+  FetchData,
+  ReqMethods,
+  useFetch,
+  UseFetchArgs,
+} from "use-http";
 
 const useDoFetch = <T extends object>(props: {
   url?: UseFetchArgs[0];
@@ -11,7 +17,10 @@ const useDoFetch = <T extends object>(props: {
   const [data, setData] = useState<T | undefined>(undefined);
   const [loading, setLoading] = useState(false);
 
-  const fetcher = useFetch<T>(props.url || "", props.fetchOptions);
+  const fetcher = useFetch<T>(props.url || "", {
+    cachePolicy: CachePolicies.NO_CACHE,
+    ...(props.fetchOptions || {}),
+  });
 
   const doFetch = (...fetchProps: unknown[]) => {
     setLoading(true);
@@ -72,6 +81,16 @@ const useDoFetch = <T extends object>(props: {
     return handleFetch(() => post(a, b));
   };
 
+  const putWrapper: FetchData<T> = async (a, b) => {
+    const { put } = fetcher;
+    return handleFetch(() => put(a, b));
+  };
+
+  const deleteWrapper: FetchData<T> = async (a, b) => {
+    const { del } = fetcher;
+    return handleFetch(() => del(a, b));
+  };
+
   return {
     data,
     loading,
@@ -80,6 +99,8 @@ const useDoFetch = <T extends object>(props: {
     setData,
     get: getWrapper,
     post: postWrapper,
+    put: putWrapper,
+    del: deleteWrapper,
     catchError,
   };
 };

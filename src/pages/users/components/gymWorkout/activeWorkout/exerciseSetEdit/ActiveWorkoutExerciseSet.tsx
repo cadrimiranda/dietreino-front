@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Flex } from "antd/lib";
-import Button from "antd/lib/button";
 import message from "antd/lib/message";
 import { Exercise, ExerciseSet, ExerciseSetup } from "../workoutTypes";
-import { CustomIcon, Pen, Save } from "../../../../../../components/icons";
 import { ActiveWorkoutExerciseSetup } from "./ActiveWorkoutExerciseSetup";
 import { ActiveWorkoutSetContext } from "../ActiveWorkoutContext";
 import { useUpdateExerciseSet } from "../../../../hooks/useUpdateExerciseSet";
@@ -16,6 +14,7 @@ import { ExerciseSetWrapper } from "../utils/ExerciseSetWrapper";
 import { useRemoveSetupFromSet } from "../../../../hooks/useRemoveSetupFromSet";
 import { AddSetupInputs } from "../exerciseSetAdd/AddSetupInputs";
 import { useSetupState } from "../../../../hooks/useSetupState";
+import { ExerciseSetActionButtons } from "./ExerciseSetActionButtons";
 
 const ActiveWorkoutExerciseSet = ({
   exerciseSet: originalExerciseSet,
@@ -28,7 +27,7 @@ const ActiveWorkoutExerciseSet = ({
     useState<ExerciseSet>(originalExerciseSet);
   const [isEditing, setIsEditing] = useState(false);
   const { description, name } = exerciseSet;
-  const { updateExerciseSet } = useUpdateExerciseSet(exerciseSet);
+  const { updateExerciseSet } = useUpdateExerciseSet();
   const { removeSetupFromSet } = useRemoveSetupFromSet();
   const { exerciseSetup, handleUpdateSetup, clearSetup } = useSetupState();
 
@@ -38,16 +37,10 @@ const ActiveWorkoutExerciseSet = ({
       return;
     }
 
-    updateExerciseSet(exerciseSet)
-      .then((res) => {
-        if (res.httpStatus) {
-          message.error("Erro ao atualizar exercício");
-        } else {
-          handleUpdateActiveWorkout();
-          setIsEditing(false);
-        }
-      })
-      .catch();
+    updateExerciseSet(exerciseSet).then(() => {
+      handleUpdateActiveWorkout();
+      setIsEditing(false);
+    });
   };
 
   const handleUpdateSet = (name: string, value: string, setupId?: string) => {
@@ -60,7 +53,6 @@ const ActiveWorkoutExerciseSet = ({
     option: { value: string; label: string },
     setupId: string
   ) => {
-    console.log("handleUpdateExercise");
     setExerciseSet(updateExerciseSetExercise({ exerciseSet, option, setupId }));
   };
 
@@ -132,17 +124,11 @@ const ActiveWorkoutExerciseSet = ({
           ) : (
             <p className="user-gym-plan-card-title">{name}</p>
           )}
-          <Button
-            data-testid={`edit-set-${exerciseSet.name}`}
-            onClick={handleEditing}
-          >
-            <CustomIcon
-              width="20px"
-              icon={isEditing ? Save : Pen}
-              data-testid={isEditing ? "save-icon" : "edit-icon"}
-              color="colorWhite"
-            />
-          </Button>
+          <ExerciseSetActionButtons
+            exerciseSet={exerciseSet}
+            isEditing={isEditing}
+            onEdit={handleEditing}
+          />
         </Flex>
         <ExerciseSetTable actionButtons={isEditing}>
           {exerciseSet.exerciseSetupList.map((setup, setupIndex) => (

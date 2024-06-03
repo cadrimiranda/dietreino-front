@@ -1,10 +1,9 @@
+import { useDoFetch } from "../../../utils/useDoFetch";
 import { ExerciseSet } from "../components/gymWorkout/activeWorkout/workoutTypes";
-import { CachePolicies, useFetch } from "use-http";
 
-export const useUpdateExerciseSet = (exerciseSet: ExerciseSet) => {
-  const { put } = useFetch(`/exercise-set/${exerciseSet.id}/setup`, {
-    cachePolicy: CachePolicies.NO_CACHE,
-    method: "PUT",
+export const useUpdateExerciseSet = () => {
+  const { put } = useDoFetch<ExerciseSet>({
+    method: "put",
   });
 
   const updateExerciseSet = (exerciseSet: ExerciseSet) => {
@@ -20,7 +19,7 @@ export const useUpdateExerciseSet = (exerciseSet: ExerciseSet) => {
       })),
     };
 
-    return put(updatedSetDTO);
+    return put(`/exercise-set/${exerciseSet.id}/setup`, updatedSetDTO);
   };
 
   return { updateExerciseSet };

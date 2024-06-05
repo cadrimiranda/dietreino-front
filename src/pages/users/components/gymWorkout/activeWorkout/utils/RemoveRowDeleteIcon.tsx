@@ -1,6 +1,7 @@
 import Button from "antd/lib/button";
-import Popconfirm, { PopconfirmProps } from "antd/lib/popconfirm";
+import { PopconfirmProps } from "antd/lib/popconfirm";
 import { CustomIcon, Xmark } from "../../../../../../components/icons";
+import { PopconfirmWrapper } from "../../../../../../components/popconfirm/Popconfirm";
 
 export const RemoveRowDeleteIcon = ({
   handleClick,
@@ -27,15 +28,13 @@ export const RemoveRowDeleteIcon = ({
   }
 
   return (
-    <Popconfirm
+    <PopconfirmWrapper
       title="Remover exercicio?"
       description="Ao remover o exercicio, ele será excluído desse treino. Deseja continuar?"
       onConfirm={onConfirm}
       onCancel={onCancel}
-      okText="Sim"
-      cancelText="Não"
     >
       {DeleteButton}
-    </Popconfirm>
+    </PopconfirmWrapper>
   );
 };

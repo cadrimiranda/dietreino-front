@@ -211,6 +211,14 @@
   }
 }
 
+.layout-buttons {
+  margin-bottom: 16px;
+
+  button {
+    margin-right: 8px;
+  }
+}
+
 @media screen and (min-width: 992px) {
   .user-managment-page {
     flex-direction: row;

@@ -66,7 +66,10 @@ const useDoFetch = <T extends object>(props: {
             resolve(response);
           }
         })
-        .catch(setCatcherror)
+        .catch((error) => {
+          reject(error);
+          setCatcherror(error);
+        })
         .finally(() => setLoading(false));
     });
   };

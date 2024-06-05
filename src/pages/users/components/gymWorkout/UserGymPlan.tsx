@@ -1,8 +1,6 @@
 import { Flex } from "antd/lib";
-import { CustomIcon, Plus } from "../../../../components/icons";
 import { UserEntryLayout } from "../UserEntryLayoutt";
 import { useContext, useState } from "react";
-import Button from "antd/lib/button";
 import { ActiveWorkoutPage } from "./activeWorkout/ActiveWorkoutPage";
 import { ActiveWorkoutSetAdd } from "./activeWorkout/exerciseSetAdd/ActiveWorkoutSetAdd";
 import { useGetUserActiveWorkout } from "../../hooks/useGetUserActiveWorkout";
@@ -10,6 +8,7 @@ import { UserPageContext } from "../UserPageContext";
 import { NewWorkoutModal } from "./NewWorkoutModal";
 import { Workout } from "./activeWorkout/workoutTypes";
 import { UserGymPlanContext } from "./UserGymPlanContext";
+import { UserGymPlanActionButtons } from "./UserGymPlanActionButtons";
 
 const UserGymPlan = () => {
   const { user } = useContext(UserPageContext);
@@ -33,22 +32,15 @@ const UserGymPlan = () => {
   };
 
   return (
-    <UserEntryLayout>
-      <Button
-        style={{ marginLeft: "16px" }}
-        onClick={handleAdd}
-        icon={
-          <CustomIcon
-            icon={Plus}
-            color="colorWhite"
-            width="1rem"
-            height="1rem"
-          />
-        }
-        size="large"
-      >
-        Adicionar {activeWorkout ? "exercícios" : "treino"}
-      </Button>
+    <UserEntryLayout
+      actionsButtons={
+        <UserGymPlanActionButtons
+          handleAdd={handleAdd}
+          workoutId={activeWorkout?.id}
+          handleClearWorkout={() => setActiveWorkout(undefined)}
+        />
+      }
+    >
       {isCreating && (
         <NewWorkoutModal
           onCancel={() => setIsCreating(false)}

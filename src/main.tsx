@@ -11,7 +11,7 @@ import "dayjs/locale/pt-br";
 dayjs.locale("pt-br");
 
 const mockToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWV0cmVpbm8iLCJzdWIiOiJleGFtcGxlQGRvbWFpbi5jb20iLCJ1c2VyX2lkIjoiMTExMTExMTEtMTExMS0xMTExLTExMTEtMTExMTExMTExMTExIiwiZXhwIjoxNzE2ODIwNDIxfQ.NoZVAMdniedodtm0G8wZOSGIuMeZJTs550qebyHBxL4";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkaWV0cmVpbm8iLCJzdWIiOiJleGFtcGxlQGRvbWFpbi5jb20iLCJ1c2VyX2lkIjoiMTExMTExMTEtMTExMS0xMTExLTExMTEtMTExMTExMTExMTExIiwiZXhwIjoxNzE3NjE1NTY2fQ.iG07rY_xK-nfdt4RPOe4bEFo3C6T0x7e0l6_oPEgVi4";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

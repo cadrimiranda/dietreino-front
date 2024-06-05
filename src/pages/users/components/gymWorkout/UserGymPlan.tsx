@@ -9,6 +9,7 @@ import { useGetUserActiveWorkout } from "../../hooks/useGetUserActiveWorkout";
 import { UserPageContext } from "../UserPageContext";
 import { NewWorkoutModal } from "./NewWorkoutModal";
 import { Workout } from "./activeWorkout/workoutTypes";
+import { UserGymPlanContext } from "./UserGymPlanContext";
 
 const UserGymPlan = () => {
   const { user } = useContext(UserPageContext);
@@ -56,7 +57,9 @@ const UserGymPlan = () => {
         />
       )}
       {activeWorkout && (
-        <>
+        <UserGymPlanContext.Provider
+          value={{ activeWorkout, setActiveWorkout }}
+        >
           <h1>{activeWorkout?.name}</h1>
           <Flex wrap="wrap" justify="space-around">
             {isAdding && (
@@ -71,7 +74,7 @@ const UserGymPlan = () => {
               isAddingSets={isAdding}
             />
           </Flex>
-        </>
+        </UserGymPlanContext.Provider>
       )}
       {!activeWorkout && (
         <div className="no-active-workout-wrapper">

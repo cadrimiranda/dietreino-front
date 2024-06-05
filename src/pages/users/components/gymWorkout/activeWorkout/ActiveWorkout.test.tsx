@@ -125,7 +125,7 @@ describe("Active Workout", () => {
 
     it("should save new setup", async () => {
       mockPut.mockResolvedValue({});
-      const editButton = editExerciseSet(activeWorkout);
+      const { editButton } = editExerciseSet(activeWorkout);
 
       await fillNewSetup(newSetup, mockGet);
 
@@ -193,7 +193,7 @@ describe("Active Workout", () => {
 
   it("should edit exercise set", async () => {
     mockPut.mockResolvedValue({});
-    const editButton = editExerciseSet(activeWorkout);
+    const { editButton } = editExerciseSet(activeWorkout);
     TestUtils.changeByRole("textbox", "Treino de costas", "Nome do set");
     TestUtils.changeByPlaceholder("Observações", "Cuidado com a postura");
 
@@ -236,7 +236,7 @@ describe("Active Workout", () => {
 
   it("should delete set", async () => {
     mockDel.mockResolvedValue("");
-    editExerciseSet(activeWorkout);
+    const { setActiveWorkout } = editExerciseSet(activeWorkout);
 
     const deleteButton = screen.getByTestId(deleteTestId);
     TestUtils.clickEvent(deleteButton);
@@ -249,5 +249,9 @@ describe("Active Workout", () => {
       `/exercise-set/${exerciseSet.id}`,
       undefined
     );
+    expect(setActiveWorkout).toHaveBeenCalledWith({
+      ...activeWorkout,
+      exerciseSets: [],
+    });
   });
 });

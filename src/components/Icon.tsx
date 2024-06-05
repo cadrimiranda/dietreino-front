@@ -11,6 +11,7 @@ const icons = {
   save: Icons.Save,
   pen: Icons.Pen,
   xmark: Icons.Xmark,
+  plus: Icons.Plus,
 };
 
 export const Icon = ({

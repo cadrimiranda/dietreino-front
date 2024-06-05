@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import "./layout.scss";
 import { PropsWithChildren } from "react";
 import { ConfigProvider } from "antd/lib";
+import { Loading } from "../../components/loading/Loading";
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
@@ -39,10 +40,12 @@ const Layout = ({ children }: PropsWithChildren) => {
             </button>
           </nav>
         </header>
-        <div className="app-layout-body">
-          {children}
-          <Outlet />
-        </div>
+        <Loading>
+          <div className="app-layout-body">
+            {children}
+            <Outlet />
+          </div>
+        </Loading>
       </div>
     </ConfigProvider>
   );

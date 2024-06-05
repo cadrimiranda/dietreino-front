@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 
 const mockGet = jest.fn().mockResolvedValue({});
 const mockPost = jest.fn().mockResolvedValue({});
@@ -131,6 +131,25 @@ describe("Component: UserGymPlan", () => {
     expect(deleteButton).toBeInTheDocument();
     TestUtils.clickEvent(deleteButton);
     TestUtils.clickEvent(screen.getByText("Sim"));
-    expect(mockDel).toHaveBeenCalledWith("/workout/1");
+    expect(mockDel).toHaveBeenCalledWith("/workout/1", undefined);
+    await waitFor(() =>
+      expect(
+        screen.getByText("Oops! Nenhum treino ativo encontrado")
+      ).toBeInTheDocument()
+    );
+  });
+
+  it("should not delete active workout", async () => {
+    await createNewWorkout({ mockGet, mockPost });
+    const deleteButton = screen.getByTestId("remove-active-workout");
+    expect(deleteButton).toBeInTheDocument();
+    TestUtils.clickEvent(deleteButton);
+    TestUtils.clickEvent(screen.getByText("Não"));
+    expect(mockDel).not.toHaveBeenCalled();
+    await waitFor(() =>
+      expect(
+        screen.queryByText("Oops! Nenhum treino ativo encontrado")
+      ).toBeNull()
+    );
   });
 });

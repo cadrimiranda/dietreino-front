@@ -1,7 +1,9 @@
 import Button from "antd/lib/button";
-import { ExerciseSet } from "../workoutTypes";
+import { ExerciseSet, Workout } from "../workoutTypes";
 import { Icon } from "../../../../../../components/Icon";
 import { useDeleteExerciseSet } from "../../../../hooks/useDeleteExerciseSet";
+import { useContext } from "react";
+import { UserGymPlanContext } from "../../UserGymPlanContext";
 
 type Props = {
   exerciseSet: ExerciseSet;
@@ -14,6 +16,7 @@ const ExerciseSetActionButtons = ({
   onEdit,
   isEditing,
 }: Props) => {
+  const { setActiveWorkout, activeWorkout } = useContext(UserGymPlanContext);
   const { deleteExerciseSet, isDeleting } = useDeleteExerciseSet();
 
   const handleEdit = () => {
@@ -21,7 +24,14 @@ const ExerciseSetActionButtons = ({
   };
 
   const handleDelete = () => {
-    deleteExerciseSet(exerciseSet.id!);
+    deleteExerciseSet(exerciseSet.id!).then(() => {
+      setActiveWorkout({
+        ...activeWorkout,
+        exerciseSets: activeWorkout?.exerciseSets.filter(
+          (set) => set.id !== exerciseSet.id
+        ),
+      } as Workout);
+    });
   };
 
   return (

@@ -16,7 +16,7 @@ const ActiveWorkoutPage = ({
 
   if (!activeWorkout) return null;
 
-  if (!activeWorkout.exerciseSets.length && !isAddingSets) {
+  if (!activeWorkout.exerciseSets?.length && !isAddingSets) {
     return (
       <div className="no-active-workout-wrapper">
         <h1>Nenhum exercicio adicionado</h1>

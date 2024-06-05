@@ -3,6 +3,7 @@ import { ExerciseSet, ExerciseSetup, Workout, setupDTO } from "../workoutTypes";
 import { TestUtils } from "../../../../../../utils/testUtils";
 import { ActiveWorkoutPage } from "../ActiveWorkoutPage";
 import { render } from "@testing-library/react";
+import { UserGymPlanContext } from "../../UserGymPlanContext";
 
 export const newSetup: setupDTO = {
   exerciseId: "2",
@@ -92,12 +93,17 @@ export const verifyEmptyInputs = async () => {
 };
 
 export const editExerciseSet = (activeWorkout: Workout) => {
-  render(<ActiveWorkoutPage activeWorkout={activeWorkout} />);
-  const button = screen.getByTestId(
+  const setActiveWorkout = jest.fn();
+  render(
+    <UserGymPlanContext.Provider value={{ setActiveWorkout, activeWorkout }}>
+      <ActiveWorkoutPage activeWorkout={activeWorkout} />
+    </UserGymPlanContext.Provider>
+  );
+  const editButton = screen.getByTestId(
     `edit-set-${activeWorkout.exerciseSets[0].name}`
   );
-  TestUtils.clickEvent(button);
-  return button;
+  TestUtils.clickEvent(editButton);
+  return { editButton, setActiveWorkout };
 };
 
 export const clickToRemoveSetup = (setupIndex: number) => {

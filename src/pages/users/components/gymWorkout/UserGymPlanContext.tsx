@@ -3,7 +3,7 @@ import { Workout } from "./activeWorkout/workoutTypes";
 
 const UserGymPlanContext = createContext<{
   activeWorkout: Workout | undefined;
-  setActiveWorkout: (workout: Workout) => void;
+  setActiveWorkout: React.Dispatch<React.SetStateAction<Workout | undefined>>;
 }>({
   activeWorkout: undefined,
   setActiveWorkout: () => {},

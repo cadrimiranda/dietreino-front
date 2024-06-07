@@ -1,7 +1,18 @@
+export type MuscularGroup = {
+  id: string;
+  name: string;
+};
+
+export type ExerciseWithMuscularGroup = Exercise & {
+  muscularGroup: MuscularGroup;
+};
+
 export type Exercise = {
   id: string;
   name: string;
   description: string;
+  url: string;
+  image?: string;
 };
 
 export type ExerciseSetup = {

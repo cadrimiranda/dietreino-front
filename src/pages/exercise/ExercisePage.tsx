@@ -43,6 +43,8 @@ const columns: TableProps<ExerciseWithMuscularGroup>["columns"] = [
           />
           <Button
             data-testid="btn-remove-exercise"
+            danger
+            type="primary"
             icon={<Icon iconName="trash" color="colorWhite" />}
           />
         </div>

@@ -11,11 +11,13 @@ const columns: TableProps<ExerciseWithMuscularGroup>["columns"] = [
     title: "Nome",
     dataIndex: "name",
     key: "name",
+    width: "40%",
   },
   {
     title: "Grupo Muscular",
     dataIndex: ["muscularGroup", "name"],
     key: "muscularGroupName",
+    width: "15%",
   },
   {
     title: "URL",
@@ -26,13 +28,15 @@ const columns: TableProps<ExerciseWithMuscularGroup>["columns"] = [
     title: "Imagem",
     key: "image",
     dataIndex: "image",
+    width: "10%",
   },
   {
     title: "",
     key: "",
+    width: "8%",
     render: () => {
       return (
-        <>
+        <div className="flex flex-row items-center justify-around">
           <Button
             data-testid="btn-edit-exercise"
             icon={<Icon iconName="pen" color="colorWhite" />}
@@ -41,7 +45,7 @@ const columns: TableProps<ExerciseWithMuscularGroup>["columns"] = [
             data-testid="btn-remove-exercise"
             icon={<Icon iconName="trash" color="colorWhite" />}
           />
-        </>
+        </div>
       );
     },
   },
@@ -60,9 +64,9 @@ const ExercisePage = () => {
   };
 
   return (
-    <div>
-      <div>
-        <h1>Exercicios</h1>
+    <div className="pt-2 px-6">
+      <div className="flex flex-row items-center mb-6">
+        <h1 className="text-2xl mr-6 font-bold">Exercicios</h1>
         <Button
           icon={<Icon iconName="plus" color="colorWhite" />}
           onClick={handleModal}
@@ -71,7 +75,12 @@ const ExercisePage = () => {
         </Button>
         {modalOpen && <ExerciseFormModal onCancel={handleModal} />}
       </div>
-      <Table loading={loading} columns={columns} dataSource={exercises} />
+      <Table
+        size="small"
+        loading={loading}
+        columns={columns}
+        dataSource={exercises}
+      />
     </div>
   );
 };

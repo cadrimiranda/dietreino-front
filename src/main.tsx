@@ -5,6 +5,7 @@ import { Provider } from "use-http";
 import { ConfigProvider } from "antd";
 import locale from "antd/locale/pt_BR";
 import dayjs from "dayjs";
+import "./main.css";
 
 import "dayjs/locale/pt-br";
 

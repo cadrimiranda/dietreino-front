@@ -5,6 +5,15 @@ import { NotFoundPage } from "../notFound/NotFound.index";
 import { DashboardPage } from "../dashboard/DashboardPage.index";
 import { UserListPage } from "../users/components/UserListPage";
 import { UserPage } from "../users/UserPage";
+import { ExercisePage } from "../exercise/ExercisePage";
+
+export enum RoutesEnum {
+  LOGIN = "/login",
+  DASHBOARD = "/",
+  EXERCISES = "exercicios",
+  USERS = "users",
+  USER = "user",
+}
 
 const router = createBrowserRouter([
   {
@@ -19,14 +28,18 @@ const router = createBrowserRouter([
         element: <DashboardPage />,
       },
       {
-        path: "users",
+        path: RoutesEnum.EXERCISES,
+        element: <ExercisePage />,
+      },
+      {
+        path: RoutesEnum.USERS,
         children: [
           {
             path: "",
             element: <UserListPage />,
           },
           {
-            path: "user",
+            path: RoutesEnum.USER,
             children: [
               {
                 path: "",

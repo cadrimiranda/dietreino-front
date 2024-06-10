@@ -1,4 +1,10 @@
-import { fireEvent, screen, waitFor, within } from "@testing-library/dom";
+import {
+  ByRoleOptions,
+  fireEvent,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/dom";
 import { act } from "@testing-library/react";
 import * as dayjs from "dayjs";
 
@@ -48,8 +54,41 @@ export class TestUtils {
     expect(screen.getByText(text)).toBeInTheDocument();
   }
 
+  static toExist(element: HTMLElement) {
+    expect(element).toBeInTheDocument();
+  }
+
   static textInsideElement(element: HTMLElement, text: string) {
-    expect(within(element).getByText(text)).toBeInTheDocument();
+    const textElement = within(element).getByText(text);
+    this.toExist(textElement);
+    return textElement;
+  }
+
+  static existByTestId(testId: string, element?: HTMLElement) {
+    let result;
+    if (element) {
+      result = within(element).getByTestId(testId);
+    } else {
+      result = screen.getByTestId(testId);
+    }
+
+    this.toExist(result);
+    return result;
+  }
+
+  static existByRole(
+    role: string,
+    { element, options }: { element?: HTMLElement; options?: ByRoleOptions }
+  ) {
+    let result;
+    if (element) {
+      result = within(element).getByRole(role, options);
+    } else {
+      result = screen.getByRole(role);
+    }
+
+    this.toExist(result);
+    return result;
   }
 
   static clickEvent(element: HTMLElement) {

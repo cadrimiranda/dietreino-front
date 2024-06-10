@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  Capsules,
-  Clipboard,
-  ClockRotateLeft,
-  Comments,
-  Dumbbell,
-  Utensils,
-} from "../../components/icons";
-import { CommentDots } from "../../components/icons/CommentsDot";
+import { Clipboard, Dumbbell, Utensils } from "../../components/icons";
 import { MenuEntry } from "../dashboard/components/MenuEntry";
 import "../dashboard/dashboardPage.scss";
 import { UserAnthropometricResults } from "./components/UserAnthropometricResults";
@@ -19,6 +11,7 @@ import useGetUserByQueryParameter from "./hooks/useGetUserByQueryParameter";
 import { Entries, UserPageContext } from "./components/UserPageContext";
 import { UserLayout } from "./components/UserEntryLayoutt";
 import { useNavigate } from "react-router-dom";
+import { RoutesEnum } from "../routes/Routes.index";
 
 const UserPage = () => {
   const navigate = useNavigate();
@@ -38,23 +31,15 @@ const UserPage = () => {
           <MenuEntry
             handleClick={() => setEntry(Entries.gymPlan)}
             noNavigation
-            icon={Dumbbell}
+            icon={Clipboard}
             title="Treino"
           />
           <MenuEntry
-            handleClick={() => setEntry(Entries.pills)}
-            noNavigation
-            icon={Capsules}
-            title="Manipulados"
+            to={`/${RoutesEnum.EXERCISES}`}
+            icon={Dumbbell}
+            title="Exercicios"
           />
           <MenuEntry noNavigation icon={Clipboard} title="Anamnese" />
-          <MenuEntry
-            noNavigation
-            icon={ClockRotateLeft}
-            title="Histórico/Fotos"
-          />
-          <MenuEntry noNavigation icon={Comments} title="Chat" />
-          <MenuEntry noNavigation icon={CommentDots} title="Treinador" />
         </ul>
       </nav>
     </UserLayout>

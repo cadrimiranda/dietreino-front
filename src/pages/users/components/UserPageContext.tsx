@@ -5,6 +5,7 @@ enum Entries {
   diet = "diet",
   pills = "pills",
   gymPlan = "gymplan",
+  exercises = "exercises",
 }
 
 const UserPageContext = createContext<{

@@ -6,12 +6,21 @@ import {
   useFetch,
   UseFetchArgs,
 } from "use-http";
+import message from "antd/lib/message";
 
-const useDoFetch = <T extends object>(props: {
-  url?: UseFetchArgs[0];
-  fetchOptions?: UseFetchArgs[1];
-  method: keyof ReqMethods<object>;
-}) => {
+type FetchError = {
+  errorMessage: string;
+  httpStatus: string;
+};
+
+const useDoFetch = <T extends object>(
+  props: {
+    url?: UseFetchArgs[0];
+    fetchOptions?: UseFetchArgs[1];
+    method?: keyof ReqMethods<object>;
+    showMessages?: boolean;
+  } = {}
+) => {
   const [catchError, setCatcherror] = useState<unknown | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<T | undefined>(undefined);
@@ -45,6 +54,13 @@ const useDoFetch = <T extends object>(props: {
     });
   };
 
+  const handleFetchError = ({ errorMessage }: FetchError) => {
+    setError(errorMessage);
+    if (props.showMessages) {
+      message.error(errorMessage);
+    }
+  };
+
   const handleFetch = (fn: () => Promise<T>) => {
     setData(undefined);
     setError(null);
@@ -57,7 +73,7 @@ const useDoFetch = <T extends object>(props: {
           if (typeof response === "object") {
             if ("errorMessage" in response) {
               reject(response);
-              setError(response.errorMessage as string);
+              handleFetchError(response as unknown as FetchError);
             } else {
               resolve(response);
               setData(response);

@@ -1,10 +1,7 @@
-export type MuscularGroup = {
-  id: string;
-  name: string;
-};
+import { MuscularGroupEnum } from "../../../../../utils/useMuscularGroupEnum";
 
 export type ExerciseWithMuscularGroup = Exercise & {
-  muscularGroup: MuscularGroup;
+  muscularGroup: MuscularGroupEnum;
 };
 
 export type Exercise = {

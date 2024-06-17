@@ -1,11 +1,11 @@
 import { TableProps } from "antd/lib/table";
 import { Button, FormInstance } from "antd/lib";
 import { Icon } from "../../../components/Icon";
-import { ExerciseWithMuscularGroup } from "../../users/components/gymWorkout/activeWorkout/workoutTypes";
 import { MuscularGroupSelect } from "../components/MuscularGroupSelect";
 import { PopconfirmWrapper } from "../../../components/popconfirm/Popconfirm";
 import { MuscularGroupEnum } from "../../../utils/useMuscularGroupEnum";
 import { exerciseFormRules } from "./formRules";
+import { ExerciseWithMuscularGroup } from "../../workout/activeWorkout/workoutTypes";
 
 type ColumnsProps = {
   onEdit: (exercise: ExerciseWithMuscularGroup) => void;

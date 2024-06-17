@@ -4,17 +4,17 @@ import message from "antd/lib/message";
 import { Exercise, ExerciseSet, ExerciseSetup } from "../workoutTypes";
 import { ActiveWorkoutExerciseSetup } from "./ActiveWorkoutExerciseSetup";
 import { ActiveWorkoutSetContext } from "../ActiveWorkoutContext";
-import { useUpdateExerciseSet } from "../../../../hooks/useUpdateExerciseSet";
 import {
   updateExerciseSetExercise,
   updateExerciseSetObject,
 } from "../ativeWorkout.logic";
 import { ExerciseSetTable } from "../utils/ExerciseSetTable";
 import { ExerciseSetWrapper } from "../utils/ExerciseSetWrapper";
-import { useRemoveSetupFromSet } from "../../../../hooks/useRemoveSetupFromSet";
 import { AddSetupInputs } from "../exerciseSetAdd/AddSetupInputs";
-import { useSetupState } from "../../../../hooks/useSetupState";
 import { ExerciseSetActionButtons } from "./ExerciseSetActionButtons";
+import { useUpdateExerciseSet } from "../../hooks/useUpdateExerciseSet";
+import { useRemoveSetupFromSet } from "../../hooks/useRemoveSetupFromSet";
+import { useSetupState } from "../../hooks/useSetupState";
 
 const ActiveWorkoutExerciseSet = ({
   exerciseSet: originalExerciseSet,

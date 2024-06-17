@@ -1,5 +1,5 @@
 import { useDoFetch } from "../../../utils/useDoFetch";
-import { Workout } from "../components/gymWorkout/activeWorkout/workoutTypes";
+import { Workout } from "../activeWorkout/workoutTypes";
 
 type createWorkoutDTO = {
   userToAssign: string;

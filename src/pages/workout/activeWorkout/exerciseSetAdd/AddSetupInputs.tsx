@@ -1,7 +1,7 @@
 import Button from "antd/lib/button";
-import { Check, CustomIcon } from "../../../../../../components/icons";
-import { ExerciseAutocomplete } from "../../../exerciseAutocomplete/ExerciseAutocomplete";
 import { setupDTO } from "../workoutTypes";
+import { ExerciseAutocomplete } from "../../../exercise/exerciseAutocomplete/ExerciseAutocomplete";
+import { Icon } from "../../../../components/Icon";
 
 export type handleChangeProps = {
   name?: string;
@@ -60,7 +60,7 @@ export const AddSetupInputs = ({
           size="small"
           onClick={handleAddSetup}
         >
-          <CustomIcon width="10px" icon={Check} color="colorWhite" />
+          <Icon width="10px" iconName="check" color="colorWhite" />
         </Button>
       </td>
     </tr>

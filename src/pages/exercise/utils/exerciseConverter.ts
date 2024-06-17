@@ -2,7 +2,7 @@ import { MuscularGroupEnum } from "../../../utils/useMuscularGroupEnum";
 import {
   Exercise,
   ExerciseWithMuscularGroup,
-} from "../../users/components/gymWorkout/activeWorkout/workoutTypes";
+} from "../../workout/activeWorkout/workoutTypes";
 import { ExerciseForm } from "../components/ExerciseFormModal";
 
 type ExercisePostDTO = Omit<ExerciseForm, "muscularGroup"> & {

@@ -6,8 +6,8 @@ import Row from "antd/lib/row";
 import DatePicker from "antd/lib/date-picker";
 import { RangePickerProps } from "antd/es/date-picker";
 import * as dayjs from "dayjs";
-import useCreateNewWorkout from "../../hooks/useCreateNewWorkout";
 import { Workout } from "./activeWorkout/workoutTypes";
+import useCreateNewWorkout from "./hooks/useCreateNewWorkout";
 
 type FieldType = {
   name: string;

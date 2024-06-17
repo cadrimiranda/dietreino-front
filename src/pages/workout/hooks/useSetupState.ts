@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { setupDTO } from "../components/gymWorkout/activeWorkout/workoutTypes";
-import { handleChangeProps } from "../components/gymWorkout/activeWorkout/exerciseSetAdd/AddSetupInputs";
+import { setupDTO } from "../activeWorkout/workoutTypes";
+import { handleChangeProps } from "../activeWorkout/exerciseSetAdd/AddSetupInputs";
 
 const DEFAULT_SETUP: setupDTO = {
   exerciseId: "",

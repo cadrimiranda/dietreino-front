@@ -3,12 +3,12 @@ import { useState } from "react";
 import { ExerciseSetTable } from "../utils/ExerciseSetTable";
 import { ExerciseSetWrapper } from "../utils/ExerciseSetWrapper";
 import Button from "antd/lib/button";
-import { Ban, CustomIcon, Save } from "../../../../../../components/icons";
 import { ExerciseSetDTO, Workout } from "../workoutTypes";
 import { SetupsAdded } from "./SetupsAdded";
 import { AddSetupInputs } from "./AddSetupInputs";
-import { useAddSetupToSet } from "../../../../hooks/useAddSetupToSet";
-import { useSetupState } from "../../../../hooks/useSetupState";
+import { useAddSetupToSet } from "../../hooks/useAddSetupToSet";
+import { useSetupState } from "../../hooks/useSetupState";
+import { Icon } from "../../../../components/Icon";
 
 const DEFAULT_SET = {
   description: "",
@@ -74,15 +74,15 @@ const ActiveWorkoutSetAdd = ({
         />
         <div>
           <Button onClick={onCancel} style={{ marginRight: "12px" }}>
-            <CustomIcon
+            <Icon
               width="20px"
               overflow="visible"
-              icon={Ban}
+              iconName="ban"
               color="colorWhite"
             />
           </Button>
           <Button data-testid="btn-save-set" onClick={handleSave}>
-            <CustomIcon width="20px" icon={Save} color="colorWhite" />
+            <Icon width="20px" iconName="save" color="colorWhite" />
           </Button>
         </div>
       </Flex>

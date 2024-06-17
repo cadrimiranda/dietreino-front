@@ -20,7 +20,6 @@ jest.mock("use-http", () => ({
 
 import { ActiveWorkoutPage } from "./ActiveWorkoutPage";
 import { setupDTO } from "./workoutTypes";
-import { TestUtils } from "../../../../../utils/testUtils";
 import {
   clickToRemoveSetup,
   editExerciseSet,
@@ -32,6 +31,7 @@ import {
   exerciseSet,
   newSetup,
 } from "./utils/tests";
+import { TestUtils } from "../../../utils/testUtils";
 
 const existingSetupDTO: setupDTO = {
   exerciseId: exerciseSetup.exercise.id,
@@ -135,7 +135,7 @@ describe("Active Workout", () => {
         expect(mockPut).toHaveBeenCalled();
       });
 
-      expect(mockPut).toHaveBeenCalledWith({
+      expect(mockPut).toHaveBeenCalledWith("/exercise-set/1/setup", {
         ...exerciseSet,
         exerciseSetupList: [
           {
@@ -203,7 +203,7 @@ describe("Active Workout", () => {
       expect(mockPut).toHaveBeenCalled();
     });
 
-    expect(mockPut).toHaveBeenCalledWith({
+    expect(mockPut).toHaveBeenCalledWith("/exercise-set/1/setup", {
       ...exerciseSet,
       name: "Treino de costas",
       description: "Cuidado com a postura",

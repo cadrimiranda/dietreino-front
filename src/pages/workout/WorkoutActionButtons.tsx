@@ -1,10 +1,10 @@
 import Button from "antd/lib/button";
-import { Icon } from "../../../../components/Icon";
-import { useDeleteWorkout } from "../../hooks/useDeleteWorkout";
-import { PopconfirmWrapper } from "../../../../components/popconfirm/Popconfirm";
+import { useDeleteWorkout } from "./hooks/useDeleteWorkout";
 import { useContext, useEffect } from "react";
 import message from "antd/lib/message";
-import { LoadingContext } from "../../../../components/loading/LoadingContext";
+import { LoadingContext } from "../../components/loading/LoadingContext";
+import { Icon } from "../../components/Icon";
+import { PopconfirmWrapper } from "../../components/popconfirm/Popconfirm";
 
 interface Props {
   handleAdd: () => void;

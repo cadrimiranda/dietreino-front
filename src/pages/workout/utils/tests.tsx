@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import { User } from "../../../hooks/useUserList";
-import { UserPageContext } from "../../UserPageContext";
-import { UserGymPlan } from "../UserGymPlan";
-import { TestUtils } from "../../../../../utils/testUtils";
+import { User } from "../../users/hooks/useUserList";
+import { UserPageContext } from "../../users/components/UserPageContext";
+import { TestUtils } from "../../../utils/testUtils";
 import { Workout } from "../activeWorkout/workoutTypes";
+import { WorkoutPage } from "../WorkoutPage";
 
 export const activeWorkout: Workout = {
   id: "1",
@@ -18,7 +18,7 @@ const mockUser = { id: 1, fullName: "Foo bar" } as unknown as User;
 
 export const UserGymComponent = () => (
   <UserPageContext.Provider value={{ user: mockUser, setEntry: jest.fn() }}>
-    <UserGymPlan />
+    <WorkoutPage />
   </UserPageContext.Provider>
 );
 

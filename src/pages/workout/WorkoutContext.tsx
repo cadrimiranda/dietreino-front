@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { Workout } from "./activeWorkout/workoutTypes";
 
-const UserGymPlanContext = createContext<{
+const WorkoutContext = createContext<{
   activeWorkout: Workout | undefined;
   setActiveWorkout: React.Dispatch<React.SetStateAction<Workout | undefined>>;
 }>({
@@ -9,4 +9,4 @@ const UserGymPlanContext = createContext<{
   setActiveWorkout: () => {},
 });
 
-export { UserGymPlanContext };
+export { WorkoutContext };

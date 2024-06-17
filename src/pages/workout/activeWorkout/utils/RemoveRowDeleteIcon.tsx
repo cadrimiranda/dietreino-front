@@ -1,7 +1,7 @@
 import Button from "antd/lib/button";
 import { PopconfirmProps } from "antd/lib/popconfirm";
-import { CustomIcon, Xmark } from "../../../../../../components/icons";
-import { PopconfirmWrapper } from "../../../../../../components/popconfirm/Popconfirm";
+import { Icon } from "../../../../components/Icon";
+import { PopconfirmWrapper } from "../../../../components/popconfirm/Popconfirm";
 
 export const RemoveRowDeleteIcon = ({
   handleClick,
@@ -19,7 +19,7 @@ export const RemoveRowDeleteIcon = ({
       danger
       onClick={handleClick}
     >
-      <CustomIcon width="10px" icon={Xmark} color="colorWhite" />
+      <Icon width="10px" iconName="xmark" color="colorWhite" />
     </Button>
   );
 

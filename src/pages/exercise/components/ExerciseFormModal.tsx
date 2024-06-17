@@ -1,11 +1,11 @@
 import React from "react";
 import { Modal, Form, Input } from "antd";
 import { MuscularGroupEnum } from "../../../utils/useMuscularGroupEnum";
-import { Exercise } from "../../users/components/gymWorkout/activeWorkout/workoutTypes";
 import { MuscularGroupSelect } from "./MuscularGroupSelect";
 import { useDoFetch } from "../../../utils/useDoFetch";
 import { exerciseFormToDTO } from "../utils/exerciseConverter";
 import { exerciseFormRules } from "../utils/formRules";
+import { Exercise } from "../../workout/activeWorkout/workoutTypes";
 
 const EXERCISE_FORM_TAG = "exercise-form";
 

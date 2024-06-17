@@ -21,7 +21,6 @@ window.matchMedia = jest.fn().mockReturnValue({
   removeListener: jest.fn(),
 });
 
-import { TestUtils } from "../../../../utils/testUtils";
 import {
   UserGymComponent,
   createNewWorkout,
@@ -33,8 +32,9 @@ import {
   newSetup,
   verifyEmptyInputs,
 } from "./activeWorkout/utils/tests";
+import { TestUtils } from "../../utils/testUtils";
 
-describe("Component: UserGymPlan", () => {
+describe("Component: WorkoutPage", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });

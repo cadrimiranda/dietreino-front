@@ -1,16 +1,16 @@
 import { Flex } from "antd/lib";
-import { UserEntryLayout } from "../UserEntryLayoutt";
 import { useContext, useState } from "react";
 import { ActiveWorkoutPage } from "./activeWorkout/ActiveWorkoutPage";
 import { ActiveWorkoutSetAdd } from "./activeWorkout/exerciseSetAdd/ActiveWorkoutSetAdd";
-import { useGetUserActiveWorkout } from "../../hooks/useGetUserActiveWorkout";
-import { UserPageContext } from "../UserPageContext";
+import { useGetUserActiveWorkout } from "./hooks/useGetUserActiveWorkout";
 import { NewWorkoutModal } from "./NewWorkoutModal";
 import { Workout } from "./activeWorkout/workoutTypes";
-import { UserGymPlanContext } from "./UserGymPlanContext";
-import { UserGymPlanActionButtons } from "./UserGymPlanActionButtons";
+import { WorkoutContext } from "./WorkoutContext";
+import { UserGymPlanActionButtons } from "./WorkoutActionButtons";
+import { UserEntryLayout } from "../users/components/UserEntryLayoutt";
+import { UserPageContext } from "../users/components/UserPageContext";
 
-const UserGymPlan = () => {
+const WorkoutPage = () => {
   const { user } = useContext(UserPageContext);
   const [isAdding, setIsAdding] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
@@ -49,9 +49,7 @@ const UserGymPlan = () => {
         />
       )}
       {activeWorkout && (
-        <UserGymPlanContext.Provider
-          value={{ activeWorkout, setActiveWorkout }}
-        >
+        <WorkoutContext.Provider value={{ activeWorkout, setActiveWorkout }}>
           <h1>{activeWorkout?.name}</h1>
           <Flex wrap="wrap" justify="space-around">
             {isAdding && (
@@ -66,7 +64,7 @@ const UserGymPlan = () => {
               isAddingSets={isAdding}
             />
           </Flex>
-        </UserGymPlanContext.Provider>
+        </WorkoutContext.Provider>
       )}
       {!activeWorkout && (
         <div className="no-active-workout-wrapper">
@@ -83,4 +81,4 @@ const UserGymPlan = () => {
   );
 };
 
-export { UserGymPlan };
+export { WorkoutPage };

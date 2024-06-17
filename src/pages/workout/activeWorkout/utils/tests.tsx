@@ -1,9 +1,9 @@
 import { screen, within } from "@testing-library/dom";
 import { ExerciseSet, ExerciseSetup, Workout, setupDTO } from "../workoutTypes";
-import { TestUtils } from "../../../../../../utils/testUtils";
 import { ActiveWorkoutPage } from "../ActiveWorkoutPage";
 import { render } from "@testing-library/react";
-import { UserGymPlanContext } from "../../UserGymPlanContext";
+import { TestUtils } from "../../../../utils/testUtils";
+import { WorkoutContext } from "../../WorkoutContext";
 
 export const newSetup: setupDTO = {
   exerciseId: "2",
@@ -19,6 +19,8 @@ export const exerciseSetup: ExerciseSetup = {
   exercise: {
     id: "1",
     name: "Supino",
+    url: "",
+    image: "",
     description: "Supino reto",
   },
   repetitions: "10",
@@ -95,9 +97,9 @@ export const verifyEmptyInputs = async () => {
 export const editExerciseSet = (activeWorkout: Workout) => {
   const setActiveWorkout = jest.fn();
   render(
-    <UserGymPlanContext.Provider value={{ setActiveWorkout, activeWorkout }}>
+    <WorkoutContext.Provider value={{ setActiveWorkout, activeWorkout }}>
       <ActiveWorkoutPage activeWorkout={activeWorkout} />
-    </UserGymPlanContext.Provider>
+    </WorkoutContext.Provider>
   );
   const editButton = screen.getByTestId(
     `edit-set-${activeWorkout.exerciseSets[0].name}`

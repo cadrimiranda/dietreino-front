@@ -7,11 +7,13 @@ import * as Icons from "./icons";
 type IconName = keyof typeof icons;
 
 const icons = {
-  trash: Icons.Trash,
-  save: Icons.Save,
+  ban: Icons.Ban,
+  check: Icons.Check,
   pen: Icons.Pen,
-  xmark: Icons.Xmark,
   plus: Icons.Plus,
+  save: Icons.Save,
+  trash: Icons.Trash,
+  xmark: Icons.Xmark,
 };
 
 export const Icon = ({

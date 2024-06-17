@@ -6,12 +6,12 @@ import { UserAnthropometricResults } from "./components/UserAnthropometricResult
 
 import "./userPage.scss";
 import { UserDiet } from "./components/UserDiet";
-import { UserGymPlan } from "./components/gymWorkout/UserGymPlan";
 import useGetUserByQueryParameter from "./hooks/useGetUserByQueryParameter";
 import { Entries, UserPageContext } from "./components/UserPageContext";
 import { UserLayout } from "./components/UserEntryLayoutt";
 import { useNavigate } from "react-router-dom";
 import { RoutesEnum } from "../routes/Routes.index";
+import { WorkoutPage } from "../workout/WorkoutPage";
 
 const UserPage = () => {
   const navigate = useNavigate();
@@ -64,7 +64,7 @@ const UserPage = () => {
           />
         );
       case Entries.gymPlan:
-        return <UserGymPlan key={Entries.gymPlan} />;
+        return <WorkoutPage key={Entries.gymPlan} />;
       default:
         return navPage;
     }

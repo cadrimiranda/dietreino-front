@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDoFetch } from "../../../utils/useDoFetch";
-import { Workout } from "../components/gymWorkout/activeWorkout/workoutTypes";
 import { CachePolicies } from "use-http";
+import { Workout } from "../activeWorkout/workoutTypes";
 
 export const useGetUserActiveWorkout = (userId?: string) => {
   const { data, setData, get, loading } = useDoFetch<Workout>({

@@ -1,5 +1,5 @@
 import { MuscularGroupEnum } from "../../../utils/useMuscularGroupEnum";
-import { ExerciseWithMuscularGroup } from "../../users/components/gymWorkout/activeWorkout/workoutTypes";
+import { ExerciseWithMuscularGroup } from "../../workout/activeWorkout/workoutTypes";
 
 export const mockExerciseMG: ExerciseWithMuscularGroup = {
   id: "1",

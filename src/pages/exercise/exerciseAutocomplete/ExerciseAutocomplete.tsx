@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AutoComplete, { AutoCompleteProps } from "antd/lib/auto-complete";
-import useExerciseAutocomplete from "../../hooks/useExerciseAutocomplete";
+import useExerciseAutocomplete from "../hooks/useExerciseAutocomplete";
 
 export const ExerciseAutocomplete = ({
   onChange,

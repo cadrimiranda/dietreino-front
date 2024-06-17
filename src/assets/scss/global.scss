@@ -51,3 +51,12 @@ a {
   justify-content: center;
   align-items: center;
 }
+
+.ant-popconfirm-buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ant-modal-footer {
+  display: flex;
+}

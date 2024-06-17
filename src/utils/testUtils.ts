@@ -20,6 +20,11 @@ export class TestUtils {
     this.onChange(input, value);
   }
 
+  static fillByLabel(label: string, value: string) {
+    const input = screen.getByRole("textbox", { name: label });
+    this.onChange(input, value);
+  }
+
   static fillDatePicker(placeholder: string, value: string, position = 0) {
     const input = screen.getByPlaceholderText(placeholder);
     fireEvent.mouseDown(input);

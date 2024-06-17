@@ -32,14 +32,19 @@ const ExerciseListTable = () => {
   };
 
   const handleSave = async (data: ExerciseWithMuscularGroup) => {
-    form.validateFields().then(() =>
-      onEdit(exerciseToEditDTO({ ...data, ...form.getFieldsValue() })).then(
-        (res) => {
-          handleUpdateList(res);
-          setDataEditing(null);
-        }
+    form
+      .validateFields()
+      .then(() =>
+        onEdit(exerciseToEditDTO({ ...data, ...form.getFieldsValue() })).then(
+          (res) => {
+            handleUpdateList(res);
+            setDataEditing(null);
+          }
+        )
       )
-    );
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleDelete = (data: ExerciseWithMuscularGroup) => {

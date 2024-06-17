@@ -23,7 +23,10 @@ const MuscularGroupSelect = ({ noLabel, required = true, form }: Props) => {
         },
       ]}
     >
-      <Select onChange={(value) => form.setFieldValue("muscularGroup", value)}>
+      <Select
+        aria-label="muscular-group"
+        onChange={(value) => form.setFieldValue("muscularGroup", value)}
+      >
         {options.map((option) => (
           <Select.Option key={option.value} value={option.value}>
             {option.displayText}

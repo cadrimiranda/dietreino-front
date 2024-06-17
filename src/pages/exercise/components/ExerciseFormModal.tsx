@@ -1,9 +1,8 @@
 import React from "react";
-import { Modal, Form, Input, Upload } from "antd";
+import { Modal, Form, Input } from "antd";
 import { MuscularGroupEnum } from "../../../utils/useMuscularGroupEnum";
 import { Exercise } from "../../users/components/gymWorkout/activeWorkout/workoutTypes";
 import { MuscularGroupSelect } from "./MuscularGroupSelect";
-import { Icon } from "../../../components/Icon";
 import { useDoFetch } from "../../../utils/useDoFetch";
 import { exerciseFormToDTO } from "../utils/exerciseConverter";
 import { exerciseFormRules } from "../utils/formRules";
@@ -19,10 +18,12 @@ const ExerciseFormModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { post, loading } = useDoFetch({ showMessages: true });
 
   const handleOk = () => {
-    form.validateFields().then((values) => {
-      post("/exercise", exerciseFormToDTO(values)).then(() => {
-        onClose();
-      });
+    form.submit();
+  };
+
+  const handleOnFinish = (values: ExerciseForm) => {
+    post("/exercise", exerciseFormToDTO(values)).then(() => {
+      onClose();
     });
   };
 
@@ -39,15 +40,15 @@ const ExerciseFormModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         form={form}
         id={EXERCISE_FORM_TAG}
         layout="vertical"
+        onFinish={handleOnFinish}
         initialValues={{
           url: "",
-          image: "",
           description: "",
           muscularGroup: MuscularGroupEnum.ABS,
         }}
       >
         <Form.Item name="name" label="Nome" rules={exerciseFormRules.name}>
-          <Input />
+          <Input aria-label="name" />
         </Form.Item>
 
         <MuscularGroupSelect form={form} required={false} />
@@ -58,16 +59,20 @@ const ExerciseFormModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           label="Descrição"
         >
           <Input.TextArea
+            aria-label="description"
             maxLength={150}
             placeholder="Forneça uma breve descrição de até 150 caracteres"
           />
         </Form.Item>
 
         <Form.Item name="url" label="Video URL">
-          <Input placeholder="Video que seus alunos possam ver a execução" />
+          <Input
+            aria-label="url"
+            placeholder="Video que seus alunos possam ver a execução"
+          />
         </Form.Item>
 
-        <Form.Item name="image" label="Imagem" tooltip="Não suportado ainda">
+        {/* <Form.Item name="image" label="Imagem" tooltip="Não suportado ainda">
           <Upload listType="picture-card" disabled>
             <button
               className="b-0 bg-none flex flex-col justify-center items-center"
@@ -83,7 +88,7 @@ const ExerciseFormModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               </div>
             </button>
           </Upload>
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     </Modal>
   );

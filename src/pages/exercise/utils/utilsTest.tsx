@@ -7,5 +7,5 @@ export const mockExerciseMG: ExerciseWithMuscularGroup = {
   description: "Exercício para peitoral",
   url: "https://www.youtube.com/watch?v=123",
   image: "https://www.google.com.br",
-  muscularGroup: MuscularGroupEnum.CHEST,
+  muscularGroup: "CHEST" as unknown as MuscularGroupEnum,
 };

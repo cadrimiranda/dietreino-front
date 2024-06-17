@@ -81,11 +81,15 @@ export const getExerciseTableColumns = ({
         const editFn = editing ? onSaved : onEdit;
         const editIcon = editing ? "save" : "pen";
         const removeIcon = editing ? "xmark" : "trash";
+        const editTestId = editing ? "btn-save-exercise" : "btn-edit-exercise";
+        const removeTestId = editing
+          ? "btn-cancel-edit-exercise"
+          : "btn-remove-exercise";
 
         const removeBtn = (
           <Button
             onClick={() => editing && onCancel()}
-            data-testid="btn-remove-exercise"
+            data-testid={removeTestId}
             danger
             type="primary"
             icon={<Icon iconName={removeIcon} color="colorWhite" />}
@@ -95,7 +99,7 @@ export const getExerciseTableColumns = ({
         return (
           <div className="flex flex-row items-center justify-around">
             <Button
-              data-testid="btn-edit-exercise"
+              data-testid={editTestId}
               onClick={() => editFn(record)}
               icon={<Icon iconName={editIcon} color="colorWhite" />}
             />

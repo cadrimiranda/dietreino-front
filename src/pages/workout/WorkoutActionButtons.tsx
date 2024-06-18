@@ -10,12 +10,16 @@ interface Props {
   handleAdd: () => void;
   handleClearWorkout: () => void;
   workoutId?: string;
+  isEditing?: boolean;
+  handleEditButton: () => void;
 }
 
-const UserGymPlanActionButtons = ({
+const WorkoutActionButtons = ({
   handleAdd,
   workoutId,
   handleClearWorkout,
+  isEditing,
+  handleEditButton,
 }: Props) => {
   const { handleDeleteWorkout, catchError, error, loading } =
     useDeleteWorkout();
@@ -51,24 +55,37 @@ const UserGymPlanActionButtons = ({
         Adicionar {workoutId ? "exercícios" : "treino"}
       </Button>
       {workoutId && (
-        <PopconfirmWrapper
-          title="Deseja remover o treino?"
-          description="Ao remover o treino todos os exercícios serão removidos juntos."
-          onConfirm={onDelete}
-        >
+        <>
+          <PopconfirmWrapper
+            title="Deseja remover o treino?"
+            description="Ao remover o treino todos os exercícios serão removidos juntos."
+            onConfirm={onDelete}
+          >
+            <Button
+              title="Remover treino"
+              danger
+              disabled={loading}
+              icon={<Icon iconName="trash" color="colorWhite" />}
+              data-testid="remove-active-workout"
+              type="primary"
+              size="large"
+            />
+          </PopconfirmWrapper>
           <Button
-            title="Remover treino"
-            danger
+            title="Editar treino"
             disabled={loading}
-            icon={<Icon iconName="trash" color="colorWhite" />}
-            data-testid="remove-active-workout"
+            icon={
+              <Icon iconName={isEditing ? "save" : "pen"} color="colorWhite" />
+            }
+            data-testid="edit-active-workout"
             type="primary"
             size="large"
+            onClick={handleEditButton}
           />
-        </PopconfirmWrapper>
+        </>
       )}
     </>
   );
 };
 
-export { UserGymPlanActionButtons };
+export { WorkoutActionButtons };

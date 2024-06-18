@@ -9,7 +9,7 @@ import * as dayjs from "dayjs";
 import { Workout } from "./activeWorkout/workoutTypes";
 import useCreateNewWorkout from "./hooks/useCreateNewWorkout";
 
-type FieldType = {
+export type WorkoutFieldType = {
   name: string;
   description: string;
   startDate: dayjs.Dayjs;
@@ -28,10 +28,10 @@ export const NewWorkoutModal = (
   }
 ) => {
   const { onOk, ...rest } = props;
-  const [form] = AntdForm.useForm<FieldType>();
+  const [form] = AntdForm.useForm<WorkoutFieldType>();
   const { createWorkout, loading } = useCreateNewWorkout();
 
-  const handleCreateNewWorkout = (values: FieldType) => {
+  const handleCreateNewWorkout = (values: WorkoutFieldType) => {
     const newWorkout = {
       ...values,
       userToAssign: props.userId,
@@ -57,7 +57,7 @@ export const NewWorkoutModal = (
       >
         <Row gutter={8}>
           <Col md={12}>
-            <AntdForm.Item<FieldType>
+            <AntdForm.Item<WorkoutFieldType>
               label="Nome"
               name="name"
               rules={[{ required: true, message: "Insira um nome!" }]}
@@ -70,7 +70,7 @@ export const NewWorkoutModal = (
             </AntdForm.Item>
           </Col>
           <Col md={6}>
-            <AntdForm.Item<FieldType>
+            <AntdForm.Item<WorkoutFieldType>
               label="Inicio"
               name="startDate"
               rules={[
@@ -91,7 +91,7 @@ export const NewWorkoutModal = (
             </AntdForm.Item>
           </Col>
           <Col md={6}>
-            <AntdForm.Item<FieldType>
+            <AntdForm.Item<WorkoutFieldType>
               label="Fim"
               name="endDate"
               rules={[
@@ -112,7 +112,7 @@ export const NewWorkoutModal = (
             </AntdForm.Item>
           </Col>
         </Row>
-        <AntdForm.Item<FieldType>
+        <AntdForm.Item<WorkoutFieldType>
           label="Descrição"
           name="description"
           rules={[{ required: true, message: "Insira uma descrição!" }]}

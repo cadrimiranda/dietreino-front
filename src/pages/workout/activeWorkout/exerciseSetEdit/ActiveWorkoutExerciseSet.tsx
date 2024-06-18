@@ -122,7 +122,9 @@ const ActiveWorkoutExerciseSet = ({
               onChange={(e) => handleUpdateSet(e.target.name, e.target.value)}
             />
           ) : (
-            <p className="user-gym-plan-card-title">{name}</p>
+            <p className="user-gym-plan-card-title text-xl font-semibold">
+              {name}
+            </p>
           )}
           <ExerciseSetActionButtons
             exerciseSet={exerciseSet}

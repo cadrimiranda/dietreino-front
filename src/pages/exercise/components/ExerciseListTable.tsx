@@ -4,9 +4,9 @@ import { getExerciseTableColumns } from "../utils/exerciseListTableColumns";
 import Table from "antd/lib/table";
 import { useExerciseTableActions } from "../hooks/useExerciseTableActions";
 import { exerciseToEditDTO, exerciseToForm } from "../utils/exerciseConverter";
-import { ExerciseWithMuscularGroup } from "../../users/components/gymWorkout/activeWorkout/workoutTypes";
 import Form from "antd/lib/form";
 import { EditableCell } from "./TableCell";
+import { ExerciseWithMuscularGroup } from "../../workout/activeWorkout/workoutTypes";
 
 const ExerciseListTable = () => {
   const [form] = Form.useForm();

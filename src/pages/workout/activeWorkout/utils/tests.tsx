@@ -40,9 +40,9 @@ export const activeWorkout: Workout = {
   id: "1",
   name: "Treino A",
   exerciseSets: [exerciseSet],
-  description: "Treino de peito",
-  endDate: "2021-01-02",
-  startDate: "2021-01-01",
+  description: "Treino de peitoral",
+  endDate: "2021-01-02T14:11:27",
+  startDate: "2021-01-01T14:11:27",
 };
 
 export const fillNewSetup = async (

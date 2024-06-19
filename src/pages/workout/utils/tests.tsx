@@ -16,7 +16,7 @@ export const activeWorkout: Workout = {
 
 const mockUser = { id: 1, fullName: "Foo bar" } as unknown as User;
 
-export const UserGymComponent = () => (
+export const WorkoutPageComponent = () => (
   <UserPageContext.Provider value={{ user: mockUser, setEntry: jest.fn() }}>
     <WorkoutPage />
   </UserPageContext.Provider>
@@ -29,7 +29,7 @@ export const createNewWorkout = async (props: {
   console.error = jest.fn();
   props.mockGet.mockResolvedValueOnce("");
   props.mockPost.mockResolvedValueOnce(activeWorkout);
-  render(<UserGymComponent />);
+  render(<WorkoutPageComponent />);
   TestUtils.getByTextAndClick("Adicionar treino");
   TestUtils.fillDatePicker("Inicio", "01/01/2030", 0);
   TestUtils.fillDatePicker("Fim", "02/01/2030", 1);

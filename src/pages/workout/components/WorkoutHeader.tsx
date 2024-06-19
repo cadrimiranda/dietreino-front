@@ -7,7 +7,7 @@ import { Workout } from "../activeWorkout/workoutTypes";
 import { DateUtils } from "../../../utils/dateUtils";
 import { Form, FormInstance, Input } from "antd/lib";
 import { useDoFetch } from "../../../utils/useDoFetch";
-import { WorkoutFieldType } from "../NewWorkoutModal";
+import { WorkoutFieldType } from "./NewWorkoutModal";
 import { useContext } from "react";
 import { LoadingContext } from "../../../components/loading/LoadingContext";
 
@@ -63,7 +63,7 @@ const WorkoutHeader = ({
   const handleSubmit = (values: WorkoutPutFieldType) => {
     const data = { ...values };
     delete data.startDate;
-    put(`/workout/${activeWorkout.id}`, values).then(() =>
+    put(`/workout/${activeWorkout.id}`, data).then(() =>
       onSubmitFinishes(data)
     );
   };
@@ -85,12 +85,12 @@ const WorkoutHeader = ({
           <Row>
             <Col md={4}>
               <Form.Item className="mx-2 my-1" name="name">
-                <Input placeholder="Nome" />
+                <Input placeholder="Nome" aria-label="name" />
               </Form.Item>
             </Col>
             <Col md={20}>
               <Form.Item className="mx-2 my-1" name="description">
-                <Input placeholder="Descrição" />
+                <Input placeholder="Descrição" aria-label="description" />
               </Form.Item>
             </Col>
           </Row>

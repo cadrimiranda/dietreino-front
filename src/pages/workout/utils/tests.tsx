@@ -29,7 +29,7 @@ export const createNewWorkout = async (props: {
   console.error = jest.fn();
   props.mockGet.mockResolvedValueOnce("");
   props.mockPost.mockResolvedValueOnce(activeWorkout);
-  render(<WorkoutPageComponent />);
+  const component = render(<WorkoutPageComponent />);
   TestUtils.getByTextAndClick("Adicionar treino");
   TestUtils.fillDatePicker("Inicio", "01/01/2030", 0);
   TestUtils.fillDatePicker("Fim", "02/01/2030", 1);
@@ -37,4 +37,5 @@ export const createNewWorkout = async (props: {
   TestUtils.fillInputByPlaceholder("Descrição", "Bar");
   TestUtils.getByTextAndClick("OK");
   expect(await screen.findByText(activeWorkout.name)).toBeInTheDocument();
+  return component;
 };

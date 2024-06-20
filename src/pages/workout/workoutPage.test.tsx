@@ -104,7 +104,7 @@ describe("Component: WorkoutPage", () => {
   });
 
   it("should add setup to a fresh new workout", async () => {
-    await createNewWorkout({ mockGet, mockPost });
+    const { container } = await createNewWorkout({ mockGet, mockPost });
     TestUtils.clickEvent(screen.getByText("Adicionar exercícios"));
 
     // fill set
@@ -112,7 +112,8 @@ describe("Component: WorkoutPage", () => {
     TestUtils.changeByPlaceholder("Observações", "Triceps");
 
     // fill setup
-    await fillNewSetup(newSetup, mockGet, 0);
+    await fillNewSetup(newSetup, mockGet, 1);
+    TestUtils.selectAntdSelectOption(container, "Sexta");
 
     // check empty inputs
     verifyEmptyInputs();
@@ -125,14 +126,18 @@ describe("Component: WorkoutPage", () => {
     TestUtils.textInsideElement(rows[2], newSetup.rest);
 
     mockPost.mockReset();
+    mockGet.mockReset();
     mockPost.mockResolvedValueOnce("");
     mockGet.mockResolvedValueOnce(fullWorkout);
     TestUtils.clickEvent(screen.getByTestId("btn-save-set"));
+    await waitFor(() => expect(mockPost).toHaveBeenCalled());
     expect(mockPost).toHaveBeenCalledWith("/workout/1/exercise-set", {
       description: "Triceps",
       name: "Arms",
+      weekDay: "FRIDAY",
       exerciseSetupList: [{ ...newSetup, observation: "" }],
     });
+    await waitFor(() => expect(mockGet).toHaveBeenCalled());
     expect(mockGet).toHaveBeenCalledWith("/user/1/active-workout");
   });
 

@@ -1,18 +1,18 @@
-import { Flex } from "antd";
-import { useState } from "react";
-import { ExerciseSetTable } from "../utils/ExerciseSetTable";
-import { ExerciseSetWrapper } from "../utils/ExerciseSetWrapper";
+import { useMemo, useState } from "react";
 import Button from "antd/lib/button";
-import { ExerciseSetDTO, Workout } from "../workoutTypes";
+import { ExerciseSet, ExerciseSetDTO, Workout } from "../workoutTypes";
 import { SetupsAdded } from "./SetupsAdded";
 import { AddSetupInputs } from "./AddSetupInputs";
 import { useAddSetupToSet } from "../../hooks/useAddSetupToSet";
 import { useSetupState } from "../../hooks/useSetupState";
 import { Icon } from "../../../../components/Icon";
+import { WeekDays } from "../../../../utils/weekDaysEnum";
+import { ExerciseSetForm } from "../../components/ExerciseSetForm";
 
 const DEFAULT_SET = {
   description: "",
   name: "",
+  weekDay: "" as WeekDays,
 };
 
 const ActiveWorkoutSetAdd = ({
@@ -25,7 +25,9 @@ const ActiveWorkoutSetAdd = ({
   refetchWorkout: () => Promise<Workout>;
 }) => {
   const { addSetupsToSet } = useAddSetupToSet(workoutId);
-  const [exerciseSet, setExerciseSet] = useState({ ...DEFAULT_SET });
+  const [exerciseSet, setExerciseSet] = useState<
+    Omit<ExerciseSet, "exerciseSetupList" | "id">
+  >({ ...DEFAULT_SET });
 
   const {
     exerciseSetup,
@@ -36,7 +38,12 @@ const ActiveWorkoutSetAdd = ({
     setups,
     handleRemoveSetupFromSetups,
   } = useSetupState();
-  const { description, name } = exerciseSet;
+  const { description, name, weekDay } = exerciseSet;
+
+  const cantSave = useMemo(
+    () => !name || !setups.length || weekDay === ("" as WeekDays),
+    [name, setups, weekDay]
+  );
 
   const handleUpdateSet = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -62,17 +69,21 @@ const ActiveWorkoutSetAdd = ({
       .finally(onCancel);
   };
 
+  const handleUpdateWeekDay = (name: string, value: WeekDays) => {
+    setExerciseSet({ ...exerciseSet, [name]: value });
+  };
+
   return (
-    <ExerciseSetWrapper>
-      <Flex className="user-gym-plan-header" justify="space-between">
-        <input
-          name="name"
-          value={name}
-          onChange={handleUpdateSet}
-          style={{ width: "60%" }}
-          placeholder="Nome do set"
-        />
-        <div>
+    <ExerciseSetForm
+      isAdding
+      hasActionsButtons
+      inputNameProps={{ onChange: handleUpdateSet, value: name }}
+      textAreaProps={{ onChange: handleUpdateSet, value: description }}
+      weekDaySelectProps={{
+        onChange: handleUpdateWeekDay,
+      }}
+      Buttons={
+        <>
           <Button onClick={onCancel} style={{ marginRight: "12px" }}>
             <Icon
               width="20px"
@@ -81,31 +92,29 @@ const ActiveWorkoutSetAdd = ({
               color="colorWhite"
             />
           </Button>
-          <Button data-testid="btn-save-set" onClick={handleSave}>
+          <Button
+            disabled={cantSave}
+            data-testid="btn-save-set"
+            onClick={handleSave}
+          >
             <Icon width="20px" iconName="save" color="colorWhite" />
           </Button>
-        </div>
-      </Flex>
-      <ExerciseSetTable actionButtons>
-        <AddSetupInputs
-          handleAddSetup={handleAddSetup}
-          values={exerciseSetup}
-          handleChange={handleUpdateSetup}
-        />
-        <SetupsAdded
-          setups={setups}
-          handleRemoveSetup={handleRemoveSetupFromSetups}
-        />
-      </ExerciseSetTable>
-
-      <textarea
-        name="description"
-        className="user-gym-plan-obs"
-        placeholder="Observações"
-        value={description}
-        onChange={handleUpdateSet}
-      />
-    </ExerciseSetWrapper>
+        </>
+      }
+      TableComponent={
+        <>
+          <AddSetupInputs
+            handleAddSetup={handleAddSetup}
+            values={exerciseSetup}
+            handleChange={handleUpdateSetup}
+          />
+          <SetupsAdded
+            setups={setups}
+            handleRemoveSetup={handleRemoveSetupFromSetups}
+          />
+        </>
+      }
+    />
   );
 };
 

@@ -4,6 +4,7 @@ import { ActiveWorkoutPage } from "../ActiveWorkoutPage";
 import { render } from "@testing-library/react";
 import { TestUtils } from "../../../../utils/testUtils";
 import { WorkoutContext } from "../../WorkoutContext";
+import { WeekDays } from "../../../../utils/weekDaysEnum";
 
 export const newSetup: setupDTO = {
   exerciseId: "2",
@@ -33,6 +34,7 @@ export const exerciseSet: ExerciseSet = {
   description: "Treino de peito",
   id: "1",
   name: "Peito",
+  weekDay: WeekDays.MONDAY,
   exerciseSetupList: [exerciseSetup],
 };
 
@@ -50,6 +52,7 @@ export const fillNewSetup = async (
   mockGet: jest.Mock,
   autoComplete = 1
 ) => {
+  mockGet.mockReset();
   mockGet.mockResolvedValueOnce([
     { value: setup.exerciseId, label: setup.exerciseName },
   ]);

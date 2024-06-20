@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import Input from "antd/lib/input";
 import { ExerciseSetup } from "../workoutTypes";
 import { ActiveWorkoutSetContext } from "../ActiveWorkoutContext";
 import { RemoveRowDeleteIcon } from "../utils/RemoveRowDeleteIcon";
@@ -27,7 +28,7 @@ const SetupItem = ({
     const id = `exercise-setup-${name}`;
     if (!autocomplete) {
       return (
-        <input
+        <Input
           value={value}
           name={name}
           id={id}
@@ -47,7 +48,11 @@ const SetupItem = ({
     );
   };
 
-  return <td>{isEditing ? getEditCell() : <span>{value}</span>}</td>;
+  return (
+    <td className="px-2 py-1">
+      {isEditing ? getEditCell() : <span>{value}</span>}
+    </td>
+  );
 };
 
 const ActiveWorkoutExerciseSetup = ({
@@ -73,7 +78,7 @@ const ActiveWorkoutExerciseSetup = ({
       <SetupItem name="repetitions" value={repetitions} setupId={setupId} />
       <SetupItem name="rest" value={rest} setupId={setupId} />
       {isEditing && (
-        <td>
+        <td className="px-2 py-1">
           <RemoveRowDeleteIcon
             hasConfirmDialog
             onConfirm={() => handleRemove(setupId)}

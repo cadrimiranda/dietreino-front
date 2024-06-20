@@ -10,11 +10,11 @@ export const SetupsAdded = ({
 }) =>
   setups.map((setup) => (
     <tr>
-      <td>{setup.exerciseName}</td>
-      <td>{setup.series}</td>
-      <td>{setup.repetitions}</td>
-      <td>{setup.rest}</td>
-      <td>
+      <td className="px-2 py-1">{setup.exerciseName}</td>
+      <td className="px-2 py-1">{setup.series}</td>
+      <td className="px-2 py-1">{setup.repetitions}</td>
+      <td className="px-2 py-1">{setup.rest}</td>
+      <td className="px-2 py-1">
         <RemoveRowDeleteIcon
           handleClick={() => handleRemoveSetup(setup.exerciseId)}
         />

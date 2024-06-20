@@ -121,8 +121,7 @@ describe("ExercisePage", () => {
     TestUtils.fillByLabel("name", "new name");
     TestUtils.fillByLabel("description", "new desc");
     TestUtils.fillByLabel("url", "new url");
-    fireEvent.mouseDown(container.querySelector(".ant-select-selector")!);
-    TestUtils.clickEvent(screen.getByText("Ombro"));
+    TestUtils.selectAntdSelectOption(container, "Ombro");
 
     mockPut.mockResolvedValueOnce(newExmg);
     TestUtils.clickEvent(screen.getByTestId("btn-save-exercise"));

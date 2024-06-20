@@ -17,6 +17,7 @@ export const RemoveRowDeleteIcon = ({
       data-testid="remove-row-delete-icon"
       type="primary"
       danger
+      size="small"
       onClick={handleClick}
     >
       <Icon width="10px" iconName="xmark" color="colorWhite" />

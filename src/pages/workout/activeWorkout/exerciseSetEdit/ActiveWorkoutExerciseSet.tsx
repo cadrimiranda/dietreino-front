@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Flex } from "antd/lib";
 import message from "antd/lib/message";
 import { Exercise, ExerciseSet, ExerciseSetup } from "../workoutTypes";
 import { ActiveWorkoutExerciseSetup } from "./ActiveWorkoutExerciseSetup";
@@ -8,13 +7,12 @@ import {
   updateExerciseSetExercise,
   updateExerciseSetObject,
 } from "../ativeWorkout.logic";
-import { ExerciseSetTable } from "../utils/ExerciseSetTable";
-import { ExerciseSetWrapper } from "../utils/ExerciseSetWrapper";
 import { AddSetupInputs } from "../exerciseSetAdd/AddSetupInputs";
 import { ExerciseSetActionButtons } from "./ExerciseSetActionButtons";
 import { useUpdateExerciseSet } from "../../hooks/useUpdateExerciseSet";
 import { useRemoveSetupFromSet } from "../../hooks/useRemoveSetupFromSet";
 import { useSetupState } from "../../hooks/useSetupState";
+import { ExerciseSetForm } from "../../components/ExerciseSetForm";
 
 const ActiveWorkoutExerciseSet = ({
   exerciseSet: originalExerciseSet,
@@ -26,7 +24,6 @@ const ActiveWorkoutExerciseSet = ({
   const [exerciseSet, setExerciseSet] =
     useState<ExerciseSet>(originalExerciseSet);
   const [isEditing, setIsEditing] = useState(false);
-  const { description, name } = exerciseSet;
   const { updateExerciseSet } = useUpdateExerciseSet();
   const { removeSetupFromSet } = useRemoveSetupFromSet();
   const { exerciseSetup, handleUpdateSetup, clearSetup } = useSetupState();
@@ -111,53 +108,50 @@ const ActiveWorkoutExerciseSet = ({
         handleUpdateExercise,
       }}
     >
-      <ExerciseSetWrapper>
-        <Flex className="user-gym-plan-header" justify="space-between">
-          {isEditing ? (
-            <input
-              name="name"
-              placeholder="Nome do set"
-              value={name}
-              aria-label="Nome do set"
-              onChange={(e) => handleUpdateSet(e.target.name, e.target.value)}
-            />
-          ) : (
-            <p className="user-gym-plan-card-title text-xl font-semibold">
-              {name}
-            </p>
-          )}
+      <ExerciseSetForm
+        showInputs={isEditing}
+        hasActionsButtons={isEditing}
+        displayValues={exerciseSet}
+        initialValues={exerciseSet}
+        isEditing={isEditing}
+        inputNameProps={{
+          onChange: (e) => handleUpdateSet(e.target.name, e.target.value),
+        }}
+        weekDaySelectProps={{
+          onChange: (_, value) => handleUpdateSet("weekDay", value),
+        }}
+        textAreaProps={{
+          onChange: (e) => handleUpdateSet(e.target.name, e.target.value),
+          disabled: !isEditing,
+        }}
+        Buttons={
           <ExerciseSetActionButtons
             exerciseSet={exerciseSet}
             isEditing={isEditing}
             onEdit={handleEditing}
           />
-        </Flex>
-        <ExerciseSetTable actionButtons={isEditing}>
-          {exerciseSet.exerciseSetupList.map((setup, setupIndex) => (
-            <ActiveWorkoutExerciseSetup
-              key={`${setup.id}-${setup.exercise.id}`}
-              setup={setup}
-              handleRemove={(setupId) => handleRemoveSetup(setupIndex, setupId)}
-            />
-          ))}
-          {isEditing && (
-            <AddSetupInputs
-              handleAddSetup={handleAddNewSetup}
-              values={exerciseSetup}
-              handleChange={handleUpdateSetup}
-            />
-          )}
-        </ExerciseSetTable>
-
-        <textarea
-          name="description"
-          disabled={!isEditing}
-          className="user-gym-plan-obs"
-          placeholder="Observações"
-          value={description}
-          onChange={(e) => handleUpdateSet(e.target.name, e.target.value)}
-        />
-      </ExerciseSetWrapper>
+        }
+        TableComponent={
+          <>
+            {exerciseSet.exerciseSetupList.map((setup, setupIndex) => (
+              <ActiveWorkoutExerciseSetup
+                key={`${setup.id}-${setup.exercise.id}`}
+                setup={setup}
+                handleRemove={(setupId) =>
+                  handleRemoveSetup(setupIndex, setupId)
+                }
+              />
+            ))}
+            {isEditing && (
+              <AddSetupInputs
+                handleAddSetup={handleAddNewSetup}
+                values={exerciseSetup}
+                handleChange={handleUpdateSetup}
+              />
+            )}
+          </>
+        }
+      />
     </ActiveWorkoutSetContext.Provider>
   );
 };

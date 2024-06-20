@@ -1,4 +1,5 @@
 import { MuscularGroupEnum } from "../../../utils/useMuscularGroupEnum";
+import { WeekDays } from "../../../utils/weekDaysEnum";
 
 export type ExerciseWithMuscularGroup = Exercise & {
   muscularGroup: MuscularGroupEnum;
@@ -24,6 +25,7 @@ export type ExerciseSetup = {
 export type ExerciseSet = {
   id: string;
   name: string;
+  weekDay: WeekDays;
   description: string;
   exerciseSetupList: ExerciseSetup[];
 };

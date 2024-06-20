@@ -92,6 +92,7 @@
 .user-gym-card-wrapper {
   margin-top: 8px;
   margin-bottom: 8px;
+  border-radius: 8px;
 
   display: flex;
   align-items: center;
@@ -108,14 +109,6 @@
   padding: 8px;
   height: 100%;
   width: 100%;
-
-  .user-gym-plan-header {
-    .user-gym-plan-card-title {
-      text-align: center;
-      font-weight: bolder;
-      color: #695f5a;
-    }
-  }
 
   .user-gym-plan-obs {
     width: 100%;
@@ -218,6 +211,10 @@
 }
 
 @media screen and (min-width: 992px) {
+  .user-gym-plan-card-table {
+    min-width: 600px;
+  }
+
   .user-managment-page {
     flex-direction: row;
 

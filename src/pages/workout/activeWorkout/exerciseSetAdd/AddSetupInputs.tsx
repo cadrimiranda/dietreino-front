@@ -1,5 +1,6 @@
 import Button from "antd/lib/button";
 import { setupDTO } from "../workoutTypes";
+import Input from "antd/lib/input";
 import { ExerciseAutocomplete } from "../../../exercise/exerciseAutocomplete/ExerciseAutocomplete";
 import { Icon } from "../../../../components/Icon";
 
@@ -24,44 +25,43 @@ export const AddSetupInputs = ({
 
   return (
     <tr>
-      <td>
+      <td className="px-2 py-1">
         <ExerciseAutocomplete
           value={values.exerciseName}
           onSelect={(_, option) => handleChange({ option })}
         />
       </td>
-      <td>
-        <input
+      <td className="px-2 py-1">
+        <Input
           name="series"
           value={values.series}
           onChange={handleInputChange}
           placeholder="Series"
         />
       </td>
-      <td>
-        <input
+      <td className="px-2 py-1">
+        <Input
           name="repetitions"
           value={values.repetitions}
           onChange={handleInputChange}
           placeholder="Reps"
         />
       </td>
-      <td>
-        <input
+      <td className="px-2 py-1">
+        <Input
           name="rest"
           value={values.rest}
           onChange={handleInputChange}
           placeholder="Rest"
         />
       </td>
-      <td>
+      <td className="px-2 py-1">
         <Button
           data-testid="save-setup-button"
           size="small"
           onClick={handleAddSetup}
-        >
-          <Icon width="10px" iconName="check" color="colorWhite" />
-        </Button>
+          icon={<Icon width="10px" iconName="check" color="colorWhite" />}
+        />
       </td>
     </tr>
   );

@@ -35,7 +35,7 @@ const ExerciseSetActionButtons = ({
   };
 
   return (
-    <div className="exercise-set-action-buttons">
+    <>
       <Button
         disabled={isDeleting}
         loading={isDeleting}
@@ -50,6 +50,7 @@ const ExerciseSetActionButtons = ({
       </Button>
       {exerciseSet.id && isEditing && (
         <Button
+          className="ml-2"
           disabled={isDeleting}
           loading={isDeleting}
           onClick={handleDelete}
@@ -58,7 +59,7 @@ const ExerciseSetActionButtons = ({
           <Icon iconName="trash" color="colorWhite" />
         </Button>
       )}
-    </div>
+    </>
   );
 };
 

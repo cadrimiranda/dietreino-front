@@ -118,17 +118,19 @@ describe("Active Workout", () => {
     it("should add new setup", async () => {
       editExerciseSet(activeWorkout);
 
-      await fillNewSetup(newSetup, mockGet);
+      await fillNewSetup(newSetup, mockGet, 2);
       await verifySetupInputs(newSetup);
       verifyEmptyInputs();
     });
 
     it("should save new setup", async () => {
       mockPut.mockResolvedValue({});
-      const { editButton } = editExerciseSet(activeWorkout);
+      editExerciseSet(activeWorkout);
 
-      await fillNewSetup(newSetup, mockGet);
-
+      await fillNewSetup(newSetup, mockGet, 2);
+      const editButton = screen.getByTestId(
+        `edit-set-${activeWorkout.exerciseSets[0].name}`
+      );
       TestUtils.clickEvent(editButton);
 
       await waitFor(() => {
@@ -193,10 +195,11 @@ describe("Active Workout", () => {
 
   it("should edit exercise set", async () => {
     mockPut.mockResolvedValue({});
-    const { editButton } = editExerciseSet(activeWorkout);
+    editExerciseSet(activeWorkout);
     TestUtils.changeByRole("textbox", "Treino de costas", "Nome do set");
     TestUtils.changeByPlaceholder("Observações", "Cuidado com a postura");
 
+    const editButton = screen.getByTestId(`edit-set-Treino de costas`);
     TestUtils.clickEvent(editButton);
 
     await waitFor(() => {

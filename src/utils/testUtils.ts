@@ -15,6 +15,11 @@ export class TestUtils {
     });
   }
 
+  static selectAntdSelectOption(container: HTMLElement, value: string) {
+    fireEvent.mouseDown(container.querySelector(".ant-select-selector")!);
+    this.clickEvent(screen.getByText(value));
+  }
+
   static fillInputByPlaceholder(placeholder: string, value: string) {
     const input = screen.getByPlaceholderText(placeholder);
     this.onChange(input, value);
@@ -113,7 +118,6 @@ export class TestUtils {
     mockGet: jest.Mock
   ) {
     const autocomplete = screen.getAllByRole("combobox")[position];
-    this.onChange(autocomplete, value);
     this.onChange(autocomplete, value);
 
     await waitFor(

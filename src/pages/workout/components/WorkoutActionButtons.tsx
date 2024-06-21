@@ -50,7 +50,7 @@ const WorkoutActionButtons = ({
         icon={
           <Icon iconName="plus" color="colorWhite" width="1rem" height="1rem" />
         }
-        size="large"
+        size="middle"
       >
         Adicionar {workoutId ? "exercícios" : "treino"}
       </Button>
@@ -68,7 +68,7 @@ const WorkoutActionButtons = ({
               icon={<Icon iconName="trash" color="colorWhite" />}
               data-testid="remove-active-workout"
               type="primary"
-              size="large"
+              size="middle"
             />
           </PopconfirmWrapper>
           <Button
@@ -79,7 +79,7 @@ const WorkoutActionButtons = ({
             }
             data-testid="edit-active-workout"
             type="primary"
-            size="large"
+            size="middle"
             onClick={handleEditButton}
           />
         </>

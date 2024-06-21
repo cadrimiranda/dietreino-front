@@ -55,7 +55,7 @@ const UserAnthropometricResults = () => {
   return (
     <>
       <Button
-        size="large"
+        size="middle"
         className={classNames({
           "user-details-btn-unhide": true,
           "user-details-btn-unhide--invisible": isVisible,
@@ -73,7 +73,7 @@ const UserAnthropometricResults = () => {
         })}
       >
         <Button
-          size="large"
+          size="middle"
           className="user-details-btn-hide"
           onClick={toggleVisibility}
         >

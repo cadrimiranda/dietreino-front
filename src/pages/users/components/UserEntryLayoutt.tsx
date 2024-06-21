@@ -23,7 +23,7 @@ const UserLayout = ({
       <p className="text-2xl uppercase font-bold text-stone-600 mb-1">
         {user?.fullName}
       </p>
-      <div className="df-aic layout-buttons">
+      <div className="flex mb-2 mt-2 space-x-2">
         <Button
           icon={
             <CustomIcon
@@ -33,7 +33,7 @@ const UserLayout = ({
               height="1rem"
             />
           }
-          size="large"
+          size="middle"
           onClick={onGoBack}
         >
           Voltar

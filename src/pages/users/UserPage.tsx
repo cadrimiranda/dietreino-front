@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Clipboard, Dumbbell, Utensils } from "../../components/icons";
+import { Clipboard, Dumbbell } from "../../components/icons";
 import { MenuEntry } from "../dashboard/components/MenuEntry";
 import "../dashboard/dashboardPage.scss";
 import { UserAnthropometricResults } from "./components/UserAnthropometricResults";
@@ -22,12 +22,12 @@ const UserPage = () => {
     <UserLayout onGoBack={() => navigate("/users")}>
       <nav>
         <ul className="dashboard-menu">
-          <MenuEntry
+          {/* <MenuEntry
             handleClick={() => setEntry(Entries.diet)}
             noNavigation
             icon={Utensils}
             title="Dieta"
-          />
+          /> */}
           <MenuEntry
             handleClick={() => setEntry(Entries.gymPlan)}
             noNavigation
@@ -39,7 +39,7 @@ const UserPage = () => {
             icon={Dumbbell}
             title="Exercicios"
           />
-          <MenuEntry noNavigation icon={Clipboard} title="Anamnese" />
+          {/* <MenuEntry noNavigation icon={Clipboard} title="Anamnese" /> */}
         </ul>
       </nav>
     </UserLayout>

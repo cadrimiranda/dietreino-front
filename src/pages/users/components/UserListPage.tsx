@@ -64,9 +64,9 @@ const UserListPage = () => {
   }, []);
 
   return (
-    <div className="user-page">
+    <div className="user-page mx-4">
       <UserForm />
-      <Table columns={columns} dataSource={users} />
+      <Table size="small" columns={columns} dataSource={users} />
     </div>
   );
 };

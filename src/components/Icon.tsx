@@ -14,6 +14,7 @@ const icons = {
   save: Icons.Save,
   trash: Icons.Trash,
   xmark: Icons.Xmark,
+  glass: Icons.MagnifyingGlass,
 };
 
 export const Icon = ({

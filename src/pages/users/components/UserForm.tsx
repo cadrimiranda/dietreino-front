@@ -1,14 +1,13 @@
-import { Flex } from "antd";
 import Button from "antd/lib/button";
 import AntdForm from "antd/lib/form";
 import Input from "antd/lib/input";
 import DatePicker from "antd/lib/date-picker";
 import locale from "antd/es/date-picker/locale/pt_BR";
 import Modal, { ModalProps } from "antd/lib/modal";
-import { CustomIcon, Plus } from "../../../components/icons";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { RangePickerProps } from "antd/es/date-picker";
+import { Icon } from "../../../components/Icon";
 
 type FieldType = {
   nome?: string;
@@ -80,30 +79,17 @@ const UserForm = () => {
   };
 
   return (
-    <Flex
-      justify="flex-end"
-      align="flex-end"
-      vertical
-      flex="1"
-      style={{ marginBottom: "8px" }}
-    >
+    <div className="flex align-center justify-start mb-2">
       <Button
         title="Adicionar"
         onClick={() => setIsAdding(true)}
         disabled={isAdding}
-        icon={
-          <CustomIcon
-            icon={Plus}
-            color="colorWhite"
-            width="1rem"
-            height="1rem"
-          />
-        }
+        icon={<Icon iconName="plus" width="15px" color="colorWhite" />}
       >
         Adicionar
       </Button>
       {isAdding && <Form onCancel={onCloseModal} />}
-    </Flex>
+    </div>
   );
 };
 

@@ -216,16 +216,16 @@
   }
 
   .user-managment-page {
-    flex-direction: row;
+    position: relative;
+    margin-left: 16px;
 
     .user-entry-layout {
       margin-top: 0px;
-      margin-left: 16px;
     }
 
     .user-details-section {
       min-height: 400px;
-      position: relative;
+      position: absolute;
       right: -4px;
       top: -16px;
       border-radius: 8px 0px 0px 8px;
@@ -234,6 +234,7 @@
       display: flex;
       flex-direction: column;
       z-index: 2;
+      background-color: white;
 
       width: 0;
       padding: 0;
@@ -274,6 +275,7 @@
     .user-details-section--hidden {
       min-width: 0;
       padding: 0;
+      border: none;
     }
 
     .user-anthropometric-results {

@@ -16,8 +16,13 @@ const UserLayout = ({
   onGoBack,
   actionsButtons,
 }: PropsWithChildren<LayoutProps>) => {
+  const { user } = useContext(UserPageContext);
+
   return (
     <div className="user-entry-layout">
+      <p className="text-2xl uppercase font-bold text-stone-600 mb-1">
+        {user?.fullName}
+      </p>
       <div className="df-aic layout-buttons">
         <Button
           icon={
@@ -35,7 +40,7 @@ const UserLayout = ({
         </Button>
         {actionsButtons}
       </div>
-      {children}
+      <div>{children}</div>
     </div>
   );
 };

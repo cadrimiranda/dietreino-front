@@ -1,6 +1,9 @@
 import React from "react";
 import { Modal, Form, Input } from "antd";
-import { MuscularGroupEnum } from "../../../utils/useMuscularGroupEnum";
+import {
+  MuscularGroupEnum,
+  MuscularGroupEnumNames,
+} from "../../../utils/useMuscularGroupEnum";
 import { MuscularGroupSelect } from "./MuscularGroupSelect";
 import { useDoFetch } from "../../../utils/useDoFetch";
 import { exerciseFormToDTO } from "../utils/exerciseConverter";
@@ -34,7 +37,7 @@ const ExerciseFormModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       onOk={handleOk}
       onCancel={onClose}
       confirmLoading={loading}
-      okButtonProps={{ form: EXERCISE_FORM_TAG, htmlType: "submit" }}
+      okButtonProps={{ form: EXERCISE_FORM_TAG }}
     >
       <Form
         form={form}
@@ -44,7 +47,7 @@ const ExerciseFormModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         initialValues={{
           url: "",
           description: "",
-          muscularGroup: MuscularGroupEnum.ABS,
+          muscularGroup: MuscularGroupEnumNames.ABS,
         }}
       >
         <Form.Item name="name" label="Nome" rules={exerciseFormRules.name}>

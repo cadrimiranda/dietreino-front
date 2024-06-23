@@ -20,7 +20,7 @@ const icons = {
 export const Icon = ({
   iconName,
   icon: Icon,
-  color,
+  color = "colorWhite",
   ...rest
 }: {
   color?: keyof AliasToken;
@@ -29,7 +29,6 @@ export const Icon = ({
 } & React.JSX.IntrinsicElements["svg"]) => {
   const { token } = theme.useToken();
   let fillColor = "black";
-  // @ts-expect-error
   const tokenColor = token[color];
   if (typeof tokenColor === "string") {
     fillColor = tokenColor;

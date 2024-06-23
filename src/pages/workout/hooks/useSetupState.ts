@@ -24,7 +24,11 @@ export const useSetupState = () => {
         exerciseId: props.option.value,
         exerciseName: props.option.label,
       });
-    } else if (props.name && props.value) {
+    } else if (
+      props.name &&
+      props.value !== null &&
+      props.value !== undefined
+    ) {
       setExerciseSetup({
         ...exerciseSetup,
         [props.name]: props.value,

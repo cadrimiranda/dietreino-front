@@ -11,6 +11,19 @@ export enum MuscularGroupEnum {
   GLUTES = "Glúteos",
 }
 
+export enum MuscularGroupEnumNames {
+  CHEST = "CHEST",
+  BACK = "BACK",
+  SHOULDERS = "SHOULDERS",
+  BICEPS = "BICEPS",
+  TRICEPS = "TRICEPS",
+  ABS = "ABS",
+  QUADRICEPS = "QUADRICEPS",
+  HAMSTRINGS = "HAMSTRINGS",
+  CALVES = "CALVES",
+  GLUTES = "GLUTES",
+}
+
 const useMuscularGroupEnum = () => {
   const options = Object.entries(MuscularGroupEnum).map(([key, value]) => ({
     value: key,

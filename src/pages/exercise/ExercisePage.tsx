@@ -31,7 +31,7 @@ const ExercisePage = () => {
         <div className="flex flex-row items-center mb-6">
           {modalOpen && <ExerciseFormModal onClose={handleModal} />}
         </div>
-        <ExerciseListTable />
+        <ExerciseListTable shouldUpdate={!modalOpen} />
       </UserLayout>
     </div>
   );

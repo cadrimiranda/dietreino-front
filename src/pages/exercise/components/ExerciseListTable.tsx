@@ -8,7 +8,7 @@ import Form from "antd/lib/form";
 import { EditableCell } from "./TableCell";
 import { ExerciseWithMuscularGroup } from "../../workout/activeWorkout/workoutTypes";
 
-const ExerciseListTable = () => {
+const ExerciseListTable = ({ shouldUpdate }: { shouldUpdate: boolean }) => {
   const [form] = Form.useForm();
   const [dataEditing, setDataEditing] =
     useState<ExerciseWithMuscularGroup | null>(null);
@@ -63,8 +63,10 @@ const ExerciseListTable = () => {
   });
 
   useEffect(() => {
-    fetchExercises();
-  }, []);
+    if (shouldUpdate) {
+      fetchExercises();
+    }
+  }, [shouldUpdate]);
 
   return (
     <Form form={form} component={false}>

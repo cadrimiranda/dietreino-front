@@ -17,9 +17,8 @@ jest.mock("use-http", () => ({
   useFetch: mockUseFetch,
 }));
 
-import { ExercisePage } from "./ExercisePage";
 import { TestUtils } from "../../utils/testUtils";
-import { mockExerciseMG } from "./utils/utilsTest";
+import { ExercisePageWithRouter, mockExerciseMG } from "./utils/utilsTest";
 
 describe("ExercisePage", () => {
   beforeEach(() => {
@@ -27,7 +26,7 @@ describe("ExercisePage", () => {
   });
 
   it("should render", () => {
-    render(<ExercisePage />);
+    render(<ExercisePageWithRouter />);
     const table = screen.getByRole("table");
     TestUtils.textInsideElement(table, "Nome");
     TestUtils.textInsideElement(table, "Grupo Muscular");
@@ -42,7 +41,7 @@ describe("ExercisePage", () => {
 
   const renderWithExercise = async () => {
     mockGet.mockResolvedValueOnce([mockExerciseMG]);
-    const component = render(<ExercisePage />);
+    const component = render(<ExercisePageWithRouter />);
     await waitFor(() => {
       expect(mockGet).toHaveBeenCalled();
     });
@@ -66,7 +65,7 @@ describe("ExercisePage", () => {
   });
 
   it("should render add exercise modal", () => {
-    render(<ExercisePage />);
+    render(<ExercisePageWithRouter />);
     TestUtils.getByTextAndClick("Exercício");
     TestUtils.existByRole("dialog", {
       options: { name: "Adicionar Exercício" },

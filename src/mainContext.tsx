@@ -1,12 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useLayoutEffect, useState } from "react";
 import { Provider } from "use-http";
-import { ConfigProvider } from "antd";
-import locale from "antd/locale/pt_BR";
-import dayjs from "dayjs";
 import { LoginResponse } from "./utils/globalTypes";
 import axios from "axios";
-
-dayjs.locale("pt-br");
 
 type MainContextType = {
   setTokenData: (tokenData: LoginResponse | null) => void;
@@ -21,12 +16,14 @@ export const useMainContext = () => useContext(MainContext) as MainContextType;
 export const MainProvider = ({ children }: { children: React.ReactNode }) => {
   const [tokenData, setTokenData] = useState<LoginResponse | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     axios.defaults.baseURL = BASE_URL;
     const data = localStorage.getItem("tokenData");
 
     if (data) {
-      setTokenData(JSON.parse(data));
+      const _tokenData = JSON.parse(data) as LoginResponse;
+      axios.defaults.headers.Authorization = `Bearer ${_tokenData.token}`;
+      setTokenData(_tokenData);
       localStorage.removeItem("tokenData");
     }
 
@@ -36,12 +33,6 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
   }, []);
-
-  useEffect(() => {
-    if (tokenData && tokenData.token) {
-      axios.defaults.headers.Authorization = `Bearer ${tokenData.token}`;
-    }
-  }, [tokenData]);
 
   return (
     <MainContext.Provider value={{ setTokenData, tokenData }}>
@@ -53,7 +44,7 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
           },
         }}
       >
-        <ConfigProvider locale={locale}>{children}</ConfigProvider>
+        {children}
       </Provider>
     </MainContext.Provider>
   );

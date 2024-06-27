@@ -31,7 +31,6 @@ function LoginPage() {
       axios
         .post<LoginRawResponse>("auth/login", form.getFieldsValue())
         .then((res) => {
-          console.log({ res });
           if (isAxiosError(res)) {
             setErrorMessage(res.response?.data.errorMessage);
             return;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Pageable } from "../../../utils/globalTypes";
 import { useLoading } from "../../../utils/useLoading";
 import axios from "axios";
+import { useMainContext } from "../../../mainContext";
 
 export interface UserList {
   id: string;
@@ -22,9 +23,8 @@ export interface User extends UserList {
   fullName: string;
 }
 
-const fake_personal = "22222222-2222-2222-2222-222222222222";
-
 export const useGetUsersByActivePlanAndWorkout = () => {
+  const { tokenData } = useMainContext();
   const [page, setPage] = useState<Pageable<UserList>>(
     {} as Pageable<UserList>
   );
@@ -39,7 +39,7 @@ export const useGetUsersByActivePlanAndWorkout = () => {
     load(
       axios
         .get<Pageable<UserList>>(
-          `/user/all-by/personal-trainer?trainerId=${fake_personal}&page=${pageNumber}&size=${pageSize}`
+          `/user/all-by/personal-trainer?trainerId=${tokenData?.user.id}&page=${pageNumber}&size=${pageSize}`
         )
         .then((response) => {
           setPage(response.data);

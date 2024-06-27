@@ -7,7 +7,7 @@ import { LoginResponse } from "../../utils/globalTypes";
 import { useState } from "react";
 import { useMainContext } from "../../mainContext";
 import { DateUtils } from "../../utils/dateUtils";
-import dayjs from "dayjs";
+import * as dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
 type Fields = {
@@ -31,6 +31,7 @@ function LoginPage() {
       axios
         .post<LoginRawResponse>("auth/login", form.getFieldsValue())
         .then((res) => {
+          console.log({ res });
           if (isAxiosError(res)) {
             setErrorMessage(res.response?.data.errorMessage);
             return;

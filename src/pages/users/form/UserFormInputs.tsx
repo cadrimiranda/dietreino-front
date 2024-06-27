@@ -4,7 +4,7 @@ import Row from "antd/lib/row";
 import Col from "antd/lib/col";
 import DatePicker from "antd/lib/date-picker";
 import locale from "antd/es/date-picker/locale/pt_BR";
-import dayjs from "dayjs";
+import * as dayjs from "dayjs";
 import { DateUtils } from "../../../utils/dateUtils";
 import { User } from "../hooks/useUserList";
 

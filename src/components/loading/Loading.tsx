@@ -1,6 +1,6 @@
 import { Spin } from "antd/lib";
 import { PropsWithChildren, useState } from "react";
-import "./Loading.scss";
+import "./loading.scss";
 import { LoadingContext } from "./LoadingContext";
 
 function Loading({ children }: PropsWithChildren) {

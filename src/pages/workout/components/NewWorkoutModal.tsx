@@ -5,15 +5,15 @@ import Col from "antd/lib/col";
 import Row from "antd/lib/row";
 import DatePicker from "antd/lib/date-picker";
 import { RangePickerProps } from "antd/es/date-picker";
-import * as dayjs from "dayjs";
+import dayjs, { type Dayjs } from "dayjs";
 import { Workout } from "../activeWorkout/workoutTypes";
 import useCreateNewWorkout from "../hooks/useCreateNewWorkout";
 
 export type WorkoutFieldType = {
   name: string;
   description: string;
-  startDate: dayjs.Dayjs;
-  endDate: dayjs.Dayjs;
+  startDate: Dayjs;
+  endDate: Dayjs;
 };
 
 const disabledDate: RangePickerProps["disabledDate"] = (current) => {

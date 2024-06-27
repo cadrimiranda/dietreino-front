@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Col from "antd/lib/col";
 import Row from "antd/lib/row";
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import DatePicker from "antd/lib/date-picker";
 import { Workout } from "../activeWorkout/workoutTypes";
 import { DateUtils } from "../../../utils/dateUtils";

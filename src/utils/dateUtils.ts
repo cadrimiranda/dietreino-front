@@ -1,8 +1,8 @@
-import * as dayjs from "dayjs";
+import dayjs, { type Dayjs } from "dayjs";
 
 type DisableDateProps = {
-  current: dayjs.Dayjs;
-  compareDate?: dayjs.Dayjs;
+  current: Dayjs;
+  compareDate?: Dayjs;
   greaterThan?: boolean;
   lessThan?: boolean;
   greaterOrEqual?: boolean;

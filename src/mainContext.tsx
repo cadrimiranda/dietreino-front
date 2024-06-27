@@ -1,4 +1,4 @@
-import { createContext, useContext, useLayoutEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Provider } from "use-http";
 import { LoginResponse } from "./utils/globalTypes";
 import axios from "axios";
@@ -8,16 +8,19 @@ type MainContextType = {
   tokenData: LoginResponse | null;
 };
 
-const BASE_URL = import.meta.env.VITE_API_URL as string;
 const MainContext = createContext<MainContextType | null>(null);
 
 export const useMainContext = () => useContext(MainContext) as MainContextType;
 
 export const MainProvider = ({ children }: { children: React.ReactNode }) => {
   const [tokenData, setTokenData] = useState<LoginResponse | null>(null);
+  const [baseUrl, setBaseUrl] = useState<string | null>(null);
+  const BASE_URL = import.meta.env.VITE_API_URL as string;
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    console.log("BASE_URL", BASE_URL);
     axios.defaults.baseURL = BASE_URL;
+    setBaseUrl(BASE_URL);
     const data = localStorage.getItem("tokenData");
 
     if (data) {
@@ -34,10 +37,16 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (tokenData) {
+      axios.defaults.headers.Authorization = `Bearer ${tokenData.token}`;
+    }
+  }, [tokenData]);
+
   return (
     <MainContext.Provider value={{ setTokenData, tokenData }}>
       <Provider
-        url={BASE_URL}
+        url={baseUrl as string}
         options={{
           headers: {
             Authorization: `Bearer ${tokenData?.token}`,

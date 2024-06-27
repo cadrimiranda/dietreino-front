@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import * as dayjs from "dayjs";
 
 export type Pageable<T> = {
   pageSize: number;

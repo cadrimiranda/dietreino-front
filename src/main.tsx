@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Routes } from "./pages/routes/Routes.index";
-import dayjs from "dayjs";
+import * as dayjs from "dayjs";
 import "./main.css";
 
 import "dayjs/locale/pt-br";

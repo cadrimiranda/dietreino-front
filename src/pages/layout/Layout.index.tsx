@@ -3,7 +3,7 @@ import "./layout.scss";
 import { PropsWithChildren, useEffect } from "react";
 import { ConfigProvider } from "antd/lib";
 import locale from "antd/locale/pt_BR";
-import dayjs from "dayjs";
+import * as dayjs from "dayjs";
 import { Loading } from "../../components/loading/Loading";
 import { useMainContext } from "../../mainContext";
 

@@ -6,6 +6,7 @@ import { PopconfirmWrapper } from "../../../components/popconfirm/Popconfirm";
 import { MuscularGroupEnum } from "../../../utils/useMuscularGroupEnum";
 import { exerciseFormRules } from "./formRules";
 import { ExerciseWithMuscularGroup } from "../../workout/activeWorkout/workoutTypes";
+import { useTableColumnSearcn } from "../../../hooks/useTableColumnSearcn";
 
 type ColumnsProps = {
   onEdit: (exercise: ExerciseWithMuscularGroup) => void;
@@ -16,7 +17,7 @@ type ColumnsProps = {
   form: FormInstance;
 };
 
-export const getExerciseTableColumns = ({
+export const useGetExerciseTableColumns = ({
   onEdit,
   onRemove,
   dataEditing,
@@ -36,6 +37,11 @@ export const getExerciseTableColumns = ({
       rules: exerciseFormRules[dataIndex as keyof typeof exerciseFormRules],
     });
 
+  const tableColumnSearch = useTableColumnSearcn(
+    (props) => console.log(props),
+    dataEditing !== null
+  );
+
   return [
     {
       title: "Nome",
@@ -43,6 +49,9 @@ export const getExerciseTableColumns = ({
       key: "name",
       width: "20%",
       onCell: onCell("Nome", "name"),
+      filterMode: "menu",
+      filterSearch: true,
+      ...tableColumnSearch("name"),
     },
     {
       title: "Descrição",

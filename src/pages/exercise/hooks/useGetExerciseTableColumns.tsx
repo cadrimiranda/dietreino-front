@@ -4,9 +4,10 @@ import { Icon } from "../../../components/Icon";
 import { MuscularGroupSelect } from "../components/MuscularGroupSelect";
 import { PopconfirmWrapper } from "../../../components/popconfirm/Popconfirm";
 import { MuscularGroupEnum } from "../../../utils/useMuscularGroupEnum";
-import { exerciseFormRules } from "./formRules";
+import { exerciseFormRules } from "../utils/formRules";
 import { ExerciseWithMuscularGroup } from "../../workout/activeWorkout/workoutTypes";
 import { useTableColumnSearcn } from "../../../hooks/useTableColumnSearcn";
+import { useGetExercises } from "./useGetExercises";
 
 type ColumnsProps = {
   onEdit: (exercise: ExerciseWithMuscularGroup) => void;
@@ -15,6 +16,7 @@ type ColumnsProps = {
   dataEditing: ExerciseWithMuscularGroup | null;
   onCancel: () => void;
   form: FormInstance;
+  fetchExercises: ReturnType<typeof useGetExercises>["fetchExercises"];
 };
 
 export const useGetExerciseTableColumns = ({
@@ -24,6 +26,7 @@ export const useGetExerciseTableColumns = ({
   onSaved,
   onCancel,
   form,
+  fetchExercises,
 }: ColumnsProps): TableProps<ExerciseWithMuscularGroup>["columns"] => {
   const isEditing = (record: ExerciseWithMuscularGroup) =>
     record.id === dataEditing?.id;
@@ -38,7 +41,7 @@ export const useGetExerciseTableColumns = ({
     });
 
   const tableColumnSearch = useTableColumnSearcn(
-    (props) => console.log(props),
+    (props) => fetchExercises({ name: props.searchText }),
     dataEditing !== null
   );
 

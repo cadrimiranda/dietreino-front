@@ -1,4 +1,4 @@
-import { Button, Input, InputRef, Space } from "antd/lib";
+import { Button, Input, InputRef, Popover, Space } from "antd/lib";
 import { ColumnType } from "antd/lib/table";
 import { useRef, useState } from "react";
 import { Icon } from "../components/Icon";
@@ -97,11 +97,16 @@ const useTableColumnSearcn = <T,>(
               </Space>
             </div>
           ),
-          filterIcon: (filtered) => (
-            <Icon
-              iconName="glass"
-              color={filtered ? "green-5" : "colorWhite"}
-            />
+          filterIcon: (
+            <Popover
+              title={
+                value
+                  ? `Filtrado por ${value}`
+                  : "Filtre resultados a partir do nome"
+              }
+            >
+              <Icon iconName="glass" color={value ? "gold-4" : "colorWhite"} />
+            </Popover>
           ),
           onFilterDropdownOpenChange: (visible) => {
             if (visible) {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useGetExercises } from "../hooks/useGetExercises";
-import { useGetExerciseTableColumns } from "../utils/exerciseListTableColumns";
+import { useGetExerciseTableColumns } from "../hooks/useGetExerciseTableColumns";
 import Table from "antd/lib/table";
 import { useExerciseTableActions } from "../hooks/useExerciseTableActions";
 import { exerciseToEditDTO, exerciseToForm } from "../utils/exerciseConverter";
@@ -62,6 +62,7 @@ const ExerciseListTable = ({ shouldUpdate }: { shouldUpdate: boolean }) => {
     onSaved: handleSave,
     onCancel: () => setDataEditing(null),
     form: form,
+    fetchExercises,
   });
 
   useEffect(() => {
@@ -78,7 +79,8 @@ const ExerciseListTable = ({ shouldUpdate }: { shouldUpdate: boolean }) => {
         columns={columns}
         dataSource={exercises}
         pagination={{
-          total: page.totalPages,
+          hideOnSinglePage: true,
+          total: page.totalItems,
           pageSize: page.pageSize,
           current: page.pageNumber + 1,
           onChange: (page, pageSize) => {

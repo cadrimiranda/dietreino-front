@@ -3,10 +3,10 @@ import { useGetExercises } from "../hooks/useGetExercises";
 import { useGetExerciseTableColumns } from "../hooks/useGetExerciseTableColumns";
 import Table from "antd/lib/table";
 import { useExerciseTableActions } from "../hooks/useExerciseTableActions";
-import { exerciseToEditDTO, exerciseToForm } from "../utils/exerciseConverter";
 import Form from "antd/lib/form";
 import { EditableCell } from "./TableCell";
 import { ExerciseWithMuscularGroup } from "../../workout/activeWorkout/workoutTypes";
+import { ExerciseTableContext } from "./ExerciseTableContext";
 
 const ExerciseListTable = ({ shouldUpdate }: { shouldUpdate: boolean }) => {
   const [form] = Form.useForm();
@@ -28,39 +28,8 @@ const ExerciseListTable = ({ shouldUpdate }: { shouldUpdate: boolean }) => {
 
   const loading = getLoading || actionLoading;
 
-  const handleEdit = (data: ExerciseWithMuscularGroup) => {
-    form.setFieldsValue(exerciseToForm(data));
-    setDataEditing(data);
-  };
-
-  const handleSave = async (data: ExerciseWithMuscularGroup) => {
-    form
-      .validateFields()
-      .then(() =>
-        onEdit(exerciseToEditDTO({ ...data, ...form.getFieldsValue() })).then(
-          (res) => {
-            handleUpdateList(res);
-            setDataEditing(null);
-          }
-        )
-      )
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const handleDelete = (data: ExerciseWithMuscularGroup) => {
-    onDelete(data.id).then(() => {
-      fetchExercises();
-    });
-  };
-
   const columns = useGetExerciseTableColumns({
-    onEdit: handleEdit,
-    onRemove: handleDelete,
     dataEditing,
-    onSaved: handleSave,
-    onCancel: () => setDataEditing(null),
     form: form,
     fetchExercises,
   });
@@ -73,26 +42,38 @@ const ExerciseListTable = ({ shouldUpdate }: { shouldUpdate: boolean }) => {
 
   return (
     <Form form={form} component={false}>
-      <Table
-        size="small"
-        loading={loading}
-        columns={columns}
-        dataSource={exercises}
-        pagination={{
-          hideOnSinglePage: true,
-          total: page.totalItems,
-          pageSize: page.pageSize,
-          current: page.pageNumber + 1,
-          onChange: (page, pageSize) => {
-            fetchExercises({ pageNumber: page - 1, pageSize });
-          },
+      <ExerciseTableContext.Provider
+        value={{
+          onDelete,
+          onEdit,
+          handleDataEditing: setDataEditing,
+          form,
+          fetchExercises,
+          handleUpdateList,
+          dataEditing,
         }}
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-      />
+      >
+        <Table
+          size="small"
+          loading={loading}
+          columns={columns}
+          dataSource={exercises}
+          pagination={{
+            hideOnSinglePage: true,
+            total: page.totalItems,
+            pageSize: page.pageSize,
+            current: page.pageNumber + 1,
+            onChange: (page, pageSize) => {
+              fetchExercises({ pageNumber: page - 1, pageSize });
+            },
+          }}
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+        />
+      </ExerciseTableContext.Provider>
     </Form>
   );
 };

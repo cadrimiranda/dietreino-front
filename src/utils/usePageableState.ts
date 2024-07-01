@@ -15,7 +15,34 @@ const usePageableState = <T>() => {
     pageSize: 10,
   });
 
-  return { page, setPage, load, loading, pageable, setPageable };
+  const updatePageable = (props: Partial<PageableState>) => {
+    setPageable((prev) => ({ ...prev, ...props }));
+  };
+
+  const concatUrl = (baseUrl: string, params: URLSearchParams) => {
+    return `${baseUrl}?${params.toString()}`;
+  };
+
+  const createUrl = (props: Partial<PageableState>) => {
+    const url = new URLSearchParams();
+    const pageNumber = props.pageNumber || pageable.pageNumber;
+    const pageSize = props.pageSize || pageable.pageSize;
+    url.append("page", pageNumber.toString());
+    url.append("size", pageSize.toString());
+    return url;
+  };
+
+  return {
+    page,
+    setPage,
+    load,
+    loading,
+    pageable,
+    setPageable,
+    createUrl,
+    concatUrl,
+    updatePageable,
+  };
 };
 
 export { usePageableState };

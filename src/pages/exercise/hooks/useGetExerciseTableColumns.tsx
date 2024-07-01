@@ -1,32 +1,23 @@
 import { TableProps } from "antd/lib/table";
-import { Button, FormInstance } from "antd/lib";
-import { Icon } from "../../../components/Icon";
+import { FormInstance } from "antd/lib";
 import { MuscularGroupSelect } from "../components/MuscularGroupSelect";
-import { PopconfirmWrapper } from "../../../components/popconfirm/Popconfirm";
 import { MuscularGroupEnum } from "../../../utils/useMuscularGroupEnum";
 import { exerciseFormRules } from "../utils/formRules";
 import { ExerciseWithMuscularGroup } from "../../workout/activeWorkout/workoutTypes";
 import { useTableColumnSearcn } from "../../../hooks/useTableColumnSearcn";
 import { useGetExercises } from "./useGetExercises";
+import { ExerciseTableActionButtons } from "../components/ExerciseTableActionButtons";
 
 type ColumnsProps = {
-  onEdit: (exercise: ExerciseWithMuscularGroup) => void;
-  onRemove: (exercise: ExerciseWithMuscularGroup) => void;
-  onSaved: (exercise: ExerciseWithMuscularGroup) => void;
   dataEditing: ExerciseWithMuscularGroup | null;
-  onCancel: () => void;
   form: FormInstance;
   fetchExercises: ReturnType<typeof useGetExercises>["fetchExercises"];
 };
 
 export const useGetExerciseTableColumns = ({
-  onEdit,
-  onRemove,
   dataEditing,
-  onSaved,
-  onCancel,
-  form,
   fetchExercises,
+  form,
 }: ColumnsProps): TableProps<ExerciseWithMuscularGroup>["columns"] => {
   const isEditing = (record: ExerciseWithMuscularGroup) =>
     record.id === dataEditing?.id;
@@ -88,46 +79,12 @@ export const useGetExerciseTableColumns = ({
       title: "",
       key: "",
       width: "8%",
-      render: (_, record) => {
-        const editing = isEditing(record);
-        const editFn = editing ? onSaved : onEdit;
-        const editIcon = editing ? "save" : "pen";
-        const removeIcon = editing ? "xmark" : "trash";
-        const editTestId = editing ? "btn-save-exercise" : "btn-edit-exercise";
-        const removeTestId = editing
-          ? "btn-cancel-edit-exercise"
-          : "btn-remove-exercise";
-
-        const removeBtn = (
-          <Button
-            onClick={() => editing && onCancel()}
-            data-testid={removeTestId}
-            danger
-            type="primary"
-            icon={<Icon iconName={removeIcon} color="colorWhite" />}
-          />
-        );
-
-        return (
-          <div className="flex flex-row items-center justify-around">
-            <Button
-              data-testid={editTestId}
-              onClick={() => editFn(record)}
-              icon={<Icon iconName={editIcon} color="colorWhite" />}
-            />
-            {editing ? (
-              removeBtn
-            ) : (
-              <PopconfirmWrapper
-                title={`Tem certeza que deseja remover o exercício ${record.name}?`}
-                onConfirm={() => onRemove(record)}
-              >
-                {removeBtn}
-              </PopconfirmWrapper>
-            )}
-          </div>
-        );
-      },
+      render: (_, record) => (
+        <ExerciseTableActionButtons
+          exercise={record}
+          isEditing={isEditing(record)}
+        />
+      ),
     },
   ];
 };

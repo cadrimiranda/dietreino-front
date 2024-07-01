@@ -1,22 +1,41 @@
-import { useDoFetch } from "../../../utils/useDoFetch";
+import axios, { isAxiosError } from "axios";
 import { ExerciseWithMuscularGroup } from "../../workout/activeWorkout/workoutTypes";
 import { ExercisePutDTO } from "../utils/exerciseConverter";
+import { useLoadingAxios } from "../../../utils/useLoading";
+import { useState } from "react";
 
 const useExerciseTableActions = () => {
-  const { del, put, error, catchError, loading } =
-    useDoFetch<ExerciseWithMuscularGroup>({
-      showMessages: true,
+  const [error, setError] = useState<unknown | null>(null);
+  const { load, loading } = useLoadingAxios();
+
+  const handleEdit = (data: ExercisePutDTO) =>
+    load(
+      axios.put<ExerciseWithMuscularGroup>(`exercise/${data.id}`, data)
+    ).then((res) => {
+      if (!isAxiosError(res)) {
+        setError(res.data);
+        return null;
+      }
+
+      return res.data;
     });
 
-  const onEdit = (data: ExercisePutDTO) => {
-    return put(`exercise/${data.id}`, data);
-  };
+  const handleDelete = (id: string) =>
+    load(axios.delete(`exercise/${id}`)).then((res) => {
+      if (!isAxiosError(res)) {
+        setError(res.data);
+        return null;
+      }
 
-  const onDelete = (id: string) => {
-    return del(`exercise/${id}`);
-  };
+      return res.data;
+    });
 
-  return { onEdit, onDelete, error: catchError || error, loading };
+  return {
+    onEdit: handleEdit,
+    onDelete: handleDelete,
+    error,
+    loading,
+  };
 };
 
 export { useExerciseTableActions };

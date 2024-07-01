@@ -27,8 +27,10 @@ const ExerciseTableActionButtons = ({ exercise, isEditing }: Props) => {
       .then(() =>
         onEdit(exerciseToEditDTO({ ...data, ...form.getFieldsValue() })).then(
           (res) => {
-            handleUpdateList(res);
-            handleDataEditing(null);
+            if (res) {
+              handleUpdateList(data);
+              handleDataEditing(null);
+            }
           }
         )
       )
@@ -38,8 +40,10 @@ const ExerciseTableActionButtons = ({ exercise, isEditing }: Props) => {
   };
 
   const handleDelete = (data: ExerciseWithMuscularGroup) => {
-    onDelete(data.id).then(() => {
-      fetchExercises();
+    onDelete(data.id).then((res) => {
+      if (res) {
+        fetchExercises();
+      }
     });
   };
 

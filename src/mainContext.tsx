@@ -18,28 +18,22 @@ export const MainProvider = ({ children }: { children: React.ReactNode }) => {
   const BASE_URL = import.meta.env.VITE_API_URL as string;
 
   useEffect(() => {
-    console.log("BASE_URL", BASE_URL);
     axios.defaults.baseURL = BASE_URL;
     setBaseUrl(BASE_URL);
     const data = localStorage.getItem("tokenData");
 
-    if (data) {
+    if (data !== null) {
       const _tokenData = JSON.parse(data) as LoginResponse;
-      axios.defaults.headers.Authorization = `Bearer ${_tokenData.token}`;
       setTokenData(_tokenData);
-      localStorage.removeItem("tokenData");
+      axios.defaults.headers.Authorization = `Bearer ${_tokenData.token}`;
+      localStorage.setItem("tokenData", JSON.stringify(_tokenData));
     }
-
-    return () => {
-      if (tokenData) {
-        localStorage.setItem("tokenData", JSON.stringify(tokenData));
-      }
-    };
-  }, []);
+  }, [BASE_URL]);
 
   useEffect(() => {
     if (tokenData) {
       axios.defaults.headers.Authorization = `Bearer ${tokenData.token}`;
+      localStorage.setItem("tokenData", JSON.stringify(tokenData));
     }
   }, [tokenData]);
 

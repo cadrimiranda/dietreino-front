@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { Pageable } from "../../../utils/globalTypes";
-import { useLoading } from "../../../utils/useLoading";
 import axios from "axios";
+import { usePageableState } from "../../../utils/usePageableState";
 import { useMainContext } from "../../../mainContext";
 
 export interface UserList {
@@ -24,13 +23,9 @@ export interface User extends UserList {
 }
 
 export const useGetUsersByActivePlanAndWorkout = () => {
+  const { load, loading, page, pageable, setPage, setPageable } =
+    usePageableState<UserList>();
   const { tokenData } = useMainContext();
-  const [page, setPage] = useState<Pageable<UserList>>(
-    {} as Pageable<UserList>
-  );
-
-  const { load, loading } = useLoading();
-  const [pageable, setPageable] = useState({ pageNumber: 0, pageSize: 10 });
 
   const fetchUsers = async (
     pageNumber = pageable.pageNumber,

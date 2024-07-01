@@ -1,28 +1,26 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import axios from "axios";
 
 const mockGet = jest.fn().mockResolvedValue([]);
-const mockDelete = jest.fn().mockResolvedValue({});
+const mockDelete = jest.fn().mockResolvedValue({ data: "ok" });
 const mockPut = jest.fn().mockResolvedValue({});
-const mockPost = jest.fn().mockResolvedValue({});
-const mockUseFetch = jest.fn().mockReturnValue({
-  get: mockGet,
-  del: mockDelete,
-  put: mockPut,
-  post: mockPost,
-});
-jest.mock("use-http", () => ({
-  __esModule: true,
-  ...jest.requireActual("use-http"),
-  useFetch: mockUseFetch,
-}));
+const mockPost = jest.fn().mockResolvedValue({ data: {} });
 
 import { TestUtils } from "../../utils/testUtils";
 import { ExercisePageWithRouter, mockExerciseMG } from "./utils/utilsTest";
+import { COLUMN_SEARCH_DEBOUNCE } from "../../hooks/useTableColumnSearcn";
+
+jest.mock("axios");
 
 describe("ExercisePage", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+
+    (axios.get as jest.Mock) = mockGet;
+    (axios.delete as jest.Mock) = mockDelete;
+    (axios.put as jest.Mock) = mockPut;
+    (axios.post as jest.Mock) = mockPost;
   });
 
   it("should render", () => {
@@ -36,11 +34,16 @@ describe("ExercisePage", () => {
     expect(screen.getByText("Exercício")).toBeInTheDocument();
 
     expect(mockGet).toHaveBeenCalled();
-    expect(mockGet).toHaveBeenCalledWith("/exercise/getall");
+    expect(mockGet).toHaveBeenCalledWith("/exercise/getall?page=0&size=10");
   });
 
+  const mockGetExercises = () => {
+    mockGet.mockReset();
+    mockGet.mockResolvedValue(TestUtils.mockPageableResult(mockExerciseMG));
+  };
+
   const renderWithExercise = async () => {
-    mockGet.mockResolvedValueOnce([mockExerciseMG]);
+    mockGetExercises();
     const component = render(<ExercisePageWithRouter />);
     await waitFor(() => {
       expect(mockGet).toHaveBeenCalled();
@@ -74,6 +77,7 @@ describe("ExercisePage", () => {
 
   it("should delete exercise", async () => {
     await renderWithExercise();
+    mockGetExercises();
     const btnRemove = screen.getByTestId("btn-remove-exercise");
     TestUtils.clickEvent(btnRemove);
     TestUtils.getByTextAndClick("Sim");
@@ -81,10 +85,8 @@ describe("ExercisePage", () => {
       expect(mockDelete).toHaveBeenCalled();
     });
 
-    expect(mockDelete).toHaveBeenCalledWith(
-      "exercise/" + mockExerciseMG.id,
-      undefined
-    );
+    expect(mockDelete).toHaveBeenCalledWith("exercise/" + mockExerciseMG.id);
+    expect(mockGet).toHaveBeenCalled();
   });
 
   it("should not delete exercise", async () => {
@@ -206,5 +208,108 @@ describe("ExercisePage", () => {
       expect(screen.queryByText("Insira o nome do exercício")).not.toBeNull()
     );
     expect(screen.queryByText("Adicionar Exercício")).not.toBeNull();
+  });
+
+  it("should search exercise", async () => {
+    await renderWithExercise();
+    TestUtils.clickEvent(screen.getByTestId("icon-search-table-column"));
+    TestUtils.fillInputByPlaceholder("Pesquise name", "name");
+
+    fireEvent.keyDown(screen.getByPlaceholderText("Pesquise name"), {
+      key: "Enter",
+      code: "Enter",
+    });
+    await waitFor(() => {
+      expect(mockGet).toHaveBeenCalledWith(
+        "/exercise/getall?page=0&size=10&name=name"
+      );
+    });
+  });
+
+  it("should search with debounce", async () => {
+    await renderWithExercise();
+    TestUtils.clickEvent(screen.getByTestId("icon-search-table-column"));
+    TestUtils.fillInputByPlaceholder("Pesquise name", "name");
+
+    await waitFor(
+      () => {
+        expect(mockGet).toHaveBeenCalledWith(
+          "/exercise/getall?page=0&size=10&name=name"
+        );
+      },
+      { timeout: COLUMN_SEARCH_DEBOUNCE + 500 }
+    );
+    expect(mockGet).toHaveBeenCalledTimes(2);
+  });
+
+  it("should close search", async () => {
+    await renderWithExercise();
+    TestUtils.clickEvent(screen.getByTestId("icon-search-table-column"));
+    TestUtils.toExist(screen.getByPlaceholderText("Pesquise name"));
+    TestUtils.clickEvent(screen.getByText("Fechar"));
+    expect(screen.queryByPlaceholderText("Pesquise name")).not.toBeVisible();
+    expect(mockGet).toHaveBeenCalledTimes(1);
+  });
+
+  it("should close search", async () => {
+    await renderWithExercise();
+    TestUtils.clickEvent(screen.getByTestId("icon-search-table-column"));
+    TestUtils.fillInputByPlaceholder("Pesquise name", "name");
+    TestUtils.clickEvent(screen.getByText("Resetar"));
+    await waitFor(
+      () => {
+        expect(mockGet).toHaveBeenCalledWith("/exercise/getall?page=0&size=10");
+      },
+      { timeout: COLUMN_SEARCH_DEBOUNCE + 500 }
+    );
+    expect(mockGet).toHaveBeenCalledTimes(2);
+  });
+
+  it("should change page forward", async () => {
+    mockGet.mockResolvedValueOnce(
+      TestUtils.mockPageableResult(mockExerciseMG, {
+        totalPages: 2,
+        totalItems: 20,
+        first: true,
+        last: false,
+      })
+    );
+    render(<ExercisePageWithRouter />);
+    await waitFor(() => {
+      expect(mockGet).toHaveBeenCalled();
+    });
+
+    mockGet.mockResolvedValueOnce(
+      TestUtils.mockPageableResult(mockExerciseMG, { totalPages: 2 })
+    );
+    TestUtils.clickEvent(screen.getByRole("img", { name: "right" }));
+    await waitFor(() => {
+      expect(mockGet).toHaveBeenCalledWith("/exercise/getall?page=1&size=10");
+    });
+  });
+
+  it("should change page backward", async () => {
+    mockGet.mockResolvedValueOnce(
+      TestUtils.mockPageableResult(mockExerciseMG, {
+        totalPages: 2,
+        pageNumber: 2,
+        pageSize: 10,
+        totalItems: 20,
+        first: false,
+        last: true,
+      })
+    );
+    render(<ExercisePageWithRouter />);
+    await waitFor(() => {
+      expect(mockGet).toHaveBeenCalled();
+    });
+
+    mockGet.mockResolvedValueOnce(
+      TestUtils.mockPageableResult(mockExerciseMG, { totalPages: 2 })
+    );
+    TestUtils.clickEvent(screen.getByRole("img", { name: "left" }));
+    await waitFor(() => {
+      expect(mockGet).toHaveBeenCalledWith("/exercise/getall?page=0&size=10");
+    });
   });
 });

@@ -7,8 +7,31 @@ import {
 } from "@testing-library/dom";
 import { act } from "@testing-library/react";
 import * as dayjs from "dayjs";
+import { Pageable } from "./globalTypes";
 
 export class TestUtils {
+  static async waitForElement<T = HTMLElement | null>(fn: Promise<T> | T) {
+    await waitFor(() => expect(fn).not.toBeNull());
+  }
+
+  static mockPageableResult<T>(
+    result: T[] | T,
+    override?: Partial<Pageable<T>>
+  ): { data: Pageable<T> } {
+    return {
+      data: {
+        pageSize: 10,
+        pageNumber: 0,
+        totalPages: 1,
+        totalItems: 1,
+        items: Array.isArray(result) ? result : [result],
+        first: true,
+        last: true,
+        ...override,
+      },
+    };
+  }
+
   static onChange(input: HTMLElement, value: string) {
     act(() => {
       fireEvent.change(input, { target: { value } });

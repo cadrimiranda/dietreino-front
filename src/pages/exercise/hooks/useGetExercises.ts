@@ -1,23 +1,45 @@
-import { useDoFetch } from "../../../utils/useDoFetch";
+import axios from "axios";
+import {
+  PageableState,
+  usePageableState,
+} from "../../../utils/usePageableState";
 import { ExerciseWithMuscularGroup } from "../../workout/activeWorkout/workoutTypes";
 
-const useGetExercises = () => {
-  const { data, error, loading, get, setData } = useDoFetch<
-    ExerciseWithMuscularGroup[]
-  >({ method: "get" });
+type Props = { name?: string } & Partial<PageableState>;
 
-  const fetchExercises = () => {
-    return get("/exercise/getall");
+const useGetExercises = () => {
+  const { load, loading, page, setPage, concatUrl, createUrl, updatePageable } =
+    usePageableState<ExerciseWithMuscularGroup>();
+
+  const fetchExercises = (props: Props = {}) => {
+    const url = createUrl(props);
+
+    if (props.name && props.name.length > 0) {
+      url.append("name", props.name);
+    }
+
+    return load(
+      axios.get(concatUrl("/exercise/getall", url)).then((response) => {
+        if (!axios.isAxiosError(response)) {
+          setPage(response.data);
+          const { pageNumber, pageSize } = props;
+          updatePageable({ pageNumber, pageSize });
+        }
+      })
+    );
   };
 
   const handleUpdateList = (data: ExerciseWithMuscularGroup) => {
-    setData((prev) => prev?.map((e) => (e.id === data.id ? data : e)));
+    setPage((prev) => ({
+      ...prev,
+      items: prev?.items?.map((e) => (e.id === data.id ? data : e)),
+    }));
   };
 
   return {
     fetchExercises,
-    exercises: data || [],
-    error,
+    page,
+    exercises: page.items || [],
     loading,
     handleUpdateList,
   };

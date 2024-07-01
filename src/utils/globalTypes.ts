@@ -22,3 +22,8 @@ export type LoginResponse = {
     email: string;
   };
 };
+
+export type ErrorResponse = {
+  errorMessage: string;
+  httpStatus: string;
+};

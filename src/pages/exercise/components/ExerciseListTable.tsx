@@ -63,7 +63,10 @@ const ExerciseListTable = ({ shouldUpdate }: { shouldUpdate: boolean }) => {
             total: page.totalItems,
             pageSize: page.pageSize,
             current: page.pageNumber + 1,
+
             onChange: (page, pageSize) => {
+              console.log("page", page);
+              console.log("pageSize", pageSize);
               fetchExercises({ pageNumber: page - 1, pageSize });
             },
           }}

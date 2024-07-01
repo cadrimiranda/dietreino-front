@@ -1,14 +1,15 @@
 import React from "react";
-import { Modal, Form, Input } from "antd";
+import { Modal, Form, Input, message } from "antd";
 import {
   MuscularGroupEnum,
   MuscularGroupEnumNames,
 } from "../../../utils/useMuscularGroupEnum";
 import { MuscularGroupSelect } from "./MuscularGroupSelect";
-import { useDoFetch } from "../../../utils/useDoFetch";
 import { exerciseFormToDTO } from "../utils/exerciseConverter";
 import { exerciseFormRules } from "../utils/formRules";
 import { Exercise } from "../../workout/activeWorkout/workoutTypes";
+import { useLoadingAxios } from "../../../utils/useLoading";
+import axios from "axios";
 
 const EXERCISE_FORM_TAG = "exercise-form";
 
@@ -18,15 +19,19 @@ export type ExerciseForm = Omit<Exercise, "id"> & {
 
 const ExerciseFormModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [form] = Form.useForm<ExerciseForm>();
-  const { post, loading } = useDoFetch({ showMessages: true });
+  const { load, loading } = useLoadingAxios();
 
   const handleOk = () => {
     form.submit();
   };
 
   const handleOnFinish = (values: ExerciseForm) => {
-    post("/exercise", exerciseFormToDTO(values)).then(() => {
-      onClose();
+    load(axios.post("/exercise", exerciseFormToDTO(values))).then((res) => {
+      if (!axios.isAxiosError(res)) {
+        onClose();
+      } else if (res.response?.data.message) {
+        message.error(res.response?.data.message);
+      }
     });
   };
 
@@ -44,6 +49,7 @@ const ExerciseFormModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         id={EXERCISE_FORM_TAG}
         layout="vertical"
         onFinish={handleOnFinish}
+        onFinishFailed={console.log}
         initialValues={{
           url: "",
           description: "",

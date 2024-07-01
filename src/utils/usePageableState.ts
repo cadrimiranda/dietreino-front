@@ -16,7 +16,12 @@ const usePageableState = <T>() => {
   });
 
   const updatePageable = (props: Partial<PageableState>) => {
-    setPageable((prev) => ({ ...prev, ...props }));
+    setPageable((prev) => {
+      return {
+        pageNumber: props.pageNumber || prev.pageNumber,
+        pageSize: props.pageSize || prev.pageSize,
+      };
+    });
   };
 
   const concatUrl = (baseUrl: string, params: URLSearchParams) => {
@@ -25,7 +30,10 @@ const usePageableState = <T>() => {
 
   const createUrl = (props: Partial<PageableState>) => {
     const url = new URLSearchParams();
-    const pageNumber = props.pageNumber || pageable.pageNumber;
+    let pageNumber = pageable.pageNumber;
+    if (props.pageNumber !== undefined && props.pageNumber >= 0) {
+      pageNumber = props.pageNumber;
+    }
     const pageSize = props.pageSize || pageable.pageSize;
     url.append("page", pageNumber.toString());
     url.append("size", pageSize.toString());

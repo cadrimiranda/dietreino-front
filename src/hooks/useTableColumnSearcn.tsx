@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import { Icon } from "../components/Icon";
 import { FilterDropdownProps } from "antd/lib/table/interface";
 
+export const COLUMN_SEARCH_DEBOUNCE = 1000;
+
 const useTableColumnSearcn = <T,>(
   onSearch: (props: { searchText: string; searchedColumn: string }) => void,
   disabled?: boolean,
@@ -25,7 +27,10 @@ const useTableColumnSearcn = <T,>(
     if (noDebouce) {
       onSearch(props);
     } else {
-      debounceRef.current = setTimeout(() => onSearch(props), 1000);
+      debounceRef.current = setTimeout(
+        () => onSearch(props),
+        COLUMN_SEARCH_DEBOUNCE
+      );
     }
   };
 
@@ -105,7 +110,11 @@ const useTableColumnSearcn = <T,>(
                   : "Filtre resultados a partir do nome"
               }
             >
-              <Icon iconName="glass" color={value ? "gold-4" : "colorWhite"} />
+              <Icon
+                data-testid="icon-search-table-column"
+                iconName="glass"
+                color={value ? "gold-4" : "colorWhite"}
+              />
             </Popover>
           ),
           onFilterDropdownOpenChange: (visible) => {

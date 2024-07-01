@@ -1,4 +1,4 @@
-import axios, { isAxiosError } from "axios";
+import axios from "axios";
 import { ExerciseWithMuscularGroup } from "../../workout/activeWorkout/workoutTypes";
 import { ExercisePutDTO } from "../utils/exerciseConverter";
 import { useLoadingAxios } from "../../../utils/useLoading";
@@ -12,7 +12,7 @@ const useExerciseTableActions = () => {
     load(
       axios.put<ExerciseWithMuscularGroup>(`exercise/${data.id}`, data)
     ).then((res) => {
-      if (!isAxiosError(res)) {
+      if (!axios.isAxiosError(res)) {
         setError(res.data);
         return null;
       }
@@ -22,7 +22,7 @@ const useExerciseTableActions = () => {
 
   const handleDelete = (id: string) =>
     load(axios.delete(`exercise/${id}`)).then((res) => {
-      if (!isAxiosError(res)) {
+      if (axios.isAxiosError(res)) {
         setError(res.data);
         return null;
       }
